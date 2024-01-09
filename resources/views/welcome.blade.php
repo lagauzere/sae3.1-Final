@@ -20,7 +20,18 @@
         </div>
         <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size:xx-large;">Bonjour</h1>
     </div>
-    
+    <div id="connexion">
+        <form method="POST">
+        @csrf
+    <input type="text" name="licence">
+    <input type="password" name="password">
+    <button type="submit">Se connecter</button>
+</form>
+@if(session()->has('userID'))
+    <?php $userID = session('userID'); ?>
+    <p>UserID : {{ $userID }}</p>
+@endif</div>
+<?php var_dump(session('userID')) ?>
 </body>
 
 </html>

@@ -15,9 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 
-Route::view("/login","login");
-Route::post('/login', [App\Http\Controllers\loginController::class, 'Connection']);
 
+Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
+
+Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);

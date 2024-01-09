@@ -16,9 +16,12 @@ class loginController extends Controller
         $log = new Login;
         $res = $log->selectUser($licence,$password);
         session()->flash('userID', $res);
-        if($res){
-            return view('welcome'); 
-        }
-        return view('login');
-    }
+        return view('welcome'); 
+      
+}
+
+public function Disconnection(){
+    session()->forget('userID'); 
+    return redirect()->route('welcome'); 
+}
 }
