@@ -17,7 +17,7 @@
                 Accueil
             </a>
 
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown is-hoverable ">
                 <a class="navbar-link">
                     Plus
                 </a>
@@ -38,6 +38,14 @@
         </div>
 
         <div class="navbar-end">
+            <div class="navbar-item">
+            @if(session()->has('userID'))
+                <p>Nombre de sessions restantes :&nbsp</p><x-user-credits :amount="1"/>
+            @else
+                <p>Connectez vous : </p>
+            @endif
+                
+            </div>
             <div class="navbar-item">
                 <div class="buttons">
                 @if(session()->has('userID'))

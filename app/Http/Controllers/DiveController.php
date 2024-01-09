@@ -15,13 +15,18 @@ class DiveController extends Controller
 
         $diveAvailable = $dives->diveAvailable();
         $diveAvailableArray = json_decode(json_encode($diveAvailable),true);
-        
-        // foreach($array as $dive){
-        //    echo $dive["DIV_ID"].'<br>';
-        // }
-        
-        // dd($array);
         return view('diveslists', [
+            'dives' => $diveAvailableArray
+        ]);
+    }
+
+    function calendar()
+    {
+        $dives = new Dive;
+
+        $diveAvailable = $dives->diveAvailable();
+        $diveAvailableArray = json_decode(json_encode($diveAvailable),true);
+        return view('livewire\calendar', [
             'dives' => $diveAvailableArray
         ]);
     }

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DiveController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +20,9 @@ Route::get('/', function () {
 })->name('welcome');
 
 
+Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
+
+Route::get('/diveslists', [DiveController::class, 'index']);
 
 Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
 

@@ -28,6 +28,7 @@
         <button type="submit">Se connecter</button>
     </form>
     </div>
+    <x-footer/>
 </body>
 
 </html>
