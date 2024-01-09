@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\Models\Dive;
+use App\Models\Dive;
 
 class divesInscriptionController extends Controller
 {
