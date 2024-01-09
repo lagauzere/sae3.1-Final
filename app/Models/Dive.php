@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class Dive extends Model
 {
     use HasFactory;
-    function registerDiver($diver_id){
-        DB::insert('insert into div');
+    function registerDiverInTimeSlot($dvr_id,$div_id){
+        DB::insert('insert into participate (dvr_licence,div_id,par_cancelled) values (?; ?)', [$dvr_id,$div_id]);
     }
 }
