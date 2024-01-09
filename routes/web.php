@@ -3,6 +3,7 @@
 use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DiveController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
