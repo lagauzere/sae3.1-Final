@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+@livewireStyles
     <meta charset="UTF-8">
     <meta name="viewport" content="width=a, initial-scale=1.0">
     <title>Liste des plongées </title>
@@ -13,10 +14,17 @@
         <h3>Bateau utilisé : {{ $dive["shp_name"]}}</h3>
         <h3>Site de plongée : {{ $dive["sit_name"] }}</h3>
         <h3> Profondeur du site : {{ $dive["sit_depth"] }}m</h3>
-        <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
-            @csrf
-            <input type="submit" name="DiveParticipation" value="M'inscrire">
-        </form>
-    @endforeach
+                <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
+                    @csrf
+                    <input type="submit" name="DiveParticipation" value="M'inscrire">
+                </form>
+                <form action="{{ route('leaveTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
+                    @csrf
+                    <input type="submit" value="Me désinscrire">
+                </form>
+            @endforeach
+<livewire:calendar />
+    @livewireScripts
+    @stack('scripts')
 </body>
 </html>
