@@ -12,7 +12,7 @@ class Dive extends Model
     use HasFactory;
 
     public function diveAvailable(){
-        return DB::select('select div_id, shp_name, sta_label, sit_name, dlv_desc, dvr_name, DVR_FIRST_NAME, DIV_DATE from DIVES
+        return DB::select('select div_id, shp_name, sta_label, sit_name, dlv_desc, dvr_name, DVR_FIRST_NAME, DIV_DATE, DLV_DESC from DIVES
         join STATUS using (sta_id)
         join SITES using (sit_id)
         join SHIPS using (shp_id)
