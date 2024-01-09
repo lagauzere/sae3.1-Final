@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 
-Route::post("registerDiver/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot']);
+Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
 
-Route::view("joinTimeSlot","registerDiver");
+
 Route::get('diveslists', [DiveController::class, 'index']);

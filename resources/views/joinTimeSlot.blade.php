@@ -6,7 +6,7 @@
     <title>Enregistrer un utilisateur</title>
 </head>
 <body>
-    <form action="registerDiver" method="POST">
+    <form action="{{ route('enterTimeSlot') }}" method="GET">
         @csrf
         <input type="submit" name="DiveParticipation" value="M'inscrire">
     </form>
