@@ -43,12 +43,17 @@
             </div>
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-info is-light">
-                        <strong>Déconnexion</strong>
-                    </a>
-                    <a class="button is-info">
+                    @if(session()->has('userID'))
+                    <?php var_dump(session('userID')) ?>
+                    <form action="/disconnect" method="post">
+                        @csrf
+                        <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
+                    </form>
+                    @else
+                    <a class="button is-info" href="#Connexion">
                         <strong>Connexion</strong>
                     </a>
+                    @endif
                 </div>
             </div>
         </div>

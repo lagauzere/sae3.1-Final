@@ -16,10 +16,13 @@ use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 
 Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
 
+Route::get('/diveslists', [DiveController::class, 'index']);
 
-Route::get('diveslists', [DiveController::class, 'index']);
+Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
+
+Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);
