@@ -20,7 +20,7 @@
         </div>
         <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size:xx-large;">Bonjour</h1>
     </div>
-    
+    <x-footer/>
 </body>
 
 </html>
