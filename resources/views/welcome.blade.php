@@ -128,5 +128,9 @@
                 </div>
             </div>
         </div>
+        @if(session()->has('userID'))
+    <?php $userID = session('userID'); ?>
+    <p>UserID : {{ $userID }}</p>
+@endif
     </body>
 </html>

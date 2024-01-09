@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DiveController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,4 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('diveslists', [DiveController::class, 'index']);
+
+Route::view("/login","login");
+Route::post('/login', [App\Http\Controllers\loginController::class, 'Connection']);
+
