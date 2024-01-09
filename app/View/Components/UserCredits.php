@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 
 class UserCredits extends Component
 {
@@ -13,9 +14,10 @@ class UserCredits extends Component
      *
      * @return void
      */
-    public function __construct($amount)
+    public function __construct()
     {
-        $this->credit_amount = $amount;
+        $cont = new UserController;
+        $this->credit_amount = $cont->getRemainingCredits();
     }
 
     /**

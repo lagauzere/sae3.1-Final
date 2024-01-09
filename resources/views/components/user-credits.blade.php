@@ -1,3 +1,3 @@
 <div class="creditCount">
-    {{ $credit_amount }}
+    {{ $credit_amount }}/99
 </div>

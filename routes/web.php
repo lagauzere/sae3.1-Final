@@ -17,5 +17,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('user/remaining-credits',[UserController::class, 'getRemainingCredits']);

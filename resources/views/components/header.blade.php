@@ -39,6 +39,9 @@
 
         <div class="navbar-end">
             <div class="navbar-item">
+                <x-user-credits :amount="1"/>
+            </div>
+            <div class="navbar-item">
                 <div class="buttons">
                     <a class="button is-info">
                         <strong>Connexion</strong>
