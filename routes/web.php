@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DiveController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,3 +23,4 @@ Route::get('/', function () {
 Route::post("registerDiver/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot']);
 
 Route::view("joinTimeSlot","registerDiver");
+Route::get('diveslists', [DiveController::class, 'index']);
