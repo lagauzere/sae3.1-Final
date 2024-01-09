@@ -19,15 +19,4 @@ class DiveController extends Controller
             'dives' => $diveAvailableArray
         ]);
     }
-
-    function calendar()
-    {
-        $dives = new Dive;
-
-        $diveAvailable = $dives->diveAvailable();
-        $diveAvailableArray = json_decode(json_encode($diveAvailable),true);
-        return view('livewire\calendar', [
-            'dives' => $diveAvailableArray
-        ]);
-    }
 }
