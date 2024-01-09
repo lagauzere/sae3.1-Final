@@ -50,10 +50,10 @@ class User extends Authenticatable
         ->selectRaw('99-count(*) as remaining_credits')
         ->join('DIVES', 'DIVES.div_id', '=', 'PARTICIPATE.div_id')
         ->where('PARTICIPATE.DVR_LICENCE','=',$userid)
-        ->whereRaw(`DATEDIFF(DIVES.div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')),'%d-%m-%Y')) >= 0`)
-        ->whereRaw(`DATEDIFF(DIVES.div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')+1),'%d-%m-%Y')) < 0`)
+        ->whereRaw("DATEDIFF(DIVES.div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')),'%d-%m-%Y')) >= 0")
+        ->whereRaw("DATEDIFF(DIVES.div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')+1),'%d-%m-%Y')) < 0")
         ->where('DIVES.STA_ID','!=', 3);
-
-        return $query->get();
+       
+        return json_decode(json_encode(($query->get()[0])),true)['remaining_credits'];
     }
 }

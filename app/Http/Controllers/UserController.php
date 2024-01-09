@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Views\Components;
 
 class UserController extends Controller
 {
@@ -13,6 +14,7 @@ class UserController extends Controller
         $user = new User;
         #$remainingCredits = $user->remainingCredits(session('id'));
         $remainingCredits = $user->remainingCredits(1001);
-        return response()->json($remainingCredits);
+        
+        return view('components.user-credits',['credit_amount' => $remainingCredits]);
     }
 }

@@ -1,3 +1,3 @@
 <div>
-    AAAAAAAAAAAAA
+    {{ $credit_amount }}
 </div>

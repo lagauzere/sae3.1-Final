@@ -3,17 +3,19 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\User;
 
 class UserCredits extends Component
 {
+    public $credit_amount;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($amount)
     {
-        //
+        $this->credit_amount = $amount;
     }
 
     /**
@@ -26,3 +28,5 @@ class UserCredits extends Component
         return view('components.user-credits');
     }
 }
+
+
