@@ -17,7 +17,7 @@
                 Accueil
             </a>
 
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown is-hoverable ">
                 <a class="navbar-link">
                     Plus
                 </a>
@@ -40,6 +40,9 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
+                    <a class="button is-info is-light">
+                        <strong>Déconnexion</strong>
+                    </a>
                     <a class="button is-info">
                         <strong>Connexion</strong>
                     </a>
