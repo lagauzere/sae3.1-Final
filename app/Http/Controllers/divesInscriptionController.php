@@ -9,7 +9,8 @@ class divesInscriptionController extends Controller
 {
  
     public function registerDiverInTimeSlot(){
-        Dive::registerDiverInTimeSlot(1001);
+        $DiverModel = new Dive;
+        $DiverModel->registerDiverInTimeSlot(1001,1);
     }
 
 }
