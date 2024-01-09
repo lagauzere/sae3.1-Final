@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    @livewireStyles
     <meta charset="UTF-8">
     <meta name="viewport" content="width=a, initial-scale=1.0">
     <title>Liste des plongées </title>
@@ -14,5 +15,8 @@
         <h3>Site de plongée : {{ $dive["sit_name"] }}</h3>
         <h3> Profondeur du site : {{ $dive["sit_depth"] }}m</h3>
     @endforeach
+    <livewire:calendar />
+    @livewireScripts
+    @stack('scripts')
 </body>
 </html>
