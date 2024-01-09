@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    @livewireStyles
     <meta charset="UTF-8">
     <meta name="viewport" content="width=a, initial-scale=1.0">
     <title>Liste des plongées </title>
@@ -18,5 +19,8 @@
             <input type="submit" name="DiveParticipation" value="M'inscrire">
         </form>
     @endforeach
+    <livewire:calendar />
+    @livewireScripts
+    @stack('scripts')
 </body>
 </html>
