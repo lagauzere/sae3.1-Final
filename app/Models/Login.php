@@ -19,5 +19,13 @@ class Login extends Model
         }
     }
 
+    public function selectName($licence){
+        $result = DB::select('select dvr_name from divers where dvr_licence = ?', [$licence]);
+    if (!empty($result)) {
+        return $result;
+    } else {
+        return null;
+    }
+}
 
 }

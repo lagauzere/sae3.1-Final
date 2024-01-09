@@ -40,17 +40,20 @@
         <div class="navbar-end">
             <div class="navbar-item">
                 <div class="buttons">
-                    @if(session()->has('userID'))
-                    <?php var_dump(session('userID')) ?>
+                @if(session()->has('userID'))
+                    <?php
+                    $userName = session('userName');
+                     ?>
+                     <p>{{ $userName[0]->dvr_name }}</p>
                     <form action="/disconnect" method="post">
                         @csrf
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
                     </form>
-                    @else
+                @else
                     <a class="button is-info" href="#Connexion">
-                        <strong>Connexion</strong>
+                            <strong>Connexion</strong>
                     </a>
-                    @endif
+                @endif        
                 </div>
             </div>
         </div>
