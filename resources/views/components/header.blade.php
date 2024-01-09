@@ -39,7 +39,12 @@
 
         <div class="navbar-end">
             <div class="navbar-item">
-                <x-user-credits :amount="1"/>
+            @if(session()->has('userID'))
+                <p>Nombre de sessions restantes :&nbsp</p><x-user-credits :amount="1"/>
+            @else
+                <p>Connectez vous : </p>
+            @endif
+                
             </div>
             <div class="navbar-item">
                 <div class="buttons">
