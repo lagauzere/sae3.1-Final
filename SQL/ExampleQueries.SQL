@@ -35,3 +35,16 @@ select * from PARTICIPATE join DIVERS using(DVR_LICENCE) where par_cancelled=TRU
 
 # number of divers for each dive
 select div_id,count(*) as nb_diver from PARTICIPATE group by (div_id);
+
+
+# show the remaining credits of 1004 this year, you can change the begining of a year (here 01-01)
+
+SELECT 99-count(*) credits from PARTICIPATE 
+JOIN DIVES using(div_id)
+WHERE DVR_LICENCE = 1004
+AND
+DATEDIFF(div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')),'%d-%m-%Y')) >= 0
+AND
+DATEDIFF(div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')+1),'%d-%m-%Y')) < 0
+AND 
+STA_ID != 3;
