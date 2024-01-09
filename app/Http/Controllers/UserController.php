@@ -8,7 +8,6 @@ use App\Views\Components;
 
 class UserController extends Controller
 {
-
     public function getRemainingCredits()
     {
         $user = new User;
