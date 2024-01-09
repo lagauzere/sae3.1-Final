@@ -8,8 +8,11 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
 
-    public function showCredits($userId)
+    public function getRemainingCredits()
     {
- 
+        $user = new User;
+        #$remainingCredits = $user->remainingCredits(session('id'));
+        $remainingCredits = $user->remainingCredits(1001);
+        return response()->json($remainingCredits);
     }
 }
