@@ -8,9 +8,10 @@ use App\Models\Dive;
 class divesInscriptionController extends Controller
 {
  
-    public function registerDiverInTimeSlot(){
+    public function registerDiverInTimeSlot($selectedDive){
+        $user = session()->get('user');
         $DiverModel = new Dive;
-        $DiverModel->registerDiverInTimeSlot(1001,3);
-    }
+        $DiverModel->registerDiverInTimeSlot($user,$selectedDive);
+    }   
 
 }

@@ -19,4 +19,6 @@ Route::get('/', function () {
 });
 
 
-Route::get("registerDiver",[divesInscriptionController::class,'registerDiverInTimeSlot']);
+Route::post("registerDiver/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot']);
+
+Route::view("joinTimeSlot","registerDiver");
