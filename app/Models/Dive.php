@@ -11,17 +11,17 @@ class Dive extends Model
 {
     use HasFactory;
     function registerDiverInTimeSlot($dvr_id,$div_id){
-        DB::insert('insert into participate (dvr_licence,div_id,par_cancelled) values (?, ?, ?)', [$dvr_id,$div_id,0]);
+        DB::insert('INSERT INTO PARTICIPATE (DVR_LICENCE,DIV_ID,PAR_CANCELLED) VALUES (?, ?, ?)', [$dvr_id,$div_id,0]);
     }
 
     public function diveAvailable(){
-        return DB::select('select div_id, shp_name, sta_label, sit_name, sit_depth, dvr_name, DVR_FIRST_NAME, DIV_DATE from DIVES
-        join STATUS using (sta_id)
-        join SITES using (sit_id)
-        join SHIPS using (shp_id)
+        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, SIT_DEPTH, DVR_NAME, DVR_FIRST_NAME, DIV_DATE FROM DIVES
+        join STATUS using (STA_ID)
+        join SITES using (SIT_ID)
+        join SHIPS using (SHP_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
-        where STATUS.sta_id = 1 and DIV_DATE > SYSDATE()');
-        // return DB::table('DIVES')->join('STATUS', 'STATUS.sta_id', '=', 'DIVES.sta_id')->where('DIVES.STA_ID', '=', 1)->where('DIVES.DIV_DATE', '>', 'SYSDATE()')->get();
+        where STATUS.STA_ID = 1 and DIV_DATE > SYSDATE()');
+        // return DB::table('DIVES')->join('STATUS', 'STATUS.STA_ID', '=', 'DIVES.STA_ID')->where('DIVES.STA_ID', '=', 1)->where('DIVES.DIV_DATE', '>', 'SYSDATE()')->get();
     }    
 }
 

@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         $user = new User;
         #$remainingCredits = $user->remainingCredits(session('userID'));
-        $remainingCredits = $user->remainingCredits(1001);
+        $remainingCredits = $user->remainingCredits("A-04-100004");
         
         #return view('components.user-credits',['credit_amount' => $remainingCredits]);
         return $remainingCredits;

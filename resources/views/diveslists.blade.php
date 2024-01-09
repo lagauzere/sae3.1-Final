@@ -9,12 +9,12 @@
 <body>
     <h1>Listes des plongées disponible</h1>
     @foreach($dives as $dive)
-        <h2>Plongée numéro : {{ $dive['div_id'] }}</h2>
+        <h2>Plongée numéro : {{ $dive['DIV_ID'] }}</h2>
         <h3>Date de la séance : {{$dive["DIV_DATE"] }}</p>
-        <h3>Bateau utilisé : {{ $dive["shp_name"]}}</h3>
-        <h3>Site de plongée : {{ $dive["sit_name"] }}</h3>
-        <h3> Profondeur du site : {{ $dive["sit_depth"] }}m</h3>
-        <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
+        <h3>Bateau utilisé : {{ $dive["SHP_NAME"]}}</h3>
+        <h3>Site de plongée : {{ $dive["SIT_NAME"] }}</h3>
+        <h3> Profondeur du site : {{ $dive["SIT_DEPTH"] }}m</h3>
+        <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['DIV_ID']]) }}" method="POST">
             @csrf
             <input type="submit" name="DiveParticipation" value="M'inscrire">
         </form>
