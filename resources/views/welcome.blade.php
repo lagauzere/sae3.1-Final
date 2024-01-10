@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
+    <style>
+        html {scroll-behavior: smooth;}
+    </style>
 </head>
 
 <body class="antialiased">
@@ -20,25 +23,26 @@
         </div>
         <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size:xx-large;">Bonjour</h1>
     </div>
-    <div class="field is-grouped is-grouped-centered" style="margin-top: 14px;" id="connexion">
-        <form class="box" style="width: 400px;" method="POST">
-        @csrf
-        <div class="field">
-        <label class="label">N° de licence</label>
-        <div class="control">
-        
-        <input class="input" type="text" name="licence" placeholder="A-XX-XXXXXX">
-        </div>
+    </div>
+    <div class="field is-grouped is-grouped-centered" style="margin-top: 14px;">
+        <form class="box" style="width: 400px;" method="POST" id="connexion">
+            @csrf
+            <div class="field">
+                <label class="label">N° de licence</label>
+                <div class="control">
+                    <input class="input" type="licence" name="licence" placeholder="A-XX-XXXXXX">
+                </div>
             </div>
 
             <div class="field">
                 <label class="label">Mot de passe</label>
                 <div class="control">
-                <input class="input" type="password" name="password" placeholder="********">
+                    <input class="input" type="password" name="password" placeholder="********">
                 </div>
             </div>
+
             <div class="field is-grouped is-grouped-centered">
-            <button class="button is-info" type="submit">Plonger</button>
+                <button class="button is-info" type="submit">Plonger</button>
             </div>
         </form>
     </div>

@@ -23,6 +23,11 @@ class Dive extends Model
         join DIVING_LEVELS on (DIVING_LEVELS.dlv_id = DIVES.dlv_id)
         where STATUS.STA_ID = 1 and DIV_DATE > SYSDATE()');
         // return DB::table('DIVES')->join('STATUS', 'STATUS.STA_ID', '=', 'DIVES.STA_ID')->where('DIVES.STA_ID', '=', 1)->where('DIVES.DIV_DATE', '>', 'SYSDATE()')->get();
+    }
+    
+    public function selectUsersDives($dvr_id){
+        return DB::select('SELECT DIV_ID FROM PARTICIPATE WHERE DVR_LICENCE =?', [$dvr_id]);
+    }
     } 
     
     public function getDiversList($div_id){

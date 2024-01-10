@@ -58,7 +58,7 @@
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
                     </form>
                 @else
-                    <a class="button is-info" href="#Connexion">
+                    <a class="button is-info" href="#connexion">
                             <strong>Connexion</strong>
                     </a>
                 @endif        
