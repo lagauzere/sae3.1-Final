@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -47,7 +48,7 @@ class User extends Authenticatable
     public function remainingCredits($dvr_id)
     {
         // Replace with your actual SQL, make sure to use DB::raw() for raw expressions
-        $query = \DB::table('PARTICIPATE')  
+        $query = DB::table('PARTICIPATE')  
         ->selectRaw('99-count(*) as remaining_credits')
         ->join('DIVES', 'DIVES.div_id', '=', 'PARTICIPATE.div_id')
         ->where('PARTICIPATE.DVR_LICENCE','=',$dvr_id)
@@ -62,5 +63,19 @@ class User extends Authenticatable
         $result = DB::select('SELECT DVR_CANDIRECT as can_direct FROM DIVERS WHERE DVR_LICENCE =?', [$dvr_id]);
         
         return json_decode(json_encode($result),true)[0]["can_direct"];
+    
+    }
+
+    public function checkStatus(){
+
+    }
+
+    public function checkRegistration($dvr_licence,$div_id){
+        $res= DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
+
+        if($res == 1){
+            return true;
+        }
+        return false;
     }
 }

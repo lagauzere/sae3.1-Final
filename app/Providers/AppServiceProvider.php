@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Providers;
-
+use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +23,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Livewire::component('diver-registering-component', \App\Http\Livewire\DiverRegisteringComponent::class);
     }
 }
