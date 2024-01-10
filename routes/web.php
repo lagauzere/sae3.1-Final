@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiveController;
@@ -17,8 +18,18 @@ use App\Http\Controllers\EditDiveParametersController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
-Route::get('diveslists', [DiveController::class, 'index']);
+//Route::get('diveslists', [DiveController::class, 'index']);
 
 Route::get('diveParameters', [EditDiveParametersController::class, 'index']);
+
+Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
+
+Route::get('/diveslists', [DiveController::class, 'index']);
+
+Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
+
+Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);
+
+Route::get('/diverlist',[DiveController::class,'diverList']);

@@ -17,7 +17,7 @@
                 Accueil
             </a>
 
-            <div class="navbar-item has-dropdown is-hoverable">
+            <div class="navbar-item has-dropdown is-hoverable ">
                 <a class="navbar-link">
                     Plus
                 </a>
@@ -39,13 +39,29 @@
 
         <div class="navbar-end">
             <div class="navbar-item">
-                <x-user-credits :amount="1"/>
+            @if(session()->has('userID'))
+                <p>Nombre de sessions restantes :&nbsp</p><x-user-credits :amount="1"/>
+            @else
+                <p>Connectez vous : </p>
+            @endif
+                
             </div>
             <div class="navbar-item">
                 <div class="buttons">
-                    <a class="button is-info">
-                        <strong>Connexion</strong>
+                @if(session()->has('userID'))
+                    <?php
+                    $userName = session('userName');
+                     ?>
+                     <p>{{ $userName[0]->DVR_NAME }}</p>
+                    <form action="/disconnect" method="post">
+                        @csrf
+                        <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
+                    </form>
+                @else
+                    <a class="button is-info" href="#Connexion">
+                            <strong>Connexion</strong>
                     </a>
+                @endif        
                 </div>
             </div>
         </div>

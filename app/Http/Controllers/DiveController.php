@@ -19,4 +19,19 @@ class DiveController extends Controller
             'dives' => $diveAvailableArray
         ]);
     }
+
+   
+    function diverList()
+    {
+        $dive = new Dive;
+
+        $list = $dive->getDiversList(1);
+
+        $diverArray= json_decode(json_encode($list),true);
+
+        return view('diverList',['divers'=>$diverArray]);
+        
+
+    }
+
 }
