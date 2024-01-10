@@ -4,6 +4,7 @@ use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiveController;
+use App\Http\Controllers\EditDiveParametersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+//Route::get('diveslists', [DiveController::class, 'index']);
+
+Route::get('diveParameters', [EditDiveParametersController::class, 'index']);
 
 Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
 
