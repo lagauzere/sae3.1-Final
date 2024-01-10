@@ -1,7 +1,6 @@
 <?php
-use App\Models\User;
+    use App\Models\User;
 ?>
-
 
 <nav class="navbar has-background-link-light is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
@@ -23,15 +22,17 @@ use App\Models\User;
             </a>
             @if(session()->has('userID'))
             <a class="navbar-item" href="/diveslists">
-                Plongées disponibles
+                M'inscrire à plongées
             </a>
-                @if(User::isAdmin()==1)
-                    <a class="navbar-item" href="/users">
-                        Utilisateurs
-                    </a>
-                @endif
+            <a class="navbar-item" href="/historique">
+                Historique de plongées
+            </a>
+            @if(User::isAdmin()==1)
+            <a class="navbar-item" href="/users">
+                Utilisateurs
+            </a>
             @endif
-            
+            @endif
         </div>
 
         <div class="navbar-end">
@@ -47,12 +48,12 @@ use App\Models\User;
 
             </div>
             <div class="navbar-item">
-                    @if(session()->has('userID'))
-                    <?php
-                    $userName = session('userName');
-                    ?>
-                    <a href="/profile">{{ $userName[0]->DVR_NAME }}</a>
-                    @endif
+                @if(session()->has('userID'))
+                <?php
+                $userName = session('userName');
+                ?>
+                <a href="/profile">{{ $userName[0]->DVR_NAME }}</a>
+                @endif
             </div>
             <div class="navbar-item">
                 <div class="buttons">
