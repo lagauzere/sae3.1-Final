@@ -17,4 +17,12 @@ class UserController extends Controller
         #return view('components.user-credits',['credit_amount' => $remainingCredits]);
         return $remainingCredits;
     }
+
+    public function isDirector()
+    {
+        $user = new User;
+        $canDirect = $user->canDirect(session('userID'));
+
+        return $canDirect;
+    }
 }
