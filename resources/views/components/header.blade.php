@@ -55,7 +55,7 @@
                     <?php
                     $userName = session('userName');
                      ?>
-                     <a href="/profile">{{ $userName[0]->dvr_name }}</a>
+                     <a href="/profile">{{ $userName[0]->DVR_NAME }}</a>
                     <form action="/disconnect" method="post">
                         @csrf
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
