@@ -94,28 +94,28 @@ INSERT INTO SHIPS (SHP_ID, SHP_NAME, SHP_SEATS) VALUES
 # -----------------------------------------------------------------------------
 
 INSERT INTO DIVERS (DVR_LICENCE, DLV_ID, PAS_ID, TRL_ID, DVR_NAME, DVR_FIRST_NAME, DVR_MC_DATE, DVR_PASSWORD, DVR_ACTIVE, DVR_ISADMIN, DVR_CANDRIVE, DVR_CANMONITOR, DVR_CANDIRECT) VALUES
-(1001, 5, 1, 1, 'Chevalier-Passoni', 'Christelle', '2018-05-21', 'password123', TRUE, FALSE, FALSE, TRUE, FALSE),
-(1002, 8, 1, 0, 'Delhoumi', 'Sylvian', '2019-03-15', 'password234', TRUE, FALSE, TRUE, FALSE, TRUE),
-(1003, 7, 1, 0, 'Jort', 'Fabienne', '2020-07-11', 'password345', TRUE, TRUE, TRUE, TRUE, FALSE),
-(1004, 9, 1, 2, 'Porcq', 'Eric', '2017-10-05', 'password456', TRUE, FALSE, FALSE, FALSE, FALSE),
-(1005, 6, 2, 0, 'Secouard', 'Stéphane', '2016-12-22', 'password567', TRUE, FALSE, TRUE, FALSE, TRUE);
+("A-04-100001", 5, 1, 1, 'Chevalier-Passoni', 'Christelle', '2018-05-21', 'password123', TRUE, FALSE, FALSE, TRUE, FALSE),
+("A-04-100002", 8, 1, 0, 'Delhoumi', 'Sylvian', '2019-03-15', 'password234', TRUE, FALSE, TRUE, FALSE, TRUE),
+("A-04-100003", 7, 1, 0, 'Jort', 'Fabienne', '2020-07-11', 'password345', TRUE, TRUE, TRUE, TRUE, FALSE),
+("A-04-100004", 9, 1, 2, 'Porcq', 'Eric', '2017-10-05', 'password456', TRUE, FALSE, FALSE, FALSE, FALSE),
+("A-04-100005", 6, 2, 0, 'Secouard', 'Stéphane', '2016-12-22', 'password567', TRUE, FALSE, TRUE, FALSE, TRUE);
 
 # -----------------------------------------------------------------------------
 #       TABLE : DIVES
 # -----------------------------------------------------------------------------
 
 INSERT INTO DIVES (DIV_ID, DVR_LICENCE_MONITORS, SHP_ID, DVR_LICENCE_DIRECTS, DVR_LICENCE_DRIVES, STA_ID, DLV_ID, SIT_ID, DIV_DATE, DIV_HEADCOUNT, DIV_COMMENT) VALUES
-(1, 1001, 1, 1002, 1002, 1, 1, 4, '2024-04-10 08:00:00', 8, 'Belle plongée matinale avec une bonne visibilité'),
-(2, 1003, 3, 1005, 1002, 1, 1, 11, '2024-04-12 14:30:00', 12, 'Plongée de l’après-midi, rencontre avec une faune riche'),
-(3, 1003, 2, 1002, 1003, 2, 1, 7, '2023-04-15 09:30:00', 10, 'Sortie réussie, courants faibles, excellente pour les photographes sous-marins.');
+(1, "A-04-100001", 1, "A-04-100002", "A-04-100002", 1, 1, 4, '2024-04-10 08:00:00', 8, 'Belle plongée matinale avec une bonne visibilité'),
+(2, "A-04-100003", 3, "A-04-100005", "A-04-100002", 1, 1, 11, '2024-04-12 14:30:00', 12, 'Plongée de l’après-midi, rencontre avec une faune riche'),
+(3, "A-04-100003", 2, "A-04-100002", "A-04-100003", 2, 1, 7, '2023-04-15 09:30:00', 10, 'Sortie réussie, courants faibles, excellente pour les photographes sous-marins.');
 
 # -----------------------------------------------------------------------------
 #       TABLE : PARTICIPATE
 # -----------------------------------------------------------------------------
 
 INSERT INTO PARTICIPATE (DVR_LICENCE, DIV_ID, PAR_CANCELLED) VALUES
-(1003, 1, FALSE),
-(1004, 1, FALSE),
-(1005, 1, FALSE),
-(1001, 2, FALSE),
-(1004, 2, FALSE);
+("A-04-100003", 1, FALSE),
+("A-04-100004", 1, FALSE),
+("A-04-100005", 1, FALSE),
+("A-04-100001", 2, FALSE),
+("A-04-100004", 2, FALSE);

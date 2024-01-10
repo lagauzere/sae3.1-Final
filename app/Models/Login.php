@@ -10,14 +10,22 @@ class Login extends Model
     use HasFactory;
     public function selectUser($licence, $password)
     {
-        $result = DB::select('select dvr_licence from divers where dvr_licence = ? and dvr_password = ?', [$licence, $password]);
+        $result = DB::select('select DVR_LICENCE from DIVERS where DVR_LICENCE = ? and DVR_PASSWORD = ?', [$licence, $password]);
         if (!empty($result)) {
-            $licenceValue = $result[0]->dvr_licence;
+            $licenceValue = $result[0]->DVR_LICENCE;
             return $licenceValue;
         } else {
             return null;
         }
     }
 
+    public function selectName($licence){
+        $result = DB::select('select dvr_name from divers where dvr_licence = ?', [$licence]);
+    if (!empty($result)) {
+        return $result;
+    } else {
+        return null;
+    }
+}
 
 }

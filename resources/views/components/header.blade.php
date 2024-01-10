@@ -39,21 +39,46 @@
 
         <div class="navbar-end">
             <div class="navbar-item">
+<<<<<<< HEAD
                 <x-user-credits :amount="1"/>
             </div>
             <div class="navbar-item">
                 <div class="buttons">
                     @if(session()->has('userID'))
                     <?php var_dump(session('userID')) ?>
+=======
+            @if(session()->has('userID'))
+                <p>Nombre de sessions restantes :&nbsp</p><x-user-credits :amount="1"/>
+            @else
+                <p>Connectez vous : </p>
+            @endif
+                
+            </div>
+            <div class="navbar-item">
+                <div class="buttons">
+                @if(session()->has('userID'))
+                    <?php
+                    $userName = session('userName');
+                     ?>
+                     <p>{{ $userName[0]->dvr_name }}</p>
+>>>>>>> master
                     <form action="/disconnect" method="post">
                         @csrf
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
                     </form>
+<<<<<<< HEAD
                     @else
                     <a class="button is-info" href="#Connexion">
                         <strong>Connexion</strong>
                     </a>
                     @endif
+=======
+                @else
+                    <a class="button is-info" href="#Connexion">
+                            <strong>Connexion</strong>
+                    </a>
+                @endif        
+>>>>>>> master
                 </div>
             </div>
         </div>

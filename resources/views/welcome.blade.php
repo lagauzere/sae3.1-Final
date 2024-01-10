@@ -20,19 +20,29 @@
         </div>
         <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size:xx-large;">Bonjour</h1>
     </div>
-    <div id="connexion">
-        <form method="POST">
+    <div class="field is-grouped is-grouped-centered" style="margin-top: 14px;" id="connexion">
+        <form class="box" style="width: 400px;" method="POST">
         @csrf
-    <input type="text" name="licence">
-    <input type="password" name="password">
-    <button type="submit">Se connecter</button>
-</form>
-@if(session()->has('userID'))
-    <?php $userID = session('userID'); ?>
-    <p>UserID : {{ $userID }}</p>
-@endif</div>
-<?php var_dump(session('userID')) ?>
-<x-footer/>
+        <div class="field">
+        <label class="label">N° de licence</label>
+        <div class="control">
+        
+        <input class="input" type="text" name="licence" placeholder="A-XX-XXXXXX">
+        </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Mot de passe</label>
+                <div class="control">
+                <input class="input" type="password" name="password" placeholder="********">
+                </div>
+            </div>
+            <div class="field is-grouped is-grouped-centered">
+            <button class="button is-info" type="submit">Plonger</button>
+            </div>
+        </form>
+    </div>
+    <x-footer/>
 </body>
 
 </html>

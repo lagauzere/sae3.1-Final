@@ -30,18 +30,18 @@ select * from SITES where sit_depth > 40;
 
 
 # list of divers that cancelled a dive
-update PARTICIPATE set par_cancelled=TRUE where DVR_LICENCE=1005;
+update PARTICIPATE set par_cancelled=TRUE where DVR_LICENCE="A-04-100005";
 select * from PARTICIPATE join DIVERS using(DVR_LICENCE) where par_cancelled=TRUE;
 
 # number of divers for each dive
 select div_id,count(*) as nb_diver from PARTICIPATE group by (div_id);
 
 
-# show the remaining credits of 1004 this year, you can change the begining of a year (here 01-01)
+# show the remaining credits of "A-04-100004" this year, you can change the begining of a year (here 01-01)
 
 SELECT 99-count(*) credits from PARTICIPATE 
 JOIN DIVES using(div_id)
-WHERE DVR_LICENCE = 1004
+WHERE DVR_LICENCE = "A-04-100004"
 AND
 DATEDIFF(div_date, STR_TO_DATE(CONCAT('01-01-',DATE_FORMAT(NOW(), '%Y')),'%d-%m-%Y')) >= 0
 AND
