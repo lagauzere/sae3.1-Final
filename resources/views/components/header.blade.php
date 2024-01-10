@@ -13,8 +13,11 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
         <div class="navbar-start">
-            <a class="navbar-item">
+            <a class="navbar-item" href="/">
                 Accueil
+            </a>
+            <a class="navbar-item" href="/diveslists">
+                Plongées disponibles
             </a>
 
             <div class="navbar-item has-dropdown is-hoverable ">
@@ -40,7 +43,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
             @if(session()->has('userID'))
-                <p>Nombre de sessions restantes :&nbsp</p><x-user-credits :amount="1"/>
+                <a href="/profile">Nombre de sessions restantes :&nbsp<x-user-credits :amount="1"/></a>
             @else
                 <p>Connectez vous : </p>
             @endif
@@ -52,13 +55,13 @@
                     <?php
                     $userName = session('userName');
                      ?>
-                     <p>{{ $userName[0]->dvr_name }}</p>
+                     <a href="/profile">{{ $userName[0]->DVR_NAME }}</a>
                     <form action="/disconnect" method="post">
                         @csrf
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
                     </form>
                 @else
-                    <a class="button is-info" href="#Connexion">
+                    <a class="button is-info" href="#connexion">
                             <strong>Connexion</strong>
                     </a>
                 @endif        
