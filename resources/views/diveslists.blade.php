@@ -41,40 +41,38 @@
     </div>
 
     @push('scripts')
-        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            document.addEventListener('livewire:load', function () {
-                const Calendar = FullCalendar.Calendar;
-
-                const calendarEl = document.getElementById('calendar');
-                
-                const divesData = <?php echo $test; ?>;
-                
-                const events = divesData.map((dive) => ({
-                    title: dive.DIV_ID,
-                    start: new Date(dive.DIV_DATE), 
-                    end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),  
-                    boat: `Bateau: ${dive.SHP_NAME}\n`,
-                    site: `Site: ${dive.SIT_NAME}\n`,
-                    requireLevel : `Niveau requis: ${dive.DLV_DESC}`,
-                }));
-                
-                
-
-                const calendar = new Calendar(calendarEl, {
-                    slotMinTime: '8:00:00',
-                    slotMaxTime: '22:00:00',
-                    initialView: 'timeGridWeek',
-                    headerToolbar: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-                    },
-                    locale: 'fr',
-                    events: events,
-                    eventContent: function(info) {
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
+<script>
+    document.addEventListener('livewire:load', function () {
+        
+        const Calendar = FullCalendar.Calendar;
+        var array = <?php echo $test?>;
+        console.table(array);
+        const calendarEl = document.getElementById('calendar');
+        
+        const divesData = <?php echo $test; ?>;
+        
+        const events = divesData.map((dive) => ({
+            title: "Plongée numéro: " + dive.DIV_ID,
+            start: new Date(dive.DIV_DATE), 
+            end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),  
+            boat: `Bateau: ${dive.SHP_NAME}\n`,
+            site: `Site: ${dive.SIT_NAME}\n`,
+            requireLevel : `Niveau requis: ${dive.DLV_LABEL}`,
+        }));
+        console.table(events);
+        const calendar = new Calendar(calendarEl, {
+            slotMinTime: '8:00:00',
+            slotMaxTime: '22:00:00',
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            locale: 'fr',
+            events: events,
+            eventContent: function(info) {
                         const content = document.createElement('div');
                         content.innerHTML = `
                             <div style="cursor: pointer;">
