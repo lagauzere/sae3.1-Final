@@ -22,7 +22,7 @@ class Dive extends Model
     }
 
     function retireFromTimeSlot($dvr_id, $div_id){
-        
+
         DB::update('UPDATE PARTICIPATE SET PAR_CANCELLED= 1 WHERE DVR_LICENCE = ? and DIV_ID = ?',[$dvr_id,$div_id]);
     }
 
@@ -93,6 +93,11 @@ class Dive extends Model
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
         join DIVING_LEVELS on (DIVING_LEVELS.dlv_id = DIVES.dlv_id)
         where pa.dvr_licence = ?', [$userID]);
+    }
+
+    public function everyDivesTheDiverIsRegisteredIn($dvr_id){
+        echo '<script> console.log(' .$dvr_id. '); </script>';
+        return DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?',[$dvr_id]);
     }
 
 }

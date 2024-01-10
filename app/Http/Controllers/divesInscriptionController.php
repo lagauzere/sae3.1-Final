@@ -32,4 +32,5 @@ class divesInscriptionController extends Controller
         return view('diveslists',['isDiverRegistered' => $res]);
     }
 
+
 }
