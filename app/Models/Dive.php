@@ -14,6 +14,14 @@ class Dive extends Model
         DB::insert('INSERT INTO PARTICIPATE (DVR_LICENCE,DIV_ID,PAR_CANCELLED) VALUES (?, ?, ?)', [$dvr_id,$div_id,0]);
     }
 
+    function retireFromTimeSlot($dvr_id, $div_id){
+        DB::update('update participate set par_cancelled = 0 where dvr_licence = ? and div_id = ?',[$dvr_id,$div_id]);
+    }
+
+    function isDiverRegistered($dvr_id,$div_id){
+        return DB::select('select par_cancelled from participate where dvr_licence = ? and div_id = ? ',[$dvr_id,$div_id]);
+    }
+
     public function diveAvailable(){
         return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
         join STATUS using (STA_ID)

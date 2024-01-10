@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -46,7 +47,7 @@ class User extends Authenticatable
     public function remainingCredits($userid)
     {
         // Replace with your actual SQL, make sure to use DB::raw() for raw expressions
-        $query = \DB::table('PARTICIPATE')  
+        $query = DB::table('PARTICIPATE')  
         ->selectRaw('99-count(*) as remaining_credits')
         ->join('DIVES', 'DIVES.div_id', '=', 'PARTICIPATE.div_id')
         ->where('PARTICIPATE.DVR_LICENCE','=',$userid)
@@ -55,5 +56,20 @@ class User extends Authenticatable
         ->where('DIVES.STA_ID','!=', 3);
        
         return json_decode(json_encode(($query->get()[0])),true)['remaining_credits'];
+    }
+
+    public function checkStatus(){
+
+    }
+
+  
+
+    public function checkRegistration($dvr_licence,$div_id){
+        $res= DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
+
+        if($res == 1){
+            return true;
+        }
+        return false;
     }
 }

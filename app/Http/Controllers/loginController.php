@@ -24,5 +24,4 @@ public function Disconnection(){
     session()->forget('userID'); 
     return redirect()->route('welcome'); 
 }
-
 }

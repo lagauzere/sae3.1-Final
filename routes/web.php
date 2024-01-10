@@ -24,9 +24,11 @@ Route::get('/', function () {
 
 Route::get('diveParameters', [EditDiveParametersController::class, 'index']);
 
-Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
+Route::post("/diveslists/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
 
-Route::get('/diveslists', [DiveController::class, 'index']);
+Route::post("/retire/{selectedDive}",[divesInscriptionController::class,'retireFromTimeSlot'])->name('leaveTimeSlot');
+
+Route::get('/diveslists', [DiveController::class, 'index'])->name('viewDivesList');
 
 Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
 
