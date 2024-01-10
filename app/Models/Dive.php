@@ -34,7 +34,15 @@ class Dive extends Model
     }
 
     public function showDive($div_id){
-        return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE FROM DIVES WHERE DIV_ID =?', [$div_id]);
+        return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE, SIT_ID, SHP_ID FROM DIVES WHERE DIV_ID =?', [$div_id]);
+    }
+
+    public function showSiteName($sit_id){
+        return DB::select('SELECT SIT_NAME FROM SITES WHERE SIT_ID =?', [$sit_id]);
+    }
+
+    public function showShipName($shp_id){
+        return DB::select('SELECT SHP_NAME FROM SHIPS WHERE SHP_ID =?', [$shp_id]);
     }
 
 }
