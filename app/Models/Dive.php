@@ -15,12 +15,12 @@ class Dive extends Model
     }
 
     public function diveAvailable(){
-        return DB::select('select div_id, shp_name, sta_label, sit_name, dlv_desc, dvr_name, DVR_FIRST_NAME, DIV_DATE, DLV_DESC from DIVES
-        join STATUS using (sta_id)
-        join SITES using (sit_id)
-        join SHIPS using (shp_id)
+        return DB::select('DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
+        join STATUS using (STA_ID)
+        join SITES using (SIT_ID)
+        join SHIPS using (SHP_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
-        join DIVING_LEVELS on (DIVING_LEVELS.dlv_id = DIVES.dlv_id)
+        join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
         where STATUS.STA_ID = 1 and DIV_DATE > SYSDATE()');
         // return DB::table('DIVES')->join('STATUS', 'STATUS.STA_ID', '=', 'DIVES.STA_ID')->where('DIVES.STA_ID', '=', 1)->where('DIVES.DIV_DATE', '>', 'SYSDATE()')->get();
     } 
