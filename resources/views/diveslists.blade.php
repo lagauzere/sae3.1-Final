@@ -7,7 +7,7 @@
     @livewireStyles
 </head> 
 <body>
-    <h1>Listes des plongées disponible</h1>
+    <h1>Liste des plongées disponibles</h1>
 
     <?php 
         $test = json_encode($dives);
@@ -64,7 +64,7 @@
                         return { domNodes: [content] };
                     },
             eventClick: function(info) {
-                alert('Event: ' + info.event.title);
+                Livewire.emit('showEventRegistrationPopup', info.event.id);
             }
         });
         calendar.render();
@@ -76,6 +76,7 @@
 @endpush
 
     <livewire:calendar/>
+    <livewire:register-diver />
     @livewireScripts
     @stack('scripts')
     
