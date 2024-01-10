@@ -72,7 +72,7 @@ class EditDiveParameters extends Model
     }
 
     public function updateDiveMonitor($diveId, $choiceMonitorValue){
-        return DB::update("update DIVES set DVR_LICENCE_MONITORS = $choiceMonitorValue where DIV_ID = $diveId");
+        return DB::update("update DIVES set DVR_LICENCE_MONITORS = '$choiceMonitorValue' where DIV_ID = $diveId");
     }
 
     public function updateDiveShip($diveId, $choiceBoatValue){
@@ -80,7 +80,7 @@ class EditDiveParameters extends Model
     }
 
     public function updateDiveDirector($diveId, $choiceDirectorValue){
-        return DB::update("update DIVES set DVR_LICENCE_DIRECTS = $choiceDirectorValue where DIV_ID = $diveId");
+        return DB::update("update DIVES set DVR_LICENCE_DIRECTS = '$choiceDirectorValue' where DIV_ID = $diveId");
     }
 
     public function updateDiveSite($diveId, $choiceSiteValue){
@@ -88,7 +88,7 @@ class EditDiveParameters extends Model
     }
 
     public function updateDiveDriver($diveId, $choiceDriverValue){
-        return DB::update("update DIVES set DVR_LICENCE_DRIVES = $choiceDriverValue where DIV_ID = $diveId");
+        return DB::update("update DIVES set DVR_LICENCE_DRIVES = '$choiceDriverValue' where DIV_ID = $diveId");
     }
 
     public function updateDiveHeadcount($diveId, $numberMaxValue){
