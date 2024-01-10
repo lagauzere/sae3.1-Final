@@ -14,10 +14,6 @@
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .fc-event {
-            background-color: black !important;
-        }
-
         html {
             scroll-behavior: smooth;
         }
@@ -72,7 +68,7 @@
                     site: `Site: ${dive.SIT_NAME}\n`,
                     requireLevel: `Niveau requis: ${dive.DLV_DESC}`,
                 }));
-
+                
 
 
                 const calendar = new Calendar(calendarEl, {
@@ -96,7 +92,6 @@
                                 <p>${info.event.extendedProps.requireLevel}</p>
                             </div>
                         `;
-
                         return {
                             domNodes: [content]
                         };

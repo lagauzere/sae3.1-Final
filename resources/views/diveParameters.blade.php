@@ -4,9 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=a, initial-scale=1.0">
     <title>Informations sur la plongée n° {{ $divesparameters[0]["DIV_ID"] }} </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            padding-top: 60px;
+        }
+    </style>
 </head>
 
 <body>
+<x-header/>
     <form id="updateForm" action="/changeDataDives" method="POST">
         @csrf
     <h1> Nom du bateau : {{ $divesparameters[0]["SHP_NAME"] }}  
@@ -79,5 +92,6 @@
         }
 
     </script>
-
+<x-footer/>
 </body>
+</html>
