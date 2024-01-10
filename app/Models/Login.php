@@ -20,7 +20,7 @@ class Login extends Model
     }
 
     public function selectName($licence){
-        $result = DB::select('select dvr_name from divers where dvr_licence = ?', [$licence]);
+        $result = DB::select('select DVR_NAME from DIVERS where DVR_LICENCE = ?', [$licence]);
     if (!empty($result)) {
         return $result;
     } else {
