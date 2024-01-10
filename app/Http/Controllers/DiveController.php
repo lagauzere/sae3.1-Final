@@ -21,6 +21,10 @@ class DiveController extends Controller
     }
 
     
+
+   
+
+    
     function diverList($div_id)
     {
         $dive = new Dive;
