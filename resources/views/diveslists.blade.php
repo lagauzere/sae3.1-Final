@@ -15,7 +15,8 @@
         <h3>Site de plongée : {{ $dive["SIT_NAME"] }}</h3>
         <h3> Profondeur du site : {{ $dive["SIT_DEPTH"] }}</h3>
         @if(session()->has('userID'))
-        <p>{{session('userID')}}</p>
+        <?php $userID = session('userID'); ?> 
+        <p>{{ $userID }}</p>
         <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['DIV_ID']]) }}" method="POST">
             @csrf
             <input type="submit" name="DiveParticipation" value="M'inscrire">
