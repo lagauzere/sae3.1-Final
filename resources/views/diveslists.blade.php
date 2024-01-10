@@ -37,7 +37,7 @@
             end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),  
             boat: `Bateau: ${dive.shp_name}\n`,
             site: `Site: ${dive.sit_name}\n`,
-            requireLevel : `Niveau requis: ${dive.DLV_DESC}`,
+            requireLevel : `Niveau requis: ${dive.DLV_LABEL}`,
         }));
         console.table(events);
         const calendar = new Calendar(calendarEl, {
@@ -47,7 +47,7 @@
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
             locale: 'fr',
             events: events,
