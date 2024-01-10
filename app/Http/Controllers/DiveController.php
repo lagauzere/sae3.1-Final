@@ -20,6 +20,8 @@ class DiveController extends Controller
         ]);
     }
 
+    
+
    
     function diverList()
     {

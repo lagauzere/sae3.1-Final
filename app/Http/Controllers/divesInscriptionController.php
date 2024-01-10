@@ -8,18 +8,21 @@ use App\Models\Dive;
 class divesInscriptionController extends Controller
 {
     
-    public function registerDiverInTimeSlot($selectedDive){
+    public function registerDiverInTimeSlot(Request $req){
         $user = session()->get('userID');
+        $selectedDive = $req->input('selectedDive');
         $DiverModel = new Dive;
         $DiverModel->registerDiverInTimeSlot($user,$selectedDive);
-        return redirect()->route('enterTimeSlot', ['selectedDive' => $selectedDive]);
+    
+        return redirect()->route('viewDivesList');
     }   
 
-    public function retireFromTimeSlot($selectedDive){
-        $user = session()->get('user');
+    public function retireFromTimeSlot(Request $req){
+        $user = session()->get('userID');
+        $selectedDive = $req->input('selectedDive');
         $DiverModel = new Dive;
         $DiverModel->retireFromTimeSlot($user,$selectedDive);
-        return redirect()->route('enterTimeSlot',['selectedDive' => $selectedDive]);
+        return redirect()->route('viewDivesList');
     }
     
     public function isDiverRegistered($selectedDive){

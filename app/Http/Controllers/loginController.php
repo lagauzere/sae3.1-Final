@@ -14,8 +14,7 @@ class loginController extends Controller
         $log = new Login;
         $res = $log->selectUser($licence,$password);
         $resName  = $log->selectName($licence);;
-        session()->flash('userName', $resName);
-        session()->flash('userID', $res);
+        session(['userName'=> $resName, 'userID'=> $res]);
         return view('welcome'); 
       
 }

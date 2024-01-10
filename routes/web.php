@@ -4,6 +4,7 @@ use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DiveController;
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\EditDiveParametersController;
 /*
 |--------------------------------------------------------------------------
@@ -24,15 +25,15 @@ Route::get('/', function () {
 
 Route::get('diveParameters', [EditDiveParametersController::class, 'index']);
 
-Route::post("/diveslists/{selectedDive}",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
+Route::post("/diveslists",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
 
-Route::post("/retire/{selectedDive}",[divesInscriptionController::class,'retireFromTimeSlot'])->name('leaveTimeSlot');
+Route::post("/retire",[divesInscriptionController::class,'retireFromTimeSlot'])->name('leaveTimeSlot');
 
 Route::get('/diveslists', [DiveController::class, 'index'])->name('viewDivesList');
 
-Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
+Route::post('/', [loginController::class, 'Connection']);
 
-Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);
+Route::post('/disconnect', [loginController::class, 'Disconnection']);
 
 Route::get('/diverlist',[DiveController::class,'diverList']);
 
