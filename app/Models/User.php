@@ -84,8 +84,9 @@ class User extends Authenticatable
         return false;
     }
 
-    public function updateParticipationState($uid,$div_id, $state)
+    public static function updateParticipationState($uid,$div_id, $state)
     {
-        return DB::update("update PARTICIPATE set PAR_CANCELLED = ? where DIV_ID = ? AND DVR_LICENCE = '?'",[$state,$div_id,$uid]);
+        //dd($uid,$div_id, $state);
+        return DB::update("update PARTICIPATE set PAR_CANCELLED = ? where DIV_ID = ? AND DVR_LICENCE = ?",[$state,$div_id,$uid]);
     }
 }

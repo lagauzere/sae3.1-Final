@@ -43,13 +43,12 @@ class DirectorController extends BaseController
         $uid = $request->input('uid');
         $div_id = $request->input('div_id');
         $wanted_state = $request->input('wanted_state');
+        
         User::updateParticipationState($uid, $div_id, $wanted_state);
+        
         return redirect()->back();
     }
-    public static function updateParticipationState($uid, $div_id, $wanted_state)
-    {
-        
-    }
+
     public function editDivers(){
         $div_id = 1;
         
