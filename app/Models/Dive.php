@@ -70,7 +70,7 @@ class Dive extends Model
     }
 
     public function getDivesDirector($div_id){
-        return DB:: select('SELECT DVR_LICENCE_DIRECTS from DIVES where DIV_ID =?);',[$div_id]);
+        return DB:: select('SELECT DVR_LICENCE_DIRECTS from DIVES where DIV_ID =?;',[$div_id]);
     }
 
 }

@@ -29,10 +29,14 @@ class divesInscriptionController extends Controller
         return view('diveslists',['isDiverRegistered' => $res]);
     }
 
-    public function checkDivesDirector($selectedDive){
+    public function checkDivesDirector(){
         $user = session()->get('userID');
         $DiverModel=new Dive;
-        $res = $DiverModel->getDivesDirector($selectedDive);
+        $res = $DiverModel->getDivesDirector(1);
+
+        if($user==$res){
+            return true;
+        }
     }
 
 }
