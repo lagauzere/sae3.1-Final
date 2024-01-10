@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=a, initial-scale=1.0">
     <title>Liste des plongées </title>
     @livewireStyles
+    <style>
+            .fc-event{
+                background-color: black !important;
+            }
+    </style>
 </head>
 <body>
     <h1>Listes des plongées disponible</h1>
@@ -32,11 +37,11 @@
         const divesData = <?php echo $test; ?>;
         
         const events = divesData.map((dive) => ({
-            title: "Plongée numéro: " + dive.div_id,
+            title: "Plongée numéro: " + dive.DIV_ID,
             start: new Date(dive.DIV_DATE), 
             end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),  
-            boat: `Bateau: ${dive.shp_name}\n`,
-            site: `Site: ${dive.sit_name}\n`,
+            boat: `Bateau: ${dive.SHP_NAME}\n`,
+            site: `Site: ${dive.SIT_NAME}\n`,
             requireLevel : `Niveau requis: ${dive.DLV_LABEL}`,
         }));
         console.table(events);
