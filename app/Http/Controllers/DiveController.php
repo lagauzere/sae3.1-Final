@@ -40,7 +40,6 @@ class DiveController extends Controller
     {
         
         $dvr_id = session('userID');
-        $dvr_id = 'A-04-100002';
         $dive = new Dive;
 
         $listNum = $dive->directedPlannedDiveList($dvr_id);
