@@ -20,6 +20,8 @@
         </div>
         <h1 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size:xx-large;">Bonjour</h1>
     </div>
+    @if(session()->has('userID'))
+    @else
     <div class="field is-grouped is-grouped-centered" style="margin-top: 14px;" id="connexion">
         <form class="box" style="width: 400px;" method="POST">
         @csrf
@@ -42,6 +44,7 @@
             </div>
         </form>
     </div>
+    @endif
     <x-footer/>
 </body>
 
