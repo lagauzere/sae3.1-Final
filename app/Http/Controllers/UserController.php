@@ -17,4 +17,12 @@ class UserController extends Controller
         #return view('components.user-credits',['credit_amount' => $remainingCredits]);
         return $remainingCredits;
     }
+
+    public function getInscription($licence, $div_id){
+
+        $user = new user;
+        $result = $user->checkRegistration($licence,$div_id);
+
+        return $result;
+    }
 }
