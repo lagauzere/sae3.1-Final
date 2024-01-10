@@ -29,3 +29,7 @@ Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
 Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);
 
 Route::get('/diverlist',[DiveController::class,'diverList']);
+
+Route::get('/profile',[DiveController::class,'profile']);
+
+//Route::view('/profile', 'profile');
