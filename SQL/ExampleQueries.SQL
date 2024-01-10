@@ -37,7 +37,7 @@ select * from PARTICIPATE join DIVERS using(DVR_LICENCE) where par_cancelled=TRU
 select div_id,count(*) as nb_diver from PARTICIPATE group by (div_id);
 
 
-# show the remaining credits of "A-04-100004" this year, you can change the begining of a year (here 01-01)
+# show the remaining credits of "A-04-100004" this year
 
 SELECT 99-count(*) credits from PARTICIPATE 
 JOIN DIVES using(div_id)

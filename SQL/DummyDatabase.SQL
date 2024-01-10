@@ -94,7 +94,7 @@ INSERT INTO SHIPS (SHP_ID, SHP_NAME, SHP_SEATS) VALUES
 # -----------------------------------------------------------------------------
 
 INSERT INTO DIVERS (DVR_LICENCE, DLV_ID, PAS_ID, TRL_ID, DVR_NAME, DVR_FIRST_NAME, DVR_MC_DATE, DVR_PASSWORD, DVR_ACTIVE, DVR_ISADMIN, DVR_CANDRIVE, DVR_CANMONITOR, DVR_CANDIRECT) VALUES
-("A-04-100001", 5, 1, 1, 'Chevalier-Passoni', 'Christelle', '2018-05-21', 'password123', TRUE, FALSE, FALSE, TRUE, FALSE),
+("A-04-100001", 5, 1, 1, 'Passoni-Chevalier', 'Christelle', '2018-05-21', 'password123', TRUE, FALSE, FALSE, TRUE, FALSE),
 ("A-04-100002", 8, 1, 0, 'Delhoumi', 'Sylvian', '2019-03-15', 'password234', TRUE, FALSE, TRUE, FALSE, TRUE),
 ("A-04-100003", 7, 1, 0, 'Jort', 'Fabienne', '2020-07-11', 'password345', TRUE, TRUE, TRUE, TRUE, FALSE),
 ("A-04-100004", 9, 1, 2, 'Porcq', 'Eric', '2017-10-05', 'password456', TRUE, FALSE, FALSE, FALSE, FALSE),
