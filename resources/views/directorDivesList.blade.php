@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Liste des plongées disponibles</title>
+    <title>Plongées dirigées</title>
     @livewireStyles
     <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,7 +17,7 @@
 </head>
 <body>
     <x-header/>
-    <h1>Liste des plongées disponibles</h1>
+    <h1>Liste des plongées prévues que vous dirigez</h1>
 
     <?php
     $test = json_encode($dives);
@@ -42,22 +42,23 @@
             const divesData = <?php echo $test; ?>;
 
             const events = divesData.map((dive) => ({
-                title: "Plongée numéro: " + dive.div_id,
+                title: "Plongée numéro: " + dive.DIV_ID,
                 start: new Date(dive.DIV_DATE),
                 end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),
-                boat: `Bateau: ${dive.shp_name}\n`,
-                site: `Site: ${dive.sit_name}\n`,
-                requireLevel: `Niveau requis: ${dive.DLV_DESC}`,
+                boat: `Bateau: ${dive.SHP_NAME}\n`,
+                site: `Site: ${dive.SIT_NAME}\n`,
+                requireLevel: `Niveau requis: ${dive.DLV_LABEL}`,
+                diverCount: `Nombre d'inscrits: ${dive.COUNT}`
             }));
             console.table(events);
             const calendar = new Calendar(calendarEl, {
                 slotMinTime: '8:00:00',
                 slotMaxTime: '22:00:00',
-                initialView: 'timeGridWeek',
+                initialView: 'listMonth',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right: 'listMonth'
                 },
                 locale: 'fr',
                 events: events,
@@ -69,6 +70,7 @@
                                 <p>${info.event.extendedProps.boat}</p>
                                 <p>${info.event.extendedProps.site}</p>
                                 <p>${info.event.extendedProps.requireLevel}</p>
+                                <p>${info.event.extendedProps.diverCount}</p>
                             </div>
                         `;
                     return {
@@ -90,7 +92,6 @@
     <livewire:calendar></livewire:calendar>
     @livewireScripts
     @stack('scripts')
-
     <x-footer />
 </body>
 

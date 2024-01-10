@@ -50,7 +50,7 @@ class Dive extends Model
     } 
 
     public function directedPlannedDiveList($dvr_id){
-        return DB::select('SELECT DIV_ID, SHP_NAME, SIT_NAME, DLV_DESC, DIV_DATE, DLV_DESC FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, SIT_NAME, DLV_DESC, DIV_DATE, DLV_LABEL, (SELECT count(*) FROM PARTICIPATE WHERE PARTICIPATE.DIV_ID = DIVES.DIV_ID AND PAR_CANCELLED = FALSE) COUNT FROM DIVES
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
         join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
@@ -59,6 +59,11 @@ class Dive extends Model
         ORDER BY DIV_DATE DESC', [$dvr_id]);
     }
     
+    public function countParticipants($div_id){
+        return DB::select('SELECT count(*) count FROM PARTICIPATE WHERE DIV_ID =?', [$div_id]);
+    }
+
+
     public function getDiversList($div_id){
         return DB:: select('select DVR_NAME,DVR_FIRST_NAME from DIVERS where DVR_LICENCE in (select DVR_LICENCE from PARTICIPATE where DIV_ID=?);',[$div_id]);
     }

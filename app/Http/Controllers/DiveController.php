@@ -36,6 +36,7 @@ class DiveController extends Controller
 
     function directedPlannedDiveList()
     {
+        
         $dvr_id = session('userID');
         $dvr_id = 'A-04-100002';
         $dive = new Dive;
@@ -45,13 +46,11 @@ class DiveController extends Controller
         $diveArray = json_decode(json_encode($listNum),true);
 
         $completeDiveArray=array();
-
+        
         
         foreach($diveArray as $diveNumber) {
-            $currentDive = $dive->showDive($diveNumber)[0];
             array_push($completeDiveArray, $diveNumber);
         }
-        
         return view('directorDivesList',['dives'=>$completeDiveArray]);
 
     }
