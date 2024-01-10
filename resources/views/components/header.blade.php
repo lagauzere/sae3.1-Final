@@ -16,55 +16,48 @@
             <a class="navbar-item" href="/">
                 Accueil
             </a>
+            @if(session()->has('userID'))
             <a class="navbar-item" href="/diveslists">
-                Plongées disponibles
+                M'inscrire à plongées
             </a>
-
-            <div class="navbar-item has-dropdown is-hoverable ">
-                <a class="navbar-link">
-                    Plus
-                </a>
-
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        À Propos
-                    </a>
-                    <a class="navbar-item">
-                        Contact
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Rapporter un problème
-                    </a>
-                </div>
-            </div>
+            <a class="navbar-item" href="/historique">
+                Historique de plongées
+            </a>
+            @endif
         </div>
 
         <div class="navbar-end">
+            <div class="navbar-item" style="width: auto;">
+                @if(session()->has('userID'))
+                <div style="display: flex;">
+                    <a href="/profile">Nombre de sessions restantes: </a>
+                    <a href="/profile" style="padding-left: 5px;"><x-user-credits :amount="1" /></a>
+                </div>
+                @else
+                <p>Connectez-vous : </p>
+                @endif
+
+            </div>
             <div class="navbar-item">
-            @if(session()->has('userID'))
-                <a href="/profile">Nombre de sessions restantes :&nbsp<x-user-credits :amount="1"/></a>
-            @else
-                <p>Connectez vous : </p>
-            @endif
-                
+                    @if(session()->has('userID'))
+                    <?php
+                    $userName = session('userName');
+                    ?>
+                    <a href="/profile">{{ $userName[0]->DVR_NAME }}</a>
+                    @endif
             </div>
             <div class="navbar-item">
                 <div class="buttons">
-                @if(session()->has('userID'))
-                    <?php
-                    $userName = session('userName');
-                     ?>
-                     <a href="/profile">{{ $userName[0]->dvr_name }}</a>
+                    @if(session()->has('userID'))
                     <form action="/disconnect" method="post">
                         @csrf
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
                     </form>
-                @else
+                    @else
                     <a class="button is-info" href="#connexion">
-                            <strong>Connexion</strong>
+                        <strong>Connexion</strong>
                     </a>
-                @endif        
+                    @endif
                 </div>
             </div>
         </div>
@@ -79,9 +72,9 @@
                 burger.classList.toggle('is-active');
                 menu.classList.toggle('is-active');
 
-                
+
             });
-            
+
         })();
     </script>
 </nav>

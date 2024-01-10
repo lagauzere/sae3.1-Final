@@ -34,7 +34,7 @@ class DiveController extends Controller
 
     }
 
-    function profile(){
+    function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
         

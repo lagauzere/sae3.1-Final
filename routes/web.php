@@ -30,6 +30,6 @@ Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Discon
 
 Route::get('/diverlist',[DiveController::class,'diverList']);
 
-Route::get('/profile',[DiveController::class,'profile']);
+Route::get('/historique',[DiveController::class,'historique']);
 
 //Route::view('/profile', 'profile');
