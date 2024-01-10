@@ -11,16 +11,20 @@ class DiveController extends Controller
     //
     function index()
     {
-        $dives = new Dive;
+        $DiverModel = new Dive;
 
-        $diveAvailable = $dives->diveAvailable();
+        $diveAvailable = $DiverModel->diveAvailable();
         $diveAvailableArray = json_decode(json_encode($diveAvailable),true);
+        $user = session()->get('user');
+
+        $everyDivesRegistered = $DiverModel->everyDivesTheDiverIsRegisteredIn($user);
+        $everyDivesRegisteredArray = json_decode(json_encode($everyDivesRegistered),true);
+        
         return view('diveslists', [
-            'dives' => $diveAvailableArray
+            'dives' => $diveAvailableArray,
+            'everyDivesRegistered' => $everyDivesRegisteredArray
         ]);
     }
-
-    
 
    
     function diverList()
