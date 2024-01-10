@@ -18,11 +18,17 @@ class UserController extends Controller
         return $remainingCredits;
     }
 
-    public function getInscription($licence, $div_id){
+    public function getInscription(Request $request){
 
+        $licence = session('userID');
+        $div_id = $request->input('diveChoose');
         $user = new user;
         $result = $user->checkRegistration($licence,$div_id);
 
-        return $result;
-    }
+            if($result=1)
+            {
+                return redirect()->route('/diverlist',);
+            }
+
+        }
 }

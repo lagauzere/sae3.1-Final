@@ -10,5 +10,8 @@
         @csrf
         <input type="submit" name="DiveParticipation" value="M'inscrire">
     </form>
+    
+    <button class="button is-info" action='/infoDive'>liste</button>
+
 </body>
 </html>

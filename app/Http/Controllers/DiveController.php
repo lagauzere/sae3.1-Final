@@ -21,11 +21,11 @@ class DiveController extends Controller
     }
 
    
-    function diverList()
+    function diverList($div_id)
     {
         $dive = new Dive;
 
-        $list = $dive->getDiversList(1);
+        $list = $dive->getDiversList($div_id);
 
         $diverArray= json_decode(json_encode($list),true);
 
