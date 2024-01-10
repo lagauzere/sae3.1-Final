@@ -3,9 +3,12 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use App\Models\User;
+use App\Http\Controllers\UserController;
 
-class directorTab extends Component
+class DirectorTab extends Component
 {
+    public $is_director;
     /**
      * Create a new component instance.
      *
@@ -13,7 +16,8 @@ class directorTab extends Component
      */
     public function __construct()
     {
-        //
+        $cont = new UserController;
+        $this->is_director = $cont->isDirector();
     }
 
     /**

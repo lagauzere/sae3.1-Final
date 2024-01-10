@@ -19,6 +19,7 @@
             <a class="navbar-item" href="/diveslists">
                 Plongées disponibles
             </a>
+            <x-director-tab/>
 
             <div class="navbar-item has-dropdown is-hoverable ">
                 <a class="navbar-link">
@@ -43,7 +44,7 @@
         <div class="navbar-end">
             <div class="navbar-item">
             @if(session()->has('userID'))
-                <a href="/profile">Nombre de sessions restantes :&nbsp<x-user-credits :amount="1"/></a>
+                <a href="/profile">Nombre de sessions restantes :&nbsp<x-user-credits/></a>
             @else
                 <p>Connectez vous : </p>
             @endif

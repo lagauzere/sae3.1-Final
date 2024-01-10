@@ -20,9 +20,14 @@ class UserController extends Controller
 
     public function isDirector()
     {
+        $uid = session('userID');
+        if(is_null($uid))
+        {
+            return -1;
+        }
         $user = new User;
-        $canDirect = $user->canDirect(session('userID'));
+        $can_direct = $user->canDirect(session('userID'));
 
-        return $canDirect;
+        return $can_direct;
     }
 }

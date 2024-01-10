@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -58,7 +59,8 @@ class User extends Authenticatable
     }
 
     public function canDirect($dvr_id){
-        return DB::select('SELECT DVR_CANDIRECT FROM DIVERS
-        WHERE DVR_LICENCE =?', [$dvr_id]);
+        $result = DB::select('SELECT DVR_CANDIRECT as can_direct FROM DIVERS WHERE DVR_LICENCE =?', [$dvr_id]);
+        
+        return json_decode(json_encode($result),true)[0]["can_direct"];
     }
 }

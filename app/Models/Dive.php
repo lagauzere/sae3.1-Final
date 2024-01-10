@@ -50,12 +50,12 @@ class Dive extends Model
     } 
 
     public function directedPlannedDiveList($dvr_id){
-        return DB::select('SELECT DIV_ID, SHP_NAME, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, SIT_NAME, DLV_DESC, DIV_DATE, DLV_DESC FROM DIVES
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
         join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
         WHERE DVR_LICENCE_DIRECTS =?
-        AND STATUS.STA_ID = 1
+        AND STA_ID = 1
         ORDER BY DIV_DATE DESC', [$dvr_id]);
     }
     

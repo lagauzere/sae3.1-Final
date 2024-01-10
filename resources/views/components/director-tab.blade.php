@@ -1,3 +1,8 @@
-<div>
-    <!-- Waste no more time arguing what a good man should be, be one. - Marcus Aurelius -->
-</div>
+@if($is_director>0)
+<a class="navbar-item" href="/directedplanneddiveslist">
+    Plongées dirigées à venir
+ </a>
+@endif
+
+    
+
