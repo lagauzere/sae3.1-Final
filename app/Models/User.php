@@ -65,7 +65,6 @@ class User extends Authenticatable
 
 
         $count =  json_decode(json_encode($res),true);
-        var_dump($count);
         if($count[0]['count'] == 1){
             return true;
         }
@@ -85,4 +84,10 @@ class User extends Authenticatable
         DB::update('UPDATE DIVERS SET DVR_CANDRIVE=?,DVR_CANMONITOR=?,DVR_CANDIRECT=? WHERE DVR_LICENCE=?',[$pilot,$manager,$director,$dvr_licence]);
 
     }
+
+    public static function isAdmin()
+    {   
+        return  json_decode(json_encode(DB::select('select DVR_ISADMIN from DIVERS where DVR_LICENCE=?' ,[session('userID')])),true)[0]['DVR_ISADMIN'];
+    }
+
 }

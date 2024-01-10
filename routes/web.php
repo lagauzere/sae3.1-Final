@@ -49,5 +49,4 @@ Route::post('/update-role/{dvr_licence}', [UserController::class, 'updateRole'])
 
 
 
-
 //Route::view('/profile', 'profile');

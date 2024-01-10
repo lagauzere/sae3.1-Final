@@ -1,3 +1,8 @@
+<?php
+use App\Models\User;
+?>
+
+
 <nav class="navbar has-background-link-light is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
@@ -20,25 +25,13 @@
             <a class="navbar-item" href="/diveslists">
                 Plongées disponibles
             </a>
-
-            <div class="navbar-item has-dropdown is-hoverable ">
-                <a class="navbar-link">
-                    Plus
-                </a>
-
-                <div class="navbar-dropdown">
-                    <a class="navbar-item">
-                        À Propos
+                @if(User::isAdmin()==1)
+                    <a class="navbar-item" href="/users">
+                        Utilisateurs
                     </a>
-                    <a class="navbar-item">
-                        Contact
-                    </a>
-                    <hr class="navbar-divider">
-                    <a class="navbar-item">
-                        Rapporter un problème
-                    </a>
-                </div>
-            </div>
+                @endif
+            @endif
+            
         </div>
 
         <div class="navbar-end">
