@@ -34,25 +34,12 @@ class DiveController extends Controller
 
     }
 
-    function profile(){
+    function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
         
-        $listNum = $dive->selectUsersDives($dvr_id);
-
-        $diveArray = json_decode(json_encode($listNum),true);
-
-        $completeDiveArray=array();
-
-        
-        foreach($diveArray as $diveNumber) {
-            $currentDive = $dive->showDive($diveNumber)[0];
-            //array_push($completeDiveArray,$currentDive);
-            array_push($completeDiveArray, $diveNumber);
-            
-        }
-
-        return view('profile',['dives'=>$completeDiveArray]);
+        $Usersdives = $dive->diveCurrentUser($dvr_id);
+        return view('historique',['dives'=>$Usersdives]);
     }
 
 

@@ -41,7 +41,7 @@ Route::get('/infoDive',[UserController::class],'getInscription');
 Route::get('/infoDive',[UserController::class],'getInscription');
 
 
-Route::get('/profile',[DiveController::class,'profile']);
+Route::get('/historique',[DiveController::class,'historique']);
 
 Route::get('/users',[UserController::class,'getAllUsers'])->name('users');
 
