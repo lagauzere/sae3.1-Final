@@ -42,3 +42,5 @@ Route::get('/diverlist',[DiveController::class,'diverList']);
 Route::get('/profile',[DiveController::class,'profile']);
 
 Route::post('changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
+
+Route::get('/addDiver', [divesInscriptionController::class,'checkDivesDirector']);
