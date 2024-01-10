@@ -23,16 +23,36 @@
 
 <body>
     <x-header />
-    <div class="field is-grouped is-grouped-centered" style="margin-top: 14px;">
-        <div class="box" style="width: 800px;">
-            <div class="field is-grouped is-grouped-centered">
-                <h1>Mes plongées</h1>
+    <div style="width: 100%; margin-bottom: 20px;">
+        <div class="field is-grouped is-grouped-centered" style="margin-top: 14px;">
+            <div class="box" style="width: 900px; padding-left: 0; padding-right: 0;">
+                <section class="hero is-link">
+                    <div class="hero-body">
+                        <p class="title">
+                            Mes plongées
+                        </p>
+                        <p class="subtitle">
+                            Historique
+                        </p>
+                    </div>
+                </section>
+                <br>
+                <div style="padding-left: 20px; padding-right: 20px;">
+                    <?php
+                    $divesArray = json_decode(json_encode($dives), true);
+                    foreach ($divesArray as $dive) {
+                    ?>
+                        <div class="box has-background-light">
+                            <?php
+                                echo "<p>{$dive['DIV_DATE']}<br><strong>Site: </strong>{$dive['sit_name']}  <strong>Encadré par :</strong>{$dive['DVR_FIRST_NAME']} {$dive['dvr_name']}  <strong>Embarcation: </strong>{$dive['shp_name']}<br><strong>Niveau requis: </strong>{$dive['DLV_DESC']}</p>";
+                            ?>
+                        </div>
+                    <?php
+                    }
+                    ?>
+                </div>
             </div>
-            <br>
-            @foreach ($dives as $dive)
-            <h2>{{$dive[0]['DIV_ID']." ".$dive[0]['DIV_COMMENT']." ".$dive[0]['DIV_DATE']." ".$dive[0]['SIT_ID']}}</h2>
-            <br>
-            @endforeach
         </div>
-        <x-footer />
+    </div>
+    <x-footer />
 </body>
