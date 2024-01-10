@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -46,7 +47,7 @@ class User extends Authenticatable
     public function remainingCredits($userid)
     {
         // Replace with your actual SQL, make sure to use DB::raw() for raw expressions
-        $query = \DB::table('PARTICIPATE')  
+        $query = DB::table('PARTICIPATE')  
         ->selectRaw('99-count(*) as remaining_credits')
         ->join('DIVES', 'DIVES.div_id', '=', 'PARTICIPATE.div_id')
         ->where('PARTICIPATE.DVR_LICENCE','=',$userid)
@@ -60,18 +61,28 @@ class User extends Authenticatable
 
 
     public function checkRegistration($dvr_licence,$div_id){
-        $res= \DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
+        $res= DB::select('select count(*) as count from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
 
-        if($res == 1){
+
+        $count =  json_decode(json_encode($res),true);
+        var_dump($count);
+        if($count[0]['count'] == 1){
             return true;
         }
+        
        else{
         return false;
         } 
     }
 
     public function selectAllUsers(){
-        $res= \DB::select('select * from DIVERS');
-        return $res;
+        return DB::select('select * from DIVERS');
+    }
+
+
+    public function updateUserStatus($pilot,$manager,$director,$dvr_licence){
+
+        DB::update('UPDATE DIVERS SET DVR_CANDRIVE=?,DVR_CANMONITOR=?,DVR_CANDIRECT=? WHERE DVR_LICENCE=?',[$pilot,$manager,$director,$dvr_licence]);
+
     }
 }

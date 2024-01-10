@@ -40,11 +40,14 @@ Route::get('/infoDive',[UserController::class],'getInscription');
 
 Route::get('/infoDive',[UserController::class],'getInscription');
 
-Route::get('/test', function () {
-    return view('test');
-});
-
 
 Route::get('/profile',[DiveController::class,'profile']);
+
+Route::get('/users',[UserController::class,'getAllUsers'])->name('users');
+
+Route::post('/update-role/{dvr_licence}', [UserController::class, 'updateRole'])->name('update-role');
+
+
+
 
 //Route::view('/profile', 'profile');
