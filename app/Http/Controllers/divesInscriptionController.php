@@ -21,5 +21,12 @@ class divesInscriptionController extends Controller
         $DiverModel->retireFromTimeSlot($user,$selectedDive);
         return redirect()->route('enterTimeSlot',['selectedDive' => $selectedDive]);
     }
+    
+    public function isDiverRegistered($selectedDive){
+        $user = session()->get('user');
+        $DiverModel = new Dive;
+        $res = $DiverModel->isDiverRegistered($user,$selectedDive);
+        return view('diveslists',['isDiverRegistered' => $res]);
+    }
 
 }

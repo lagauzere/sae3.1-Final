@@ -14,15 +14,18 @@
         <h3>Bateau utilisé : {{ $dive["shp_name"]}}</h3>
         <h3>Site de plongée : {{ $dive["sit_name"] }}</h3>
         <h3> Profondeur du site : {{ $dive["sit_depth"] }}m</h3>
-                <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
-                    @csrf
-                    <input type="submit" name="DiveParticipation" value="M'inscrire">
-                </form>
-                <form action="{{ route('leaveTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
-                    @csrf
-                    <input type="submit" value="Me désinscrire">
-                </form>
-            @endforeach
+        @if({{}})
+        <form action="{{ route('enterTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
+            @csrf
+            <input type="submit" name="DiveParticipation" value="M'inscrire">
+        </form>
+        @else 
+        <form action="{{ route('leaveTimeSlot',['selectedDive' => $dive['div_id']]) }}" method="POST">
+            @csrf
+            <input type="submit" value="Me désinscrire">
+        </form>
+        @endif
+    @endforeach
 <livewire:calendar />
     @livewireScripts
     @stack('scripts')
