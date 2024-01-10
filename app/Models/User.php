@@ -57,11 +57,7 @@ class User extends Authenticatable
         return json_decode(json_encode(($query->get()[0])),true)['remaining_credits'];
     }
 
-    public function checkStatus(){
 
-    }
-
-  
 
     public function checkRegistration($dvr_licence,$div_id){
         $res= \DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
@@ -72,5 +68,10 @@ class User extends Authenticatable
        else{
         return false;
         } 
+    }
+
+    public function selectAllUsers(){
+        $res= \DB::select('select * from DIVERS');
+        return $res;
     }
 }

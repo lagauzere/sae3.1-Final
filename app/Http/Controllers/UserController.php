@@ -27,4 +27,12 @@ class UserController extends Controller
          return view('test',['result'=>$result]);
         
         }
+
+
+        public function getAllUsers(){
+            $user = new user;
+            $result = $user->selectAllUsers();
+            $diverArray= json_decode(json_encode($result),true);
+            return view('test',['result'=>$result]);
+        }
 }
