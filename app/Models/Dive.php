@@ -76,7 +76,7 @@ class Dive extends Model
     }
     
     public function countParticipants($div_id){
-        return DB::select('SELECT count(*) count FROM PARTICIPATE WHERE DIV_ID =?', [$div_id]);
+        return DB::select('SELECT count(*) count FROM PARTICIPATE JOIN DIVERS using(DVR_LICENCE) WHERE DIV_ID =?', [$div_id]);
     }
 
 
@@ -88,18 +88,28 @@ class Dive extends Model
         return DB::select('SELECT DIV_ID FROM PARTICIPATE WHERE DVR_LICENCE =?', [$dvr_id]);
     }
 
+    public static function getParticipants($div_id){
+        $result = DB::select('SELECT DVR_LICENCE, DVR_FIRST_NAME, DVR_NAME, DLV_LABEL, TRL_LABEL, PAR_CANCELLED FROM DIVERS
+        JOIN PARTICIPATE using(DVR_LICENCE) 
+        JOIN TRAINING_LEVELS using (TRL_ID)
+        JOIN DIVING_LEVELS using (DLV_ID)
+        WHERE DIV_ID =?', [$div_id]);
+        return json_decode(json_encode($result),true);
+    }
+
+
     public function showDive($div_id){
         return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE FROM DIVES WHERE DIV_ID =?', [$div_id]);
     }
 
-    public function getDivesDirector($div_id){
+    public static function isDiveDirector($div_id){
         $uid = session('userID');
         if(is_null($uid))
         {
             return -1;
         }
-        return DB:: select('SELECT count(*) COUNT from DIVES where DIV_ID =? AND DVR_LICENCE_DIRECTS = ?;',[$div_id, $uid]);
-        return json_decode(json_encode($result),true)[0]["can_direct"];
+        $result = DB:: select('SELECT count(*) COUNT from DIVES where DIV_ID =? AND DVR_LICENCE_DIRECTS = ?;',[$div_id, $uid]);
+        return json_decode(json_encode($result),true)[0]["COUNT"];
     }
 
 }

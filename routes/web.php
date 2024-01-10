@@ -7,6 +7,8 @@ use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DiveController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\EditDiveParametersController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,3 +47,5 @@ Route::get('/profile',[DiveController::class,'profile']);
 Route::post('/changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
 
 Route::get('/directorDive', [DirectorController::class,'editDivers']);
+
+Route::post('/handle-form-change-participation-state', [DirectorController::class,'handleFormChangeParticipationStateSubmission'])->name('handle-form-change-participation-state');

@@ -18,5 +18,22 @@
 <body>
     <x-header/>
         <h1>Modifier les adhérents d'une plongée</h1>
+
+        {{var_dump($participants)}}
+        @foreach($participants as $p)
+            <div>
+                <!-- maybe in red when cancelled -->
+                les infos ici
+                <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
+                    @csrf 
+                    <input name="uid" type="hidden" value={{$p['DVR_LICENCE']}}/>
+                    <input name="div_id" type="hidden" value={{$div_id}}/>
+                    <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
+                    <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
+                </form>
+            </div>
+        @endforeach
+
+
     <x-footer/>
 </body>

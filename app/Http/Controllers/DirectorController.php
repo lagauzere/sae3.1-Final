@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Dive;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
+use App\Models\User;
 
 class DirectorController extends BaseController
 {
-    function directedPlannedDiveList()
+    public function directedPlannedDiveList()
     {
         
         $dvr_id = session('userID');
@@ -36,13 +38,26 @@ class DirectorController extends BaseController
         
     }
     */
-
+    public function handleFormChangeParticipationStateSubmission(Request $request)
+    {
+        $uid = $request->input('uid');
+        $div_id = $request->input('div_id');
+        $wanted_state = $request->input('wanted_state');
+        User::updateParticipationState($uid, $div_id, $wanted_state);
+        return redirect()->back();
+    }
+    public static function updateParticipationState($uid, $div_id, $wanted_state)
+    {
+        
+    }
     public function editDivers(){
         $div_id = 1;
-        if($this->checkDivesDirector($div_id)){
-            return view('directorEditDivers',['div_id'=>$div_id]);
+        
+        $participants = Dive::getParticipants($div_id);
+
+        if(Dive::isDiveDirector($div_id)){
+            return view('directorEditDivers',['div_id'=>$div_id, 'participants'=>$participants]);
         }
-        else 
         var_dump($this->checkDivesDirector($div_id));
     }
 }
