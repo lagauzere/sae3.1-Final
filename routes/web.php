@@ -28,6 +28,8 @@ Route::post("/joinTimeSlot/{selectedDive}",[divesInscriptionController::class,'r
 
 Route::get('/diveslists', [DiveController::class, 'index']);
 
+Route::get('/directeddiveslist', [DiveController::class, 'index']);
+
 Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
 
 Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);

@@ -34,6 +34,14 @@ class DiveController extends Controller
 
     }
 
+    function directDiveList()
+    {
+        $dvr_id = session('userID');
+        $dive = new Dive;
+        
+
+    }
+
     function profile(){
         $dvr_id = session('userID');
         $dive = new Dive;
