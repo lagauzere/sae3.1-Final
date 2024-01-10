@@ -39,3 +39,5 @@ Route::get('/diverlist',[DiveController::class,'diverList']);
 Route::get('/profile',[DiveController::class,'profile']);
 
 //Route::view('/profile', 'profile');
+
+Route::get('/addDiver', [divesInscriptionController::class,'checkDivesDirector(1)']);

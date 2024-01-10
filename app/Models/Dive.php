@@ -69,5 +69,9 @@ class Dive extends Model
         return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE FROM DIVES WHERE DIV_ID =?', [$div_id]);
     }
 
+    public function getDivesDirector($div_id){
+        return DB:: select('SELECT DVR_LICENCE_DIRECTS from DIVES where DIV_ID =?);',[$div_id]);
+    }
+
 }
 
