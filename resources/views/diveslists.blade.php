@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=a, initial-scale=1.0">
     <title>Liste des plongées </title>
     @livewireStyles
-</head>
+</head> 
 <body>
     <h1>Listes des plongées disponible</h1>
 
