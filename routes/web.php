@@ -29,6 +29,7 @@ Route::post('/', [App\Http\Controllers\loginController::class, 'Connection']);
 Route::post('/disconnect', [App\Http\Controllers\loginController::class, 'Disconnection']);
 
 Route::get('/diverlist/{div_id}',[DiveController::class,'diverList'])->name('diverlist');
+Route::get('/test/{div_id}',[UserController::class,'getInscription']);
 
 Route::get('/infoDive',[UserController::class],'getInscription');
 

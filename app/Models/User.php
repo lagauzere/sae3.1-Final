@@ -46,7 +46,7 @@ class User extends Authenticatable
     public function remainingCredits($userid)
     {
         // Replace with your actual SQL, make sure to use DB::raw() for raw expressions
-        $query = DB::table('PARTICIPATE')  
+        $query = \DB::table('PARTICIPATE')  
         ->selectRaw('99-count(*) as remaining_credits')
         ->join('DIVES', 'DIVES.div_id', '=', 'PARTICIPATE.div_id')
         ->where('PARTICIPATE.DVR_LICENCE','=',$userid)
@@ -64,11 +64,13 @@ class User extends Authenticatable
   
 
     public function checkRegistration($dvr_licence,$div_id){
-        $res= DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
+        $res= \DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? ',[$dvr_licence,$div_id]);
 
         if($res == 1){
             return true;
         }
+       else{
         return false;
+        } 
     }
 }
