@@ -93,7 +93,13 @@ class Dive extends Model
     }
 
     public function getDivesDirector($div_id){
-        return DB:: select('SELECT DVR_LICENCE_DIRECTS from DIVES where DIV_ID =?;',[$div_id]);
+        $uid = session('userID');
+        if(is_null($uid))
+        {
+            return -1;
+        }
+        return DB:: select('SELECT count(*) COUNT from DIVES where DIV_ID =? AND DVR_LICENCE_DIRECTS = ?;',[$div_id, $uid]);
+        return json_decode(json_encode($result),true)[0]["can_direct"];
     }
 
 }

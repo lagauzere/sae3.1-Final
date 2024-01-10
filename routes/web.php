@@ -3,6 +3,7 @@
 use App\Http\Controllers\divesInscriptionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\DiveController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\EditDiveParametersController;
@@ -41,6 +42,6 @@ Route::get('/diverlist',[DiveController::class,'diverList']);
 
 Route::get('/profile',[DiveController::class,'profile']);
 
-Route::post('changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
+Route::post('/changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
 
-Route::get('/addDiver', [divesInscriptionController::class,'checkDivesDirector']);
+Route::get('/directorDive', [DirectorController::class,'editDivers']);

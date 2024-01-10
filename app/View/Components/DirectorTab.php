@@ -8,7 +8,7 @@ use App\Http\Controllers\UserController;
 
 class DirectorTab extends Component
 {
-    public $is_director;
+
     /**
      * Create a new component instance.
      *
@@ -16,8 +16,6 @@ class DirectorTab extends Component
      */
     public function __construct()
     {
-        $cont = new UserController;
-        $this->is_director = $cont->isDirector();
     }
 
     /**

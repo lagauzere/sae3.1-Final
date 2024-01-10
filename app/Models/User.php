@@ -58,8 +58,14 @@ class User extends Authenticatable
         return json_decode(json_encode(($query->get()[0])),true)['remaining_credits'];
     }
 
-    public function canDirect($dvr_id){
-        $result = DB::select('SELECT DVR_CANDIRECT as can_direct FROM DIVERS WHERE DVR_LICENCE =?', [$dvr_id]);
+    public static function canDirect(){
+
+        $uid = session('userID');
+        if(is_null($uid))
+        {
+            return -1;
+        }
+        $result = DB::select('SELECT DVR_CANDIRECT as can_direct FROM DIVERS WHERE DVR_LICENCE =?', [$uid]);
         
         return json_decode(json_encode($result),true)[0]["can_direct"];
     

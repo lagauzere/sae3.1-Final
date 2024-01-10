@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=a, initial-scale=1.0">
-    <title>Ajouter un adhérent à une plongée </title>
+    <title>Modifier les adhérents d'une plongée </title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -17,6 +17,6 @@
 
 <body>
     <x-header/>
-        <h1>Ajouter un adhérent à une plongée</h1>
+        <h1>Modifier les adhérents d'une plongée</h1>
     <x-footer/>
 </body>

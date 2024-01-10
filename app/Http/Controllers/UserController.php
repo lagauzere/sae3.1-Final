@@ -18,16 +18,4 @@ class UserController extends Controller
         return $remainingCredits;
     }
 
-    public function isDirector()
-    {
-        $uid = session('userID');
-        if(is_null($uid))
-        {
-            return -1;
-        }
-        $user = new User;
-        $can_direct = $user->canDirect(session('userID'));
-
-        return $can_direct;
-    }
 }
