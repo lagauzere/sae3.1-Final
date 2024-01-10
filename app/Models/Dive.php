@@ -11,7 +11,23 @@ class Dive extends Model
 {
     use HasFactory;
     function registerDiverInTimeSlot($dvr_id,$div_id){
-        DB::insert('INSERT INTO PARTICIPATE (DVR_LICENCE,DIV_ID,PAR_CANCELLED) VALUES (?, ?, ?)', [$dvr_id,$div_id,0]);
+        $count = DB::select('SELECT COUNT(*) as count FROM PARTICIPATE WHERE DVR_LICENCE = ? and DIV_ID = ?',[$dvr_id,$div_id]);
+        $array = json_decode(json_encode($count),true);
+        if($array[0]['count'] ==0){
+            DB::insert('INSERT INTO PARTICIPATE (DVR_LICENCE,DIV_ID,PAR_CANCELLED) VALUES (?, ?, ?)', [$dvr_id,$div_id,0]);
+        }
+        else{
+            return "Vous vous êtes déjà inscrit et avez annuler votre participation à cette plongée, vous ne pouvez pas vous réinscrire";
+        }
+    }
+
+    function retireFromTimeSlot($dvr_id, $div_id){
+        
+        DB::update('UPDATE PARTICIPATE SET PAR_CANCELLED= 1 WHERE DVR_LICENCE = ? and DIV_ID = ?',[$dvr_id,$div_id]);
+    }
+
+    function isDiverRegistered($dvr_id,$div_id){
+        return DB::select('select par_cancelled from participate where dvr_licence = ? and div_id = ? ',[$dvr_id,$div_id]);
     }
 
     public function diveAvailable(){
@@ -24,6 +40,7 @@ class Dive extends Model
         where STATUS.sta_id = 1 and DIV_DATE > SYSDATE()');
     }    
 
+    //limited to 30 last
     public function diveFinished(){
         return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
         join STATUS using (STA_ID)
@@ -31,8 +48,11 @@ class Dive extends Model
         join SHIPS using (SHP_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
         join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
-        where STATUS.STA_ID = 2 and DIV_DATE > SYSDATE()');
+        where STATUS.STA_ID = 2 and DIV_DATE > SYSDATE()
+        ORDER BY DIV_DATE DESC
+        LIMIT 30;');
     } 
+    //limited to 30 last
     public function diveCancelled(){
         return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
         join STATUS using (STA_ID)
@@ -40,11 +60,21 @@ class Dive extends Model
         join SHIPS using (SHP_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
         join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
-        where STATUS.STA_ID = 3 and DIV_DATE > SYSDATE()');
+        where STATUS.STA_ID = 3 and DIV_DATE > SYSDATE()
+        ORDER BY DIV_DATE DESC
+        LIMIT 30;');
     } 
     
     public function getDiversList($div_id){
         return DB:: select('select DVR_NAME,DVR_FIRST_NAME from DIVERS where DVR_LICENCE in (select DVR_LICENCE from PARTICIPATE where DIV_ID=?);',[$div_id]);
+    }
+
+    public function selectUsersDives($dvr_id){
+        return DB::select('SELECT DIV_ID FROM PARTICIPATE WHERE DVR_LICENCE =?', [$dvr_id]);
+    }
+
+    public function showDive($div_id){
+        return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE FROM DIVES WHERE DIV_ID =?', [$div_id]);
     }
 
 }
