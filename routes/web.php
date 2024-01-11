@@ -23,7 +23,7 @@ Route::get('/', function () {
 
 //Route::get('diveslists', [DiveController::class, 'index']);
 
-Route::get('diveParameters', [EditDiveParametersController::class, 'index']);
+Route::get('diveParameters/{div_id}', [EditDiveParametersController::class, 'index']);
 
 Route::post("/diveslists",[divesInscriptionController::class,'registerDiverInTimeSlot'])->name('enterTimeSlot');
 

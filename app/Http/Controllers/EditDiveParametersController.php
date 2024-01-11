@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class EditDiveParametersController extends Controller
 {
     //
-    function index()
+    function index($id)
     {
         $dives = new EditDiveParameters();
         $divesDriver = new EditDiveParameters();
@@ -21,13 +21,16 @@ class EditDiveParametersController extends Controller
         $driverName = new EditDiveParameters();
         $monitorName = new EditDiveParameters();
 
-        $dive = $dives->dive();
+        $dive = $dives->dive($id);
+        if(empty($dive)){
+            return redirect('/');
+        }
         $diveArray = json_decode(json_encode($dive),true);
 
-        $diveDriver = $divesDriver->diveDriver();
+        $diveDriver = $divesDriver->diveDriver($id);
         $diveDriverArray = json_decode(json_encode($diveDriver),true);
 
-        $diveMonitor = $divesMonitor->diveMonitor();
+        $diveMonitor = $divesMonitor->diveMonitor($id);
         $diveMonitorArray = json_decode(json_encode($diveMonitor),true);
 
         $minimumLevel = $minimumLevel->divingLevels();
@@ -82,6 +85,6 @@ class EditDiveParametersController extends Controller
         $changeData->updateDiveHeadcount($diveId, $numberMaxValue);
         $changeData->updateDiveDivingLevel($diveId, $choiceDivingLevelValue);
 
-        return view('welcome');
+        return redirect('/');
     }
 }

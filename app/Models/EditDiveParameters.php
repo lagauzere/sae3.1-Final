@@ -11,7 +11,7 @@ class EditDiveParameters extends Model
 {
     use HasFactory;
 
-    public function dive(){
+    public function dive($id){
         return DB::select("select DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_LABEL, 
         DIV_DATE, DLV_DESC, concat(DIVERS.DVR_NAME,' ',DIVERS.DVR_FIRST_NAME) as DIVER, 
         DVR_LICENCE_MONITORS, DVR_LICENCE_DIRECTS, DVR_LICENCE_DRIVES, DIV_HEADCOUNT
@@ -21,27 +21,27 @@ class EditDiveParameters extends Model
         join SHIPS using (SHP_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
         join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
-        where STATUS.STA_ID = 1 and DIV_ID = 2 and DIV_DATE > SYSDATE()");
+        where STATUS.STA_ID = 1 and DIV_ID = ? and DIV_DATE > SYSDATE()", [$id]);
     }
 
-    public function diveDriver(){
+    public function diveDriver($id){
         return DB::select("select DIV_ID, STA_LABEL, 
         DIV_DATE, concat(DIVERS.DVR_NAME,' ',DIVERS.DVR_FIRST_NAME) as DIVER,
         DVR_LICENCE_DRIVES
         from DIVES
         join STATUS using (STA_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DRIVES)
-        where STATUS.STA_ID = 1 and DIV_ID = 2 and DIV_DATE > SYSDATE()");
+        where STATUS.STA_ID = 1 and DIV_ID = ? and DIV_DATE > SYSDATE()", [$id]);
     }
 
-    public function diveMonitor(){
+    public function diveMonitor($id){
         return DB::select("select DIV_ID, STA_LABEL, 
         DIV_DATE, concat(DIVERS.DVR_NAME,' ',DIVERS.DVR_FIRST_NAME) as DIVER,
         DVR_LICENCE_MONITORS
         from DIVES
         join STATUS using (STA_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_MONITORS)
-        where STATUS.STA_ID = 1 and DIV_ID = 2 and DIV_DATE > SYSDATE()");
+        where STATUS.STA_ID = 1 and DIV_ID = ? and DIV_DATE > SYSDATE()", [$id]);
     }
 
     public function divingLevels(){
@@ -72,7 +72,7 @@ class EditDiveParameters extends Model
     }
 
     public function updateDiveMonitor($diveId, $choiceMonitorValue){
-        return DB::update("update DIVES set DVR_LICENCE_MONITORS = $choiceMonitorValue where DIV_ID = $diveId");
+        return DB::update("update DIVES set DVR_LICENCE_MONITORS = '$choiceMonitorValue' where DIV_ID = $diveId");
     }
 
     public function updateDiveShip($diveId, $choiceBoatValue){
@@ -80,7 +80,7 @@ class EditDiveParameters extends Model
     }
 
     public function updateDiveDirector($diveId, $choiceDirectorValue){
-        return DB::update("update DIVES set DVR_LICENCE_DIRECTS = $choiceDirectorValue where DIV_ID = $diveId");
+        return DB::update("update DIVES set DVR_LICENCE_DIRECTS = '$choiceDirectorValue' where DIV_ID = $diveId");
     }
 
     public function updateDiveSite($diveId, $choiceSiteValue){
@@ -88,7 +88,7 @@ class EditDiveParameters extends Model
     }
 
     public function updateDiveDriver($diveId, $choiceDriverValue){
-        return DB::update("update DIVES set DVR_LICENCE_DRIVES = $choiceDriverValue where DIV_ID = $diveId");
+        return DB::update("update DIVES set DVR_LICENCE_DRIVES = '$choiceDriverValue' where DIV_ID = $diveId");
     }
 
     public function updateDiveHeadcount($diveId, $numberMaxValue){
