@@ -1,3 +1,8 @@
+<?php
+use App\Models\Dive;
+?>
+
+@if(Dive::isDiveDirector($div_id)>0)
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -111,3 +116,4 @@
     });
     </script>
 </body>
+@endif

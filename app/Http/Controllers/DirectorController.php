@@ -69,14 +69,14 @@ class DirectorController extends BaseController
         return redirect()->back();
     }
     
-    public function editDivers(){
-        $div_id = 1;
+    public function editDivers(Request $request){
+        $div_id = $request->input('div_id');
         
         $participants = Dive::getParticipants($div_id);
 
         if(Dive::isDiveDirector($div_id)){
             return view('directorEditDivers',['div_id'=>$div_id, 'participants'=>$participants]);
         }
-        var_dump($this->checkDivesDirector($div_id));
+        return redirect()->route('welcome'); 
     }
 }
