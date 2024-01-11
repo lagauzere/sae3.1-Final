@@ -32,6 +32,9 @@
             <a class="navbar-item" href="/users">
                 Utilisateurs
             </a>
+            <a class="navbar-item" href="/creationDive">
+                Créer une plongée
+            </a>
             @endif
             @endif
         </div>

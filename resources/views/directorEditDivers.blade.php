@@ -24,6 +24,13 @@ use App\Models\User;
 <body>
     <x-header/>
         <h1>Plongée n°{{ $div_id }}</h1>
+        <button><a id="editDivesButton" href="/diveParameters/{{ $div_id }}">Modifier la plongée</a></button>
+        <form action="{{ route('handle-form-delete') }}" method="POST">
+            @csrf
+            <input name="div_id" type="hidden" value="{{$div_id}}"/>
+            <button type="submit" id="deleteDivesButton">Supprimer la plongée</button>
+        </form>
+        
         <h2>Ajouter participant :</h2>
         <input type="text" id="searchInput" placeholder="Rechercher une personne...">
         <table style="position:fixed;background:#FFFFFF;border:solid black 2px" id="searchResults"></table>
@@ -83,6 +90,10 @@ use App\Models\User;
     const userLicence2PalNum = {};
     let numPeople;
     const userLicence2Diver = {};
+
+    document.getElementById('deleteDivesButton').addEventListener('click', function() {
+        alert('Le plongée va etre supprimé!!');
+    });
 
     function updatePalanqueeError() {
         let numDivers = Object.keys(userLicence2PalNum).length;
