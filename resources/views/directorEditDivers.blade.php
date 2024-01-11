@@ -77,9 +77,9 @@ use App\Models\Dive;
                 </table>
                 <div id="palanquee-error">
                 </div>
-                <form method="get" id="pdfButton">
+                <form method="get" id="pdfButton" action="{{route('info', ['div_id' => $div_id])}}">
                     <button type="submit" class="button is-button-success">
-                        Télécharger au format PDF
+                        Visualiser au format PDF
                     </button>
                 </form>
         </div>
@@ -126,10 +126,9 @@ use App\Models\Dive;
         userLicence2PalNum[licence] = selectedValue;
         if (selectedValue == 0) delete userLicence2PalNum[licence];
 
-        document.getElementById('pdfButton').action = '{{route('info', ['div_id' => $div_id, 'palanquees' => ' + palNum2Users + '])}}';
-        console.log(document.getElementById('pdfButton').action);
-
         updatePalanqueeError();
+
+        sessionStorage.setItem("palanquees", JSON.stringify(palNum2Users));
     }
 
 

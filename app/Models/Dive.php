@@ -120,7 +120,8 @@ class Dive extends Model
         join SHIPS using (shp_id)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
         join DIVING_LEVELS on (DIVING_LEVELS.dlv_id = DIVES.dlv_id)
-        where pa.dvr_licence = ?', [$userID]);
+        where pa.dvr_licence = ?
+        order by DIV_DATE asc', [$userID]);
     }
 
     public function currentDive($div_id){

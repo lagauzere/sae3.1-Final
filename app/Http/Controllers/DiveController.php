@@ -74,10 +74,8 @@ class DiveController extends Controller
     function getInfos(){
         $dive = new Dive;
         $div_id = request('div_id');
-        $palanquees = request('palanquees');
         $res = $dive->getPDFInfo($div_id);
-        //$currentDive = $dive->
-        return view('info',['pdfInfo' => $res, 'palanquees' => $palanquees]);
+        return view('info',['pdfInfo' => $res]);
     }
 
 }
