@@ -26,9 +26,7 @@
 </br>
 </br>
 
-    @if($result == true)
-        <a href="{{ route('diverlist', ['div_id' => 1]) }}">Liste des plongeurs</a>
-    @endif
+    
     <x-footer/>
 </body>
 </html>
