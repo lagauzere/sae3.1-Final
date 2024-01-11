@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use LDAP\Result;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 class Dive extends Model
 {
@@ -15,6 +16,7 @@ class Dive extends Model
         $array = json_decode(json_encode($count),true);
         if($array[0]['count'] ==0){
             DB::insert('INSERT INTO PARTICIPATE (DVR_LICENCE,DIV_ID,PAR_CANCELLED) VALUES (?, ?, ?)', [$dvr_id,$div_id,0]);
+            DB::update('UPDATE DIVES SET DIV_HEADCOUNT = (SELECT DIV_HEADCOUNT FROM DIVES WHERE DIV_ID = ? ) -1 WHERE DIV_ID = ? ',[$div_id,$div_id]);
         }
         else{
             return "Vous vous êtes déjà inscrit et avez annuler votre participation à cette plongée, vous ne pouvez pas vous réinscrire";
@@ -24,6 +26,7 @@ class Dive extends Model
     function retireFromTimeSlot($dvr_id, $div_id){
 
         DB::update('UPDATE PARTICIPATE SET PAR_CANCELLED= 1 WHERE DVR_LICENCE = ? and DIV_ID = ?',[$dvr_id,$div_id]);
+        DB::update('UPDATE DIVES SET DIV_HEADCOUNT = (SELECT DIV_HEADCOUNT FROM DIVES WHERE DIV_ID = ? ) +1 WHERE DIV_ID = ? ',[$div_id,$div_id]);
     }
 
     function isDiverRegistered($dvr_id,$div_id){
@@ -31,7 +34,7 @@ class Dive extends Model
     }
 
     public function diveAvailable(){
-        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_LABEL FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_LABEL, DIVING_LEVELS.DLV_ID, DIV_HEADCOUNT FROM DIVES
         join STATUS using (STA_ID)
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
@@ -111,7 +114,7 @@ class Dive extends Model
     }
 
     public function diveCurrentUser($userID){
-        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_DESC from PARTICIPATE pa
+        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_LABEL from PARTICIPATE pa
         join DIVES using (DIV_ID)
         join SITES using (sit_id)
         join SHIPS using (shp_id)
@@ -120,9 +123,9 @@ class Dive extends Model
         where pa.dvr_licence = ?', [$userID]);
     }
 
-    public function everyDivesTheDiverIsRegisteredIn($dvr_id){
-        echo '<script> console.log(' .$dvr_id. '); </script>';
-        return DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?',[$dvr_id]);
+    public function everyDivesTheDiverIsRegisteredIn($dvr_id){        
+        $result = DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?', [$dvr_id]);
+    return $result;
     }
 
     public static function isDiveDirector($div_id){
@@ -149,5 +152,9 @@ class Dive extends Model
             $id, $choiceMonitorValue, $choiceBoatValue, $choiceDirectorValue, $choiceDriverValue, 1, $choiceDivingLevelValue, $choiceSiteValue, $date, $shipHeadcount, $comment
         ]);
     }
+    public function getNbInDives($div_id){
+        return DB::select('SELECT count(*) as count from PARTICIPATE where DIV_ID =?;',[$div_id]);
+    }
+
 }
 

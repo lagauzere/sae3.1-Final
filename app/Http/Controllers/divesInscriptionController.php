@@ -13,7 +13,7 @@ class divesInscriptionController extends Controller
         $selectedDive = $req->input('selectedDive');
         $DiverModel = new Dive;
         $DiverModel->registerDiverInTimeSlot($user,$selectedDive);
-    
+
         return redirect()->route('viewDivesList');
     }   
 
@@ -32,7 +32,7 @@ class divesInscriptionController extends Controller
         return view('diveslists',['isDiverRegistered' => $res]);
     }
 
-    public function checkDivesDirector(){
+public function checkDivesDirector(){
         $user = session()->get('userID');
         $DiverModel=new Dive;
         $res = $DiverModel->getDivesDirector(1);

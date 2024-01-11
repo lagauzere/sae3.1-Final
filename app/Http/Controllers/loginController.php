@@ -12,9 +12,17 @@ class loginController extends Controller
         $licence = $request->input('licence');
         $password = $request->input('password');
         $log = new Login;
+
         $res = $log->selectUser($licence,$password);
-        $resName  = $log->selectName($licence);;
-        session(['userName'=> $resName, 'userID'=> $res]);
+        if($res==null){
+            session()->flash('erreurCode',-1);
+        }
+        else{
+        $resName = $log->selectName($licence);
+        $resLvl = $log->getUserLevel($licence);
+        session()->flash('erreurCode',0);
+        session(['userName'=> $resName, 'userID'=> $res, 'userLevel'=> $resLvl]);
+        }
         return view('welcome'); 
       
 }
