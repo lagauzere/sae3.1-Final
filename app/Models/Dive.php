@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use LDAP\Result;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 class Dive extends Model
 {
@@ -135,6 +136,10 @@ class Dive extends Model
         }
         $result = DB:: select('SELECT count(*) COUNT from DIVES where DIV_ID =? AND DVR_LICENCE_DIRECTS = ?;',[$div_id, $uid]);
         return json_decode(json_encode($result),true)[0]["COUNT"];
+    }
+
+    public function getNbInDives($div_id){
+        return DB::select('SELECT count(*) as count from PARTICIPATE where DIV_ID =?;',[$div_id]);
     }
 
 }
