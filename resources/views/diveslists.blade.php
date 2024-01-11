@@ -154,18 +154,18 @@
                                 <p>${info.event.extendedProps.requireLevel}</p>
                             </div>
                             <div class="modal-footer">`
+                        var diversListLink = `<a href="${displayDiversIn}" id="diversList">Liste des plongeurs</a>`;
+                        modalContent += diversListLink;
                         var registered = false;
                         var cancelled = false; 
                         divesForDivers.forEach(dive => {
                             if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 0){
                                 modalContent += `
-                                        <a href="" id="diversList" >Liste des plongeurs</a>
                                         <form id="retireForm" action="" method="POST">
                                         @csrf 
                                         <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
                                         </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent;
-                                document.getElementById('diversList').href = displayDiversIn;
                                 document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
                                 registered = true;
                             }
