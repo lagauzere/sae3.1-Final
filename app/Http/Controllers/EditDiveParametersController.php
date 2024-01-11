@@ -73,7 +73,6 @@ class EditDiveParametersController extends Controller
         $choiceDirectorValue = $request->input('choiceDirector');
         $choiceDriverValue = $request->input('choiceDriver');
         $choiceMonitorValue = $request->input('choiceMonitor');
-        $numberMaxValue = $request->input('numberMax');
         $choiceDivingLevelValue = $request->input('choiceDivingLevel');
         $diveId = $request->input('diveNumber');
         
@@ -82,9 +81,10 @@ class EditDiveParametersController extends Controller
         $changeData->updateDiveDirector($diveId, $choiceDirectorValue);
         $changeData->updateDiveSite($diveId, $choiceSiteValue);
         $changeData->updateDiveDriver($diveId, $choiceDriverValue);
-        $changeData->updateDiveHeadcount($diveId, $numberMaxValue);
         $changeData->updateDiveDivingLevel($diveId, $choiceDivingLevelValue);
 
         return redirect('/');
     }
+
+    
 }

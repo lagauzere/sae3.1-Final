@@ -77,5 +77,19 @@ class Dive extends Model
         return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE FROM DIVES WHERE DIV_ID =?', [$div_id]);
     }
 
+    public function getHeadcount($shp_ID){
+        return DB::select('SELECT SHP_SEATS FROM ships WHERE SHP_ID = ?', [$shp_ID]);
+    }
+
+    public function getMaxDiveID(){
+        return DB::select('SELECT (MAX(DIV_ID)+1) as DIV_ID from DIVES');
+    }
+
+    public function createDive($id, $choiceBoatValue, $choiceSiteValue, $choiceDirectorValue, $choiceDriverValue, $choiceMonitorValue, $choiceDivingLevelValue, $date, $shipHeadcount, $comment) {
+        return DB::insert("INSERT INTO DIVES(DIV_ID, DVR_LICENCE_MONITORS, SHP_ID, DVR_LICENCE_DIRECTS, DVR_LICENCE_DRIVES, STA_ID, DLV_ID, SIT_ID, DIV_DATE, DIV_HEADCOUNT, DIV_COMMENT) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+            $id, $choiceMonitorValue, $choiceBoatValue, $choiceDirectorValue, $choiceDriverValue, 1, $choiceDivingLevelValue, $choiceSiteValue, $date, $shipHeadcount, $comment
+        ]);
+    }
 }
 

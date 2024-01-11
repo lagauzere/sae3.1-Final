@@ -40,4 +40,7 @@ Route::get('/diverlist',[DiveController::class,'diverList']);
 Route::post('changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
 Route::get('/profile',[DiveController::class,'profile']);
 
+Route::get('creationDive', [DiveController::class,'creationDive']);
+
+Route::post('createDataDives', [DiveController::class, 'creationDataDives']);
 //Route::view('/profile', 'profile');
