@@ -1,8 +1,9 @@
 <?php
 use App\Models\Dive;
+use App\Models\User;
 ?>
 
-@if(Dive::isDiveDirector($div_id)>0)
+@if(Dive::isDiveDirector($div_id)>0 || User::isAdmin())
 <!DOCTYPE html>
 <html lang="fr">
 <head>

@@ -32,7 +32,7 @@ Route::post("/diveslists",[divesInscriptionController::class,'registerDiverInTim
 
 Route::post("/retire",[divesInscriptionController::class,'retireFromTimeSlot'])->name('leaveTimeSlot');
 
-Route::get('/directedplanneddiveslist', [DiveController::class, 'directedPlannedDiveList']);
+Route::get('/directedplanneddiveslist', [DirectorController::class, 'directedPlannedDiveList']);
 
 Route::get('/diveslists', [DiveController::class, 'index'])->name('viewDivesList');
 

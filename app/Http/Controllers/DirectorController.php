@@ -11,12 +11,15 @@ class DirectorController extends BaseController
 {
     public function directedPlannedDiveList()
     {
-        
         $dvr_id = session('userID');
         $dive = new Dive;
-
-        $listNum = $dive->directedPlannedDiveList($dvr_id);
-
+        if (User::isAdmin()){
+            $listNum = $dive->allPlannedDiveList();
+        }
+        else{
+            $listNum = $dive->directedPlannedDiveList($dvr_id);
+        }
+        
         $diveArray = json_decode(json_encode($listNum),true);
 
         $completeDiveArray=array();
@@ -28,6 +31,7 @@ class DirectorController extends BaseController
         return view('directorDivesList',['dives'=>$completeDiveArray]);
 
     }
+    
     /*
     public function checkDivesDirector($div_id){
         $user = session('userID');
@@ -74,7 +78,7 @@ class DirectorController extends BaseController
 
         $participants = Dive::getParticipants($div_id);
 
-        if(Dive::isDiveDirector($div_id)){
+        if(Dive::isDiveDirector($div_id) || User::isAdmin()){
             return view('directorEditDivers',['div_id'=>$div_id, 'participants'=>$participants]);
         }
         return redirect()->route('welcome'); 

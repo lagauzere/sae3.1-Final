@@ -77,6 +77,15 @@ class Dive extends Model
         AND STA_ID = 1
         ORDER BY DIV_DATE DESC', [$dvr_id]);
     }
+
+    public function allPlannedDiveList(){
+        return DB::select('SELECT DIV_ID, SHP_NAME, SIT_NAME, DLV_DESC, DIV_DATE, DLV_LABEL, (SELECT count(*) FROM PARTICIPATE WHERE PARTICIPATE.DIV_ID = DIVES.DIV_ID AND PAR_CANCELLED = FALSE) COUNT FROM DIVES
+        join SITES using (SIT_ID)
+        join SHIPS using (SHP_ID)
+        join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
+        WHERE STA_ID = 1
+        ORDER BY DIV_DATE DESC');
+    }
     
     public function countParticipants($div_id){
         return DB::select('SELECT count(*) count FROM PARTICIPATE JOIN DIVERS using(DVR_LICENCE) WHERE DIV_ID =?', [$div_id]);

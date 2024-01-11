@@ -2,7 +2,7 @@
 use App\Models\User;
 ?>
 
-@if(User::canDirect()>0)
+@if(User::canDirect()>0 || User::isAdmin())
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -22,8 +22,11 @@ use App\Models\User;
 </head>
 <body>
     <x-header/>
+    @if(User::isAdmin())
+    <h1>Liste de toutes les plongées prévues</h1>
+    @else
     <h1>Liste des plongées prévues que vous dirigez</h1>
-
+    @endif
     <?php
     $test = json_encode($dives);
     ?>
