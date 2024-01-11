@@ -111,7 +111,7 @@ class Dive extends Model
     }
 
     public function diveCurrentUser($userID){
-        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_DESC from PARTICIPATE pa
+        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_LABEL from PARTICIPATE pa
         join DIVES using (DIV_ID)
         join SITES using (sit_id)
         join SHIPS using (shp_id)

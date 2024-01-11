@@ -15,10 +15,14 @@
 
     <title>Liste des plongées disponibles</title>
     @livewireStyles
+
+    <!-- Styles -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css"/>
+    <link rel="stylesheet" href="/resources/css/app.css"></link>
     <style>
         html {
             scroll-behavior: smooth;
@@ -39,7 +43,7 @@
         $LevelOfDiver = json_encode($userLevel);       
     ?>
 
-    <div id='calendar-container'>
+    <div id='calendar-container' style="padding: 20px;">
         <div id='calendar'></div>
     </div>
 
@@ -124,8 +128,7 @@
                         var modalContent = `
                             <div class="modal-header">
                                 <h5 class="modal-title"> Plongée numéro: ${info.event.title} </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                 </button>
                             </div>
                             
