@@ -81,7 +81,6 @@
                 }));
                 
                 
-                
                 const calendar = new Calendar(calendarEl, {
                     slotMinTime: '8:00:00',
                     slotMaxTime: '22:00:00',
@@ -93,11 +92,12 @@
                     },
                     locale: 'fr',
                     events: events,
+                    
                     eventContent: function(info) {
                         const content = document.createElement('div');
                         
                         if(info.event.extendedProps.levelId > DiversLevel[0].DLV_ID ) {
-                            content.style.backgroundColor = '#9F2B68'
+                            content.style.backgroundColor = '#CF9FFF';
                             content.innerHTML = `
                                 <div style="cursor: pointer;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
@@ -108,21 +108,8 @@
                                 </div>
                             `;
                         }
-                        
                         else if(info.event.extendedProps.remainingCapacity <= 0){
-                            content.style.backgroundColor = 'grey'
-                            content.innerHTML = `
-                                <div style="cursor: pointer;">
-                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
-                                    <p>${info.event.extendedProps.boat}</p>
-                                    <p>${info.event.extendedProps.site}</p>
-                                    <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> Il n'y a plus de place dans cette plongée </p>
-                                </div>
-                            `;
-                        }
-                        else if(info.event.extendedProps.remainingCapacity <= 0){
-                            content.style.backgroundColor = 'grey'
+                            content.style.backgroundColor = 'grey';
                             content.innerHTML = `
                                 <div style="cursor: pointer;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
