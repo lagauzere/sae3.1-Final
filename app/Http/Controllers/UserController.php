@@ -33,8 +33,7 @@ class UserController extends Controller
         $licence = session('userID');
         $user = new user;
         $result = $user->checkRegistration($licence,$div_id);
-
-         return view('test',['result'=>$result]);
+         return view('divelists',['result'=>$result]);
         
         }
 
@@ -42,7 +41,6 @@ class UserController extends Controller
         public function getAllUsers(){
             $user = new user;
             $result = $user->selectAllUsers();
-            $diverArray= json_decode(json_encode($result),true);
             return view('allUsers',['result'=>$result]);
         }
 
@@ -67,8 +65,14 @@ class UserController extends Controller
                 $manager = 0;
             }
 
+            if($request->input('isAdmin')){
+                $isAdmin = 1;
+            }else{
+                $isAdmin = 0;
+            }
+
             $user = new user;
-            $user->updateUserStatus($pilot,$manager,$director,$dvr_licence);
+            $user->updateUserStatus($pilot,$manager,$director,  $isAdmin, $dvr_licence);
             return redirect()->route('users'); 
         }
 

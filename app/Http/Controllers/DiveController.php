@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Dive;
 use Illuminate\Http\Request;
 
@@ -15,14 +16,17 @@ class DiveController extends Controller
 
         $diveAvailable = $DiverModel->diveAvailable();
         $diveAvailableArray = json_decode(json_encode($diveAvailable),true);
-        $user = session()->get('user');
+
+        $user = session()->get('userID');
+        $userLevel = session()->get('userLevel');
 
         $everyDivesRegistered = $DiverModel->everyDivesTheDiverIsRegisteredIn($user);
         $everyDivesRegisteredArray = json_decode(json_encode($everyDivesRegistered),true);
         
         return view('diveslists', [
             'dives' => $diveAvailableArray,
-            'everyDivesRegistered' => $everyDivesRegisteredArray
+            'everyDivesRegistered' => $everyDivesRegisteredArray,
+            'userLevel' => $userLevel
         ]);
     }
 
@@ -32,14 +36,9 @@ class DiveController extends Controller
     function diverList($div_id)
     {
         $dive = new Dive;
-
         $list = $dive->getDiversList($div_id);
-
         $diverArray= json_decode(json_encode($list),true);
-
         return view('diverList',['divers'=>$diverArray]);
-        
-
     }
 
     function directedPlannedDiveList()

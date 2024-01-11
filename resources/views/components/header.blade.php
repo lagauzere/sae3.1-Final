@@ -4,8 +4,8 @@
 
 <nav class="navbar has-background-link-light is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
-            <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+        <a class="navbar-item" href="/">
+            <img style="filter: invert(1);" src="https://i0.wp.com/www.carantec-nautisme.com/wp-content/uploads/2017/05/logo-acn-ORANGE.png?resize=300%2C57&ssl=1" width="112" height="28">
         </a>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -41,7 +41,7 @@
                 @if(session()->has('userID'))
                 <div style="display: flex;">
                     <p>Nombre de sessions restantes: </p>
-                    <p style="padding-left: 5px;"><x-user-credits/></p>
+                    <p style="padding-left: 5px;"><x-user-credits :amount="1" /></p>
                 </div>
                 @else
                 <p>Connectez-vous : </p>

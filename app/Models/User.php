@@ -113,15 +113,25 @@ class User extends Authenticatable
     }
 
 
-    public function updateUserStatus($pilot,$manager,$director,$dvr_licence){
+    public function updateUserStatus($pilot,$manager,$director, $isAdmin, $dvr_licence){
 
-        DB::update('UPDATE DIVERS SET DVR_CANDRIVE=?,DVR_CANMONITOR=?,DVR_CANDIRECT=? WHERE DVR_LICENCE=?',[$pilot,$manager,$director,$dvr_licence]);
+        DB::update('UPDATE DIVERS SET DVR_CANDRIVE=?,DVR_CANMONITOR=?,DVR_CANDIRECT=? , DVR_ISADMIN=? WHERE DVR_LICENCE=?',[$pilot,$manager,$director,$isAdmin,$dvr_licence]);
 
     }
 
     public static function isAdmin()
     {   
         return  json_decode(json_encode(DB::select('select DVR_ISADMIN from DIVERS where DVR_LICENCE=?' ,[session('userID')])),true)[0]['DVR_ISADMIN'];
+    }
+
+    public static function isDirector()
+    {   
+        return  json_decode(json_encode(DB::select('select DVR_ISADMIN from DIVERS where DVR_LICENCE=?' ,[session('userID')])),true)[0]['DVR_CANDIRECT'];
+    }
+
+    public static function isUnregister($div_id){
+
+        $res= json_decode(json_encode(DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? and PAR_CANCELLED=1 ' ,[session('userID'),$div_id])),true)[0]['DVR_CANDIRECT'];
     }
 
 }
