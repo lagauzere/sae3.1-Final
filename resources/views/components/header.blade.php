@@ -22,7 +22,7 @@
             </a>
             @if(session()->has('userID'))
             <a class="navbar-item" href="/diveslists">
-                M'inscrire à plongées
+                M'inscrire aux plongées
             </a>
             <a class="navbar-item" href="/historique">
                 Historique de plongées
@@ -39,8 +39,8 @@
             <div class="navbar-item" style="width: auto;">
                 @if(session()->has('userID'))
                 <div style="display: flex;">
-                    <a href="/profile">Nombre de sessions restantes: </a>
-                    <a href="/profile" style="padding-left: 5px;"><x-user-credits :amount="1" /></a>
+                    <p>Nombre de sessions restantes: </p>
+                    <p style="padding-left: 5px;"><x-user-credits :amount="1" /></p>
                 </div>
                 @else
                 <p>Connectez-vous : </p>
@@ -52,7 +52,7 @@
                 <?php
                 $userName = session('userName');
                 ?>
-                <a href="/profile">{{ $userName[0]->DVR_NAME }}</a>
+                <p>{{ $userName[0]->DVR_NAME }}</p>
                 @endif
             </div>
             <div class="navbar-item">
