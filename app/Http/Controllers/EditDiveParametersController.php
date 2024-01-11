@@ -51,7 +51,7 @@ class EditDiveParametersController extends Controller
         $monitorName = $monitorName->monitors();
         $monitorNameArray = json_decode(json_encode($monitorName),true);
 
-        return view('diveparameters', [
+        return view('diveParameters', [
             'divesparameters' => $diveArray,
             'divesDriver' => $diveDriverArray,
             'divesMonitor' => $diveMonitorArray,
