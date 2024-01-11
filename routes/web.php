@@ -40,7 +40,8 @@ Route::post('/', [loginController::class, 'Connection']);
 
 Route::post('/disconnect', [loginController::class, 'Disconnection']);
 
-Route::get('/diverlist',[DiveController::class,'diverList']);
+Route::get('/diverlist/{div_id}',[DiveController::class,'diverList'])->name('diverlist');
+Route::get('/test/{div_id}',[UserController::class,'getInscription']);
 
 Route::get('/profile',[DiveController::class,'profile']);
 
@@ -55,3 +56,15 @@ Route::get('/search-people', [UserController::class,'searchPeople']);
 Route::post('/handle-form-add-participation', [DirectorController::class,'handleFormAddParticipationSubmission'])->name('handle-form-add-participation');
 
 Route::post('/handle-form-remove-participation', [DirectorController::class,'handleFormRemoveParticipationSubmission'])->name('handle-form-remove-participation');
+
+Route::get('/infoDive',[UserController::class],'getInscription');
+
+Route::get('/historique',[DiveController::class,'historique']);
+
+Route::get('/users',[UserController::class,'getAllUsers'])->name('users');
+
+Route::post('/update-role/{dvr_licence}', [UserController::class, 'updateRole'])->name('update-role');
+
+
+
+//Route::view('/profile', 'profile');

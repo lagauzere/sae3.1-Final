@@ -11,23 +11,29 @@ class DiveController extends Controller
     //
     function index()
     {
-        $dives = new Dive;
+        $DiverModel = new Dive;
 
-        $diveAvailable = $dives->diveAvailable();
+        $diveAvailable = $DiverModel->diveAvailable();
         $diveAvailableArray = json_decode(json_encode($diveAvailable),true);
+        $user = session()->get('user');
+
+        $everyDivesRegistered = $DiverModel->everyDivesTheDiverIsRegisteredIn($user);
+        $everyDivesRegisteredArray = json_decode(json_encode($everyDivesRegistered),true);
+        
         return view('diveslists', [
-            'dives' => $diveAvailableArray
+            'dives' => $diveAvailableArray,
+            'everyDivesRegistered' => $everyDivesRegisteredArray
         ]);
     }
 
-    
-
    
-    function diverList()
+
+    
+    function diverList($div_id)
     {
         $dive = new Dive;
 
-        $list = $dive->getDiversList(1);
+        $list = $dive->getDiversList($div_id);
 
         $diverArray= json_decode(json_encode($list),true);
 
@@ -38,7 +44,6 @@ class DiveController extends Controller
 
     function directedPlannedDiveList()
     {
-        
         $dvr_id = session('userID');
         $dive = new Dive;
 
@@ -56,25 +61,13 @@ class DiveController extends Controller
 
     }
 
-    function profile(){
+    //function profile(){
+    function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
         
-        $listNum = $dive->selectUsersDives($dvr_id);
-
-        $diveArray = json_decode(json_encode($listNum),true);
-
-        $completeDiveArray=array();
-
-        
-        foreach($diveArray as $diveNumber) {
-            $currentDive = $dive->showDive($diveNumber)[0];
-            //array_push($completeDiveArray,$currentDive);
-            array_push($completeDiveArray, $diveNumber);
-            
-        }
-
-        return view('profile',['dives'=>$completeDiveArray]);
+        $Usersdives = $dive->diveCurrentUser($dvr_id);
+        return view('historique',['dives'=>$Usersdives]);
     }
 
 
