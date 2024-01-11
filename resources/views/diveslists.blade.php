@@ -36,8 +36,7 @@
     <?php
         $AllDives = json_encode($dives);
         $DiversDives = json_encode($everyDivesRegistered);
-        $LevelOfDiver = json_encode($userLevel);
-       
+        $LevelOfDiver = json_encode($userLevel);       
     ?>
 
     <div id='calendar-container'>
@@ -92,25 +91,23 @@
                     events: events,
                     eventContent: function(info) {
                         const content = document.createElement('div');
-                        if(info.event.extendedProps.levelId <= DiversLevel){
+                        if(info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID){
                             content.innerHTML = `
                                 <div style="cursor: pointer;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
                                     <p>${info.event.extendedProps.boat}</p>
                                     <p>${info.event.extendedProps.site}</p>
                                     <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> ${DiversLevel} </p>;
                                 </div>
                             `;
                         }
                         else{
                             content.innerHTML = `
-                                <div style="cursor: pointer;">
+                                <div style="cursor: pointer; background-color: red;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
                                     <p>${info.event.extendedProps.boat}</p>
                                     <p>${info.event.extendedProps.site}</p>
                                     <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> ${DiversLevel} </p>;
                                 </div>
                             `;
                         }
