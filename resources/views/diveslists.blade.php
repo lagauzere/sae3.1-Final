@@ -156,7 +156,7 @@
                             </div>
                             <div class="modal-footer">`
                         var registered = false;
-          
+                        var cancelled = false; 
                         divesForDivers.forEach(dive => {
                             if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 0){
                                 modalContent += `
@@ -171,31 +171,29 @@
                                 registered = true;
                             }
                             else if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 1){
-                               
+                                cancelled = true;
                                 registered = true;
                                 modalContent += `<p style= "color:red" > Vous avez déjà annulé la participation à cette plongée</p>`
-                                
                             }
                         })
-                        if(registered==false  && info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID && info.event.extendedProps.remainingCapacity > 0){
+                        if(registered==false && cancelled == false ){
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf`
-                                
-                                    modalContent += `<button type="submit" class="btn btn-primary">S'inscrire</button>`;
+                               
+                                    modalContent +=`<button type="submit" class="btn btn-primary">S'inscrire</button>`
                                     modalContent +=`  </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }
-                        else{
+                        else if(cancelled==true ){
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf <button type="submit" class="btn btn-primary" disabled>S'inscrire</button> </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }
                         
-                        
-
-                        
+                            console.log(registerFormAction);
+                            console.log(retireFormAction);
                             
                         $('.modal').modal('show');
                     }
