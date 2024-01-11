@@ -32,7 +32,7 @@ class Dive extends Model
     }
 
     public function diveAvailable(){
-        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_LABEL FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_LABEL, DIVING_LEVELS.DLV_ID FROM DIVES
         join STATUS using (STA_ID)
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
@@ -112,7 +112,7 @@ class Dive extends Model
     }
 
     public function diveCurrentUser($userID){
-        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_DESC from PARTICIPATE pa
+        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_LABEL from PARTICIPATE pa
         join DIVES using (DIV_ID)
         join SITES using (sit_id)
         join SHIPS using (shp_id)

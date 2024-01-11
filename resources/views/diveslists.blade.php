@@ -15,10 +15,14 @@
 
     <title>Liste des plongées disponibles</title>
     @livewireStyles
+
+    <!-- Styles -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css"/>
+    <link rel="stylesheet" href="/resources/css/app.css"></link>
     <style>
         html {
             scroll-behavior: smooth;
@@ -36,9 +40,10 @@
     <?php
         $AllDives = json_encode($dives);
         $DiversDives = json_encode($everyDivesRegistered);
+        $LevelOfDiver = json_encode($userLevel);       
     ?>
 
-    <div id='calendar-container'>
+    <div id='calendar-container' style="padding: 20px;">
         <div id='calendar'></div>
     </div>
 
@@ -46,7 +51,6 @@
         <div class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" id="dynamic-modal-content">
-                    
                 </div>
             </div>
         </div>
@@ -64,7 +68,8 @@
                 const calendarEl = document.getElementById('calendar');  
                 const divesData = <?php echo $AllDives; ?>;
                 const divesForDivers = <?php echo $DiversDives; ?>;
-                console.table(divesForDivers);
+                const DiversLevel = <?php echo $LevelOfDiver; ?>;
+                console.log(DiversLevel);
                 const events = divesData.map((dive) => ({
                     title: dive.DIV_ID,
                     start: new Date(dive.DIV_DATE),
@@ -72,6 +77,7 @@
                     boat: `Bateau: ${dive.SHP_NAME}\n`,
                     site: `Site: ${dive.SIT_NAME}\n`,
                     requireLevel: `Niveau requis: ${dive.DLV_LABEL}`,
+                    levelId : dive.DLV_ID
                 }));
                 
                 
@@ -89,18 +95,31 @@
                     events: events,
                     eventContent: function(info) {
                         const content = document.createElement('div');
-                        content.innerHTML = `
-                            <div style="cursor: pointer;">
-                                <strong>Plongée numéro:  ${info.event.title}</strong><br>
-                                <p>${info.event.extendedProps.boat}</p>
-                                <p>${info.event.extendedProps.site}</p>
-                                <p>${info.event.extendedProps.requireLevel}</p>
-                            </div>
-                        `;
+                        if(info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID){
+                            content.innerHTML = `
+                                <div style="cursor: pointer;">
+                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
+                                    <p>${info.event.extendedProps.boat}</p>
+                                    <p>${info.event.extendedProps.site}</p>
+                                    <p>${info.event.extendedProps.requireLevel}</p>
+                                </div>
+                            `;
+                        }
+                        else{
+                            content.innerHTML = `
+                                <div style="cursor: pointer; background-color: red;">
+                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
+                                    <p>${info.event.extendedProps.boat}</p>
+                                    <p>${info.event.extendedProps.site}</p>
+                                    <p>${info.event.extendedProps.requireLevel}</p>
+                                </div>
+                            `;
+                        }
                         return {
                             domNodes: [content]
                         };
                     },
+                    
                     eventClick: function(info) {
                         const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title; 
                         const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
@@ -109,8 +128,7 @@
                         var modalContent = `
                             <div class="modal-header">
                                 <h5 class="modal-title"> Plongée numéro: ${info.event.title} </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                 </button>
                             </div>
                             

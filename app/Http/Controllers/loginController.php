@@ -16,7 +16,7 @@ class loginController extends Controller
         $res = $log->selectUser($licence,$password);
         $resName  = $log->selectName($licence);
         $userLevel = $log->getUserLevel($licence);
-        
+       
         session(['userName'=> $resName, 'userID'=> $res,'userLevel'=>$userLevel]);
         return view('welcome');     
 }
