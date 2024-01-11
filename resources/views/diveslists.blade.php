@@ -114,28 +114,22 @@
                                 <p>${info.event.extendedProps.requireLevel}</p>
                             </div>
                             <div class="modal-footer">`
-                            var i ;
-                            console.table(divesForDivers);
-                            divesForDivers.forEach(e=>{
-                                if(e==info.event.title){
-                                    
-                                    i=2;
+                            
                                     modalContent += `<form id="retireForm" action="" method="POST">
                                     @csrf 
                                     <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
                                     </form>`
                                     document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                     document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
-                                }
-                            })
-                            if(typeof i=='undefined'){
+                              
+                            
                                 modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">S'inscrire</button>
                                 </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
-                            }                       
+                                              
                         $('.modal').modal('show');
                     }
                 });
