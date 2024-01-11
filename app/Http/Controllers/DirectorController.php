@@ -82,7 +82,13 @@ class DirectorController extends BaseController
         return redirect()->route('welcome'); 
     }
 
-    public function deleteDiver(){
-        return ;
+    public function deleteDiver(Request $request){
+        $div_id = $request->input('div_id');
+
+        $deleteDive = new DeleteDive();
+
+        $deleteDive->deleteDive($div_id);
+
+        return redirect('directedplanneddiveslist');
     }
 }
