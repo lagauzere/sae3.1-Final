@@ -67,7 +67,7 @@
     </tbody>
 </table>
 
-
+<x-footer/>
 
 
 
