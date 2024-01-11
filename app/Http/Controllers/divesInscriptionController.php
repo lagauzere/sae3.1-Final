@@ -5,41 +5,96 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dive;
 
-class divesInscriptionController extends Controller
+class DivesInscriptionController extends Controller
 {
     
-    public function registerDiverInTimeSlot(Request $req){
+    /**
+     * Register a diver in a specific time slot.
+     *
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function registerDiverInTimeSlot(Request $req)
+    {
         $user = session()->get('userID');
+
+
         $selectedDive = $req->input('selectedDive');
-        $DiverModel = new Dive;
-        $DiverModel->registerDiverInTimeSlot($user,$selectedDive);
+
+
+        $diverModel = new Dive;
+
+
+        $diverModel->registerDiverInTimeSlot($user, $selectedDive);
+
 
         return redirect()->route('viewDivesList');
     }   
 
-    public function retireFromTimeSlot(Request $req){
+    /**
+     * Retire a diver from a specific time slot.
+     *
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function retireFromTimeSlot(Request $req)
+    {
+
         $user = session()->get('userID');
+
+
         $selectedDive = $req->input('selectedDive');
-        $DiverModel = new Dive;
-        $DiverModel->retireFromTimeSlot($user,$selectedDive);
+
+
+        $diverModel = new Dive;
+
+
+        $diverModel->retireFromTimeSlot($user, $selectedDive);
+
+
         return redirect()->route('viewDivesList');
     }
     
-    public function isDiverRegistered($selectedDive){
+    /**
+     * Check if a diver is registered for a specific dive.
+     *
+     * @param int $selectedDive
+     * @return \Illuminate\View\View
+     */
+    public function isDiverRegistered($selectedDive)
+    {
+
         $user = session()->get('user');
-        $DiverModel = new Dive;
-        $res = $DiverModel->isDiverRegistered($user,$selectedDive);
-        return view('diveslists',['isDiverRegistered' => $res]);
+
+
+        $diverModel = new Dive;
+
+
+        $res = $diverModel->isDiverRegistered($user, $selectedDive);
+
+
+        return view('diveslists', ['isDiverRegistered' => $res]);
     }
 
-public function checkDivesDirector(){
-        $user = session()->get('userID');
-        $DiverModel=new Dive;
-        $res = $DiverModel->getDivesDirector(1);
+    /**
+     * Check if the current user is a dive director.
+     *
+     * @return bool
+     */
+    public function checkDivesDirector()
+    {
 
-        if($user==$res){
+        $user = session()->get('userID');
+
+
+        $diverModel = new Dive;
+
+
+        $res = $diverModel->getDivesDirector(1);
+
+
+        if ($user == $res) {
             return true;
         }
     }
-
 }
