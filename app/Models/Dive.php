@@ -27,7 +27,7 @@ class Dive extends Model
     }
 
     function isDiverRegistered($dvr_id,$div_id){
-        return DB::select('select par_cancelled from participate where dvr_licence = ? and div_id = ? ',[$dvr_id,$div_id]);
+        return DB::select('select par_cancelled from PARTICIPATE where dvr_licence = ? and div_id = ? ',[$dvr_id,$div_id]);
     }
 
     public function diveAvailable(){
@@ -36,13 +36,13 @@ class Dive extends Model
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
-        join DIVING_LEVELS on (DIVING_LEVELS.dlv_id = DIVES.dlv_id)
+        join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
         where STATUS.sta_id = 1 and DIV_DATE > SYSDATE()');
     }    
 
     //limited to 30 last
     public function diveFinished(){
-        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
         join STATUS using (STA_ID)
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
@@ -54,7 +54,7 @@ class Dive extends Model
     } 
     //limited to 30 last
     public function diveCancelled(){
-        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_DESC FROM DIVES
         join STATUS using (STA_ID)
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
@@ -64,7 +64,22 @@ class Dive extends Model
         ORDER BY DIV_DATE DESC
         LIMIT 30;');
     } 
+
+    public function directedPlannedDiveList($dvr_id){
+        return DB::select('SELECT DIV_ID, SHP_NAME, SIT_NAME, DLV_DESC, DIV_DATE, DLV_LABEL, (SELECT count(*) FROM PARTICIPATE WHERE PARTICIPATE.DIV_ID = DIVES.DIV_ID AND PAR_CANCELLED = FALSE) COUNT FROM DIVES
+        join SITES using (SIT_ID)
+        join SHIPS using (SHP_ID)
+        join DIVING_LEVELS on (DIVING_LEVELS.DLV_ID = DIVES.DLV_ID)
+        WHERE DVR_LICENCE_DIRECTS =?
+        AND STA_ID = 1
+        ORDER BY DIV_DATE DESC', [$dvr_id]);
+    }
     
+    public function countParticipants($div_id){
+        return DB::select('SELECT count(*) count FROM PARTICIPATE JOIN DIVERS using(DVR_LICENCE) WHERE DIV_ID =?', [$div_id]);
+    }
+
+
     public function getDiversList($div_id){
         return DB:: select('select DVR_NAME,DVR_FIRST_NAME from DIVERS where DVR_LICENCE in (select DVR_LICENCE from PARTICIPATE where DIV_ID=?);',[$div_id]);
     }
@@ -72,6 +87,16 @@ class Dive extends Model
     public function selectUsersDives($dvr_id){
         return DB::select('SELECT DIV_ID FROM PARTICIPATE WHERE DVR_LICENCE =?', [$dvr_id]);
     }
+
+    public static function getParticipants($div_id){
+        $result = DB::select('SELECT DVR_LICENCE, DVR_FIRST_NAME, DVR_NAME, DLV_LABEL, TRL_LABEL, PAR_CANCELLED FROM DIVERS
+        JOIN PARTICIPATE using(DVR_LICENCE) 
+        JOIN TRAINING_LEVELS using (TRL_ID)
+        JOIN DIVING_LEVELS using (DLV_ID)
+        WHERE DIV_ID =?', [$div_id]);
+        return json_decode(json_encode($result),true);
+    }
+
 
     public function showDive($div_id){
         return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE, SIT_ID, SHP_ID FROM DIVES WHERE DIV_ID =?', [$div_id]);
@@ -86,8 +111,8 @@ class Dive extends Model
     }
 
     public function diveCurrentUser($userID){
-        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_DESC from participate pa
-        join dives using (DIV_ID)
+        return DB::select('select shp_name, sit_name, DVR_FIRST_NAME, dvr_name, DIV_DATE, DLV_DESC from PARTICIPATE pa
+        join DIVES using (DIV_ID)
         join SITES using (sit_id)
         join SHIPS using (shp_id)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
@@ -98,6 +123,16 @@ class Dive extends Model
     public function everyDivesTheDiverIsRegisteredIn($dvr_id){
         echo '<script> console.log(' .$dvr_id. '); </script>';
         return DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?',[$dvr_id]);
+    }
+
+    public static function isDiveDirector($div_id){
+        $uid = session('userID');
+        if(is_null($uid))
+        {
+            return -1;
+        }
+        $result = DB:: select('SELECT count(*) COUNT from DIVES where DIV_ID =? AND DVR_LICENCE_DIRECTS = ?;',[$div_id, $uid]);
+        return json_decode(json_encode($result),true)[0]["COUNT"];
     }
 
 }
