@@ -72,5 +72,11 @@ class DiveController extends Controller
         return view('historique',['dives'=>$Usersdives]);
     }
 
+    function getInfos() {
+        $dive = new Dive;
+        
+        //$currentDive = $dive->
+        //return view('info',['dive'=>$currentDive]);
+    }
 
 }

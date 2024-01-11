@@ -65,6 +65,6 @@ Route::get('/users',[UserController::class,'getAllUsers'])->name('users');
 
 Route::post('/update-role/{dvr_licence}', [UserController::class, 'updateRole'])->name('update-role');
 
-
+Route::get('/info',[DiveController::class,'getInfos'])->name('info');
 
 //Route::view('/profile', 'profile');
