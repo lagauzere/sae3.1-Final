@@ -102,4 +102,6 @@ class EditDiveParameters extends Model
     public function getHeadcount($shp_ID){
         return DB::select('SELECT SHP_SEATS FROM ships WHERE SHP_ID = ?', [$shp_ID]);
     }
+
+    
 }
