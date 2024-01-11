@@ -13,8 +13,14 @@ class loginController extends Controller
         $password = $request->input('password');
         $log = new Login;
         $res = $log->selectUser($licence,$password);
+        if($res==null){
+            session()->flash('erreurCode',-1);
+        }
+        else{
         $resName  = $log->selectName($licence);;
+        session()->flash('erreurCode',0);
         session(['userName'=> $resName, 'userID'=> $res]);
+        }
         return view('welcome'); 
       
 }
