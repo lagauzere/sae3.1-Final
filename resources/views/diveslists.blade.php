@@ -95,47 +95,19 @@
                     events: events,
                     eventContent: function(info) {
                         const content = document.createElement('div');
-                        
-                        if(info.event.extendedProps.levelId > DiversLevel[0].DLV_ID ) {
-                            content.style.backgroundColor = '#9F2B68'
+                        if(info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID && info.event.extendedProps.remainingCapacity > 0) {
                             content.innerHTML = `
                                 <div style="cursor: pointer;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
                                     <p>${info.event.extendedProps.boat}</p>
                                     <p>${info.event.extendedProps.site}</p>
                                     <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> Le niveau requis est supérieur au votre </p>
-                                </div>
-                            `;
-                        }
-                        
-                        else if(info.event.extendedProps.remainingCapacity <= 0){
-                            content.style.backgroundColor = 'grey'
-                            content.innerHTML = `
-                                <div style="cursor: pointer;">
-                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
-                                    <p>${info.event.extendedProps.boat}</p>
-                                    <p>${info.event.extendedProps.site}</p>
-                                    <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> Il n'y a plus de place dans cette plongée </p>
-                                </div>
-                            `;
-                        }
-                        else if(info.event.extendedProps.remainingCapacity <= 0){
-                            content.style.backgroundColor = 'grey'
-                            content.innerHTML = `
-                                <div style="cursor: pointer;">
-                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
-                                    <p>${info.event.extendedProps.boat}</p>
-                                    <p>${info.event.extendedProps.site}</p>
-                                    <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> Il n'y a plus de place dans cette plongée </p>
                                 </div>
                             `;
                         }
                         else{
                             content.innerHTML = `
-                                <div style="cursor: pointer;">
+                                <div style="cursor: pointer; background-color: red;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
                                     <p>${info.event.extendedProps.boat}</p>
                                     <p>${info.event.extendedProps.site}</p>
@@ -151,6 +123,8 @@
                     eventClick: function(info) {
                         const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title; 
                         const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
+                        const displayDiversIn = "{{ route('diverlist', ['div_id' => ':selectedDive']) }}".replace(':selectedDive', info.event.title);
+
                         console.log(registerFormAction);
                         console.log(retireFormAction);
                         var modalContent = `
@@ -167,43 +141,44 @@
                             </div>
                             <div class="modal-footer">`
                         var registered = false;
-          
+                        var cancelled = false;
                         divesForDivers.forEach(dive => {
                             if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 0){
-                                modalContent += `<form id="retireForm" action="" method="POST">
-                                                @csrf 
-                                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
-                                                </form>`
-                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                modalContent += `
+                                        <a href="" id="diversList" >Liste des plongeurs</a>
+                                        <form id="retireForm" action="" method="POST">
+                                        @csrf 
+                                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
+                                        </form>`
+                                document.getElementById('dynamic-modal-content').innerHTML = modalContent;
+                                document.getElementById('diversList').href = displayDiversIn;
                                 document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
                                 registered = true;
                             }
                             else if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 1){
-                               
+                                cancelled = true;
                                 registered = true;
                                 modalContent += `<p style= "color:red" > Vous avez déjà annulé la participation à cette plongée</p>`
-                                
                             }
                         })
-                        if(registered==false  && info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID && info.event.extendedProps.remainingCapacity > 0){
+                        if(registered==false && cancelled == false ){
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf`
-                                
-                                    modalContent += `<button type="submit" class="btn btn-primary">S'inscrire</button>`;
+                               
+                                    modalContent +=`<button type="submit" class="btn btn-primary">S'inscrire</button>`
                                     modalContent +=`  </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }
-                        else{
+                        else if(cancelled==true ){
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf <button type="submit" class="btn btn-primary" disabled>S'inscrire</button> </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }
                         
-                        
-
-                        
+                            console.log(registerFormAction);
+                            console.log(retireFormAction);
                             
                         $('.modal').modal('show');
                     }
