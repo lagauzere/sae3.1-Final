@@ -18,9 +18,10 @@ class loginController extends Controller
             session()->flash('erreurCode',-1);
         }
         else{
-        $resName  = $log->selectName($licence);;
+        $resName = $log->selectName($licence);
+        $resLvl = $log->getUserLevel($licence);
         session()->flash('erreurCode',0);
-        session(['userName'=> $resName, 'userID'=> $res]);
+        session(['userName'=> $resName, 'userID'=> $res, 'userLevel'=> $resLvl]);
         }
         return view('welcome'); 
       
