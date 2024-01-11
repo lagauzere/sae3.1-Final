@@ -170,11 +170,6 @@ if (session('userID') == null) {
                         document.getElementById('dynamic-modal-content').innerHTML = modalContent;
                         document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                     }
-                    modalContent += `<form action="info" method="POST">
-                        @csrf
-                        <button type="submit" class="btn btn-primary">Plus d'informations</button>
-                    </form>`;
-                    document.getElementById('dynamic-modal-content').innerHTML = modalContent;
                     $('.modal').modal('show');
                 }
             });

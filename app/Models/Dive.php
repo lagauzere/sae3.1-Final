@@ -146,5 +146,13 @@ class Dive extends Model
         return DB::select('SELECT count(*) as count from PARTICIPATE where DIV_ID =?;',[$div_id]);
     }
 
+    public function getPDFInfo($div_id) {
+        return DB::select('SELECT DIV_DATE, concat(dir.DVR_FIRST_NAME, " ", dir.DVR_NAME) AS DIRECTS, SIT_NAME, (24 - DIV_HEADCOUNT) AS HEADCOUNT, concat(mon.DVR_FIRST_NAME, " ", mon.DVR_NAME) AS MONITORS, DIV_COMMENT FROM DIVES 
+        JOIN DIVERS  dir ON dir.DVR_LICENCE = DIVES.DVR_LICENCE_DIRECTS
+        JOIN DIVERS  mon ON mon.DVR_LICENCE = DIVES.DVR_LICENCE_MONITORS
+        JOIN SITES USING (SIT_ID)
+        WHERE DIV_ID = ?', [$div_id]);
+    }
+
 }
 

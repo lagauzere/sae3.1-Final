@@ -63,7 +63,6 @@ class DiveController extends Controller
 
     }
 
-    //function profile(){
     function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
@@ -72,11 +71,13 @@ class DiveController extends Controller
         return view('historique',['dives'=>$Usersdives]);
     }
 
-    function getInfos() {
+    function getInfos(){
         $dive = new Dive;
-        
+        $div_id = request('div_id');
+        $palanquees = request('palanquees');
+        $res = $dive->getPDFInfo($div_id);
         //$currentDive = $dive->
-        //return view('info',['dive'=>$currentDive]);
+        return view('info',['pdfInfo' => $res, 'palanquees' => $palanquees]);
     }
 
 }
