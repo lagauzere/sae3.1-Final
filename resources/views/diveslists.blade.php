@@ -76,7 +76,8 @@
                     boat: `Bateau: ${dive.SHP_NAME}\n`,
                     site: `Site: ${dive.SIT_NAME}\n`,
                     requireLevel: `Niveau requis: ${dive.DLV_LABEL}`,
-                    levelId : dive.DLV_ID
+                    levelId : dive.DLV_ID,
+                    remainingCapacity: dive.DIV_HEADCOUNT
                 }));
                 
                 
@@ -94,7 +95,7 @@
                     events: events,
                     eventContent: function(info) {
                         const content = document.createElement('div');
-                        if(info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID){
+                        if(info.event.extendedProps.levelId <= DiversLevel[0].DLV_ID && info.event.extendedProps.remainingCapacity > 0) {
                             content.innerHTML = `
                                 <div style="cursor: pointer;">
                                     <strong>Plongée numéro:  ${info.event.title}</strong><br>
