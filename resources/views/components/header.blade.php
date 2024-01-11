@@ -24,6 +24,7 @@
             <a class="navbar-item" href="/diveslists">
                 M'inscrire aux plongées
             </a>
+            <x-director-tab/>
             <a class="navbar-item" href="/historique">
                 Historique de plongées
             </a>
@@ -40,7 +41,7 @@
                 @if(session()->has('userID'))
                 <div style="display: flex;">
                     <p>Nombre de sessions restantes: </p>
-                    <p style="padding-left: 5px;"><x-user-credits :amount="1" /></p>
+                    <p style="padding-left: 5px;"><x-user-credits/></p>
                 </div>
                 @else
                 <p>Connectez-vous : </p>

@@ -66,7 +66,7 @@
                     end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),
                     boat: `Bateau: ${dive.SHP_NAME}\n`,
                     site: `Site: ${dive.SIT_NAME}\n`,
-                    requireLevel: `Niveau requis: ${dive.DLV_DESC}`,
+                    requireLevel: `Niveau requis: ${dive.DLV_LABEL}`,
                 }));
                 
                 

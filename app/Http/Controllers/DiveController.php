@@ -42,6 +42,26 @@ class DiveController extends Controller
 
     }
 
+    function directedPlannedDiveList()
+    {
+        $dvr_id = session('userID');
+        $dive = new Dive;
+
+        $listNum = $dive->directedPlannedDiveList($dvr_id);
+
+        $diveArray = json_decode(json_encode($listNum),true);
+
+        $completeDiveArray=array();
+        
+        
+        foreach($diveArray as $diveNumber) {
+            array_push($completeDiveArray, $diveNumber);
+        }
+        return view('directorDivesList',['dives'=>$completeDiveArray]);
+
+    }
+
+    //function profile(){
     function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
