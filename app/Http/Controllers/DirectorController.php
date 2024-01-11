@@ -6,6 +6,7 @@ use App\Models\Dive;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\DeleteDive;
 
 class DirectorController extends BaseController
 {
@@ -70,6 +71,7 @@ class DirectorController extends BaseController
     }
     
     public function editDivers(Request $request){
+        
         $div_id = $request->input('div_id');
 
         $participants = Dive::getParticipants($div_id);
@@ -78,5 +80,15 @@ class DirectorController extends BaseController
             return view('directorEditDivers',['div_id'=>$div_id, 'participants'=>$participants]);
         }
         return redirect()->route('welcome'); 
+    }
+
+    public function deleteDiver(Request $request){
+        $div_id = $request->input('div_id');
+
+        $deleteDive = new DeleteDive();
+
+        $deleteDive->deleteDive($div_id);
+
+        return redirect('directedplanneddiveslist');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Dive;
 use Illuminate\Http\Request;
+use App\Models\EditDiveParameters;
 
 
 class DiveController extends Controller
@@ -69,5 +70,68 @@ class DiveController extends Controller
         return view('historique',['dives'=>$Usersdives]);
     }
 
+    function creationDive(){
 
+        $minimumLevel = new EditDiveParameters();
+        $boatName = new EditDiveParameters();
+        $siteName = new EditDiveParameters();
+        $directorName = new EditDiveParameters();
+        $driverName = new EditDiveParameters();
+        $monitorName = new EditDiveParameters();
+
+        $minimumLevel = $minimumLevel->divingLevels();
+        $minimumLevelArray = json_decode(json_encode($minimumLevel),true);
+
+        $boatName = $boatName->ships();
+        $boatNameArray = json_decode(json_encode($boatName),true);
+
+        $siteName = $siteName->sites();
+        $siteNameArray = json_decode(json_encode($siteName),true);
+
+        $directorName = $directorName->directors();
+        $directorNameArray = json_decode(json_encode($directorName),true);
+
+        $driverName = $driverName->drivers();
+        $driverNameArray = json_decode(json_encode($driverName),true);
+
+        $monitorName = $monitorName->monitors();
+        $monitorNameArray = json_decode(json_encode($monitorName),true);
+
+        return view('creationDive',[
+        'minimumLevel' => $minimumLevelArray,
+        'boatName' => $boatNameArray,
+        'siteName' => $siteNameArray,
+        'directorName' => $directorNameArray,
+        'driverName' => $driverNameArray,
+        'monitorName' => $monitorNameArray,
+        ]);
+    }
+
+    public function creationDataDives(Request $request) {
+
+        $creationData = new Dive();
+
+        $choiceBoatValue = $request->input('choiceBoat');
+        $choiceSiteValue = $request->input('choiceSite');
+        $choiceDirectorValue = $request->input('choiceDirector');
+        $choiceDriverValue = $request->input('choiceDriver');
+        $choiceMonitorValue = $request->input('choiceMonitor');
+        $choiceDivingLevelValue = $request->input('choiceDivingLevel');
+        $choiceHours = $request->input('choiceHours');
+        $choiceDate = $request->input('date');
+        $comment = $request->input('comment');
+
+        $shipHeadcountResult = $creationData->getHeadcount($choiceBoatValue);
+        $shipHeadcountResultArray = json_decode(json_encode($shipHeadcountResult),true);
+        $shipHeadcount = implode($shipHeadcountResultArray[0]);
+        $date = $choiceDate.' '.$choiceHours;
+
+        $idResult = $creationData->getMaxDiveID();
+        $idResultDD = json_decode(json_encode($idResult),true);
+        $id = implode($idResultDD[0]);
+        
+        $creationData->createDive($id, $choiceBoatValue, $choiceSiteValue, $choiceDirectorValue, $choiceDriverValue, $choiceMonitorValue, $choiceDivingLevelValue, $date, $shipHeadcount, $comment);
+
+        return redirect('/');
+    }
 }

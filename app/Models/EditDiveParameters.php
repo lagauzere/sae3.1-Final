@@ -12,7 +12,7 @@ class EditDiveParameters extends Model
     use HasFactory;
 
     public function dive($id){
-        return DB::select("select DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_LABEL, 
+        return DB::select("select DIV_ID, SHP_SEATS,SHP_NAME, STA_LABEL, SIT_NAME, SIT_DEPTH, DLV_LABEL, 
         DIV_DATE, DLV_DESC, concat(DIVERS.DVR_NAME,' ',DIVERS.DVR_FIRST_NAME) as DIVER, 
         DVR_LICENCE_MONITORS, DVR_LICENCE_DIRECTS, DVR_LICENCE_DRIVES, DIV_HEADCOUNT
         from DIVES
@@ -49,11 +49,11 @@ class EditDiveParameters extends Model
     }
 
     public function sites(){
-        return DB::select("select SIT_NAME, SIT_ID from SITES");
+        return DB::select("select SIT_NAME, SIT_ID, SIT_DEPTH from SITES");
     }
 
     public function ships(){
-        return DB::select("select SHP_NAME, SHP_ID from SHIPS");
+        return DB::select("select SHP_NAME, SHP_ID, SHP_SEATS from SHIPS");
     }
 
     public function monitors(){
@@ -97,6 +97,10 @@ class EditDiveParameters extends Model
 
     public function updateDiveDivingLevel($diveId, $choiceDivingLevelValue){
         return DB::update("update DIVES set DLV_ID = $choiceDivingLevelValue where DIV_ID = $diveId");
+    }
+
+    public function getHeadcount($shp_ID){
+        return DB::select('SELECT SHP_SEATS FROM ships WHERE SHP_ID = ?', [$shp_ID]);
     }
 
     
