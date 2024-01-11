@@ -151,6 +151,8 @@
                     eventClick: function(info) {
                         const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title; 
                         const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
+                        const displayDiversIn = "{{ route('diverlist', ['div_id' => ':selectedDive']) }}".replace(':selectedDive', info.event.title);
+
                         console.log(registerFormAction);
                         console.log(retireFormAction);
                         var modalContent = `
@@ -170,11 +172,14 @@
           
                         divesForDivers.forEach(dive => {
                             if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 0){
-                                modalContent += `<form id="retireForm" action="" method="POST">
-                                                @csrf 
-                                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
-                                                </form>`
-                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                modalContent += `
+                                        <a href="" id="diversList" >Liste des plongeurs</a>
+                                        <form id="retireForm" action="" method="POST">
+                                        @csrf 
+                                        <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
+                                        </form>`
+                                document.getElementById('dynamic-modal-content').innerHTML = modalContent;
+                                document.getElementById('diversList').href = displayDiversIn;
                                 document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
                                 registered = true;
                             }

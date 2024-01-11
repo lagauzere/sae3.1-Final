@@ -33,8 +33,7 @@ class UserController extends Controller
         $licence = session('userID');
         $user = new user;
         $result = $user->checkRegistration($licence,$div_id);
-
-         return view('test',['result'=>$result]);
+         return view('divelists',['result'=>$result]);
         
         }
 

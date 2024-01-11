@@ -5,7 +5,7 @@
 <nav class="navbar has-background-link-light is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
         <a class="navbar-item" href="/">
-            <img src="/resources/image/logo.png" width="112" height="28">
+            <img style="filter: invert(1);" src="https://i0.wp.com/www.carantec-nautisme.com/wp-content/uploads/2017/05/logo-acn-ORANGE.png?resize=300%2C57&ssl=1" width="112" height="28">
         </a>
 
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">

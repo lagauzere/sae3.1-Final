@@ -41,17 +41,17 @@ use App\Models\Dive;
                 {{$p['DLV_LABEL']}}&nbsp
                 </th>
                 <th>
-                {{$p['DLV_LABEL']}}&nbsp
+                {{$p['TRL_LABEL']}}&nbsp
                 </th>
                 <th>
-                <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
-                    @csrf 
-                    <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
-                    <input name="div_id" type="hidden" value="{{$div_id}}"/>
-                    <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
-                    <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
-                </form>
-                </th>
+                    <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
+                        @csrf 
+                        <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
+                        <input name="div_id" type="hidden" value="{{$div_id}}"/>
+                        <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
+                        <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
+                    </form>
+                    
                 <th>
                 <form action="{{ route('handle-form-remove-participation') }}" method="POST">
                     @csrf 
@@ -60,13 +60,83 @@ use App\Models\Dive;
                     <button type="submit">SUPPRIMER</button>
                 </form>
                 </th>
+                <th>
+                    @if($p['PAR_CANCELLED']) @else
+                    <p>Palanquée : </p>
+                    @endif
+                </th>
+                <th>
+                    @if($p['PAR_CANCELLED']) @else
+                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
+                    @endif
+                </th>
+                
             </tr>
         @endforeach
         </table>
+        <div id="palanquee-error">
+        </div>
     <x-footer/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    const userLicence2PalNum = {};
+    let numPeople;
+    const userLicence2Diver = {};
+
+    function updatePalanqueeError() {
+        let numDivers = Object.keys(userLicence2PalNum).length;
+        let txtHtml = '';
+        //not everyone in a palanquee
+        if (numDivers != numPeople) txtHtml += '<div class="error-line">Tous les plongeurs ne sont pas dans une palanquée</div>';
+        //fill a palNum2Users to easely check each palanquee
+        let palNum2Users = {};
+        for (var userLicence in userLicence2PalNum)
+        {
+            let palNum = userLicence2PalNum[userLicence];
+            if (!(palNum in palNum2Users)) palNum2Users[palNum] = [];
+            palNum2Users[palNum].push(userLicence2Diver[userLicence]);
+        }
+        console.log(palNum2Users);
+
+        //check for each palanquee
+        for (var palNum in palNum2Users)
+        {
+            
+        }
+        $('#palanquee-error').html(txtHtml);
+    }
+    function fillSelects() {
+        let txtHtml = '<option value=0>---</option>';
+        for (let i = 1; i <= numPeople/2; i++) {
+            txtHtml += '<option value='+i+'>n°'+i+'</option>';
+            
+        }
+        $('.palanquee-select').html(txtHtml);
+    }
+    function handlePalanqueeChange(p, selectedValue) {
+        let user = JSON.parse(p);
+        const licence = user['DVR_LICENCE'];  
+        userLicence2PalNum[licence] = selectedValue;
+        if (selectedValue == 0) delete userLicence2PalNum[licence];
+
+        updatePalanqueeError();
+    }
     $(document).ready(function() {
+        numPeople = 0;
+        const participants = @json($participants);
+
+        for (let i = 0; i<participants.length; i++)
+        {
+            let person = participants[i];
+            if (person['PAR_CANCELLED']==0){
+                numPeople+=1; 
+                userLicence2Diver[person['DVR_LICENCE']]=person;
+            }
+            
+        }
+        
+        fillSelects();
+
         $('#searchInput').on('keyup', function() {
             let query = $(this).val().trim();
 
@@ -91,9 +161,6 @@ use App\Models\Dive;
             let resultsHtml = '';
 
             if (people.length > 0) {
-                
-                
-                
                 people.forEach(function(person) {
                     resultsHtml += "<tr>";
                     resultsHtml += '<th>' + person.DVR_FIRST_NAME +' ' + person.DVR_NAME + '</th><th>' + person.DVR_LICENCE + '</th>';
@@ -113,6 +180,7 @@ use App\Models\Dive;
 
             $('#searchResults').html(resultsHtml);
         }
+
     });
     </script>
 </body>
