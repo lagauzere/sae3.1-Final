@@ -16,6 +16,7 @@ class Dive extends Model
         $array = json_decode(json_encode($count),true);
         if($array[0]['count'] ==0){
             DB::insert('INSERT INTO PARTICIPATE (DVR_LICENCE,DIV_ID,PAR_CANCELLED) VALUES (?, ?, ?)', [$dvr_id,$div_id,0]);
+            DB::update('UPDATE DIVES SET DIV_HEADCOUNT = (SELECT DIV_HEADCOUNT FROM DIVES WHERE DIV_ID = ? ) -1 WHERE DIV_ID = ? ',[$div_id,$div_id]);
         }
         else{
             return "Vous vous êtes déjà inscrit et avez annuler votre participation à cette plongée, vous ne pouvez pas vous réinscrire";
@@ -25,6 +26,7 @@ class Dive extends Model
     function retireFromTimeSlot($dvr_id, $div_id){
 
         DB::update('UPDATE PARTICIPATE SET PAR_CANCELLED= 1 WHERE DVR_LICENCE = ? and DIV_ID = ?',[$dvr_id,$div_id]);
+        DB::update('UPDATE DIVES SET DIV_HEADCOUNT = (SELECT DIV_HEADCOUNT FROM DIVES WHERE DIV_ID = ? ) +1 WHERE DIV_ID = ? ',[$div_id,$div_id]);
     }
 
     function isDiverRegistered($dvr_id,$div_id){
@@ -32,7 +34,7 @@ class Dive extends Model
     }
 
     public function diveAvailable(){
-        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_LABEL, DIVING_LEVELS.DLV_ID FROM DIVES
+        return DB::select('SELECT DIV_ID, SHP_NAME, STA_LABEL, SIT_NAME, DLV_DESC, DVR_NAME, DVR_FIRST_NAME, DIV_DATE, DLV_LABEL, DIVING_LEVELS.DLV_ID, DIV_HEADCOUNT FROM DIVES
         join STATUS using (STA_ID)
         join SITES using (SIT_ID)
         join SHIPS using (SHP_ID)
@@ -121,10 +123,8 @@ class Dive extends Model
         where pa.dvr_licence = ?', [$userID]);
     }
 
-    public function everyDivesTheDiverIsRegisteredIn($dvr_id){
-        
-        
-    $result = DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?', [$dvr_id]);
+    public function everyDivesTheDiverIsRegisteredIn($dvr_id){        
+        $result = DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?', [$dvr_id]);
     return $result;
     }
 

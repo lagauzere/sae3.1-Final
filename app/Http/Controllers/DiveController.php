@@ -19,7 +19,7 @@ class DiveController extends Controller
         $userLevel = session()->get('userLevel');
         $everyDivesRegistered = $DiverModel->everyDivesTheDiverIsRegisteredIn($user);
         $everyDivesRegisteredArray = json_decode(json_encode($everyDivesRegistered),true);
-       
+        
         return view('diveslists', [
             'dives' => $diveAvailableArray,
             'everyDivesRegistered' => $everyDivesRegisteredArray,
