@@ -129,4 +129,9 @@ class User extends Authenticatable
         return  json_decode(json_encode(DB::select('select DVR_ISADMIN from DIVERS where DVR_LICENCE=?' ,[session('userID')])),true)[0]['DVR_CANDIRECT'];
     }
 
+    public static function isUnregister($div_id){
+
+        $res= json_decode(json_encode(DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? and PAR_CANCELLED=1 ' ,[session('userID'),$div_id])),true)[0]['DVR_CANDIRECT'];
+    }
+
 }
