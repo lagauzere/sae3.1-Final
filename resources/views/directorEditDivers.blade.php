@@ -61,11 +61,16 @@ use App\Models\Dive;
                 </form>
                 </th>
                 <th>
+                    @if($p['PAR_CANCELLED']) @else
                     <p>Palanquée : </p>
+                    @endif
                 </th>
                 <th>
-                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }};', this.value)"></select>
+                    @if($p['PAR_CANCELLED']) @else
+                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
+                    @endif
                 </th>
+                
             </tr>
         @endforeach
         </table>
@@ -74,29 +79,62 @@ use App\Models\Dive;
     <x-footer/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    const pals = {}
+    const userLicence2PalNum = {};
+    let numPeople;
+    const userLicence2Diver = {};
+
     function updatePalanqueeError() {
-        return 0;
+        let numDivers = Object.keys(userLicence2PalNum).length;
+        let txtHtml = '';
+        //not everyone in a palanquee
+        if (numDivers != numPeople) txtHtml += '<div class="error-line">Tous les plongeurs ne sont pas dans une palanquée</div>';
+        //fill a palNum2Users to easely check each palanquee
+        let palNum2Users = {};
+        for (var userLicence in userLicence2PalNum)
+        {
+            let palNum = userLicence2PalNum[userLicence];
+            if (!(palNum in palNum2Users)) palNum2Users[palNum] = [];
+            palNum2Users[palNum].push(userLicence2Diver[userLicence]);
+        }
+        console.log(palNum2Users);
+
+        //check for each palanquee
+        for (var palNum in palNum2Users)
+        {
+            
+        }
+        $('#palanquee-error').html(txtHtml);
     }
     function fillSelects() {
-        const numPeople = {{count($participants)}};
-        var txtHtml = '<option value=0>---</option>';
+        let txtHtml = '<option value=0>---</option>';
         for (let i = 1; i <= numPeople/2; i++) {
             txtHtml += '<option value='+i+'>n°'+i+'</option>';
             
         }
         $('.palanquee-select').html(txtHtml);
     }
-    function handlePalanqueeChange(user, selectedValue) {
-        // Log the selected value
-        console.log('Selected Value:', selectedValue);
-        console.log(user);
-        const licence = user['DVR_LICENCE'];
-        pals[licence] = selectedValue;
-        if (selectedValue == 0) delete pals[licence];
-        console.log(pals);
+    function handlePalanqueeChange(p, selectedValue) {
+        let user = JSON.parse(p);
+        const licence = user['DVR_LICENCE'];  
+        userLicence2PalNum[licence] = selectedValue;
+        if (selectedValue == 0) delete userLicence2PalNum[licence];
+
+        updatePalanqueeError();
     }
     $(document).ready(function() {
+        numPeople = 0;
+        const participants = @json($participants);
+
+        for (let i = 0; i<participants.length; i++)
+        {
+            let person = participants[i];
+            if (person['PAR_CANCELLED']==0){
+                numPeople+=1; 
+                userLicence2Diver[person['DVR_LICENCE']]=person;
+            }
+            
+        }
+        
         fillSelects();
 
         $('#searchInput').on('keyup', function() {
