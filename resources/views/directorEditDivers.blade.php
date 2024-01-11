@@ -64,7 +64,7 @@ use App\Models\Dive;
                     <p>Palanquée : </p>
                 </th>
                 <th>
-                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{$p['DVR_LICENCE']}}', this.value)"></select>
+                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }};', this.value)"></select>
                 </th>
             </tr>
         @endforeach
@@ -75,6 +75,9 @@ use App\Models\Dive;
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     const pals = {}
+    function updatePalanqueeError() {
+        return 0;
+    }
     function fillSelects() {
         const numPeople = {{count($participants)}};
         var txtHtml = '<option value=0>---</option>';
@@ -84,10 +87,11 @@ use App\Models\Dive;
         }
         $('.palanquee-select').html(txtHtml);
     }
-    function handlePalanqueeChange(licence, selectedValue) {
+    function handlePalanqueeChange(user, selectedValue) {
         // Log the selected value
         console.log('Selected Value:', selectedValue);
-        console.log('Licence :', licence);
+        console.log(user);
+        const licence = user['DVR_LICENCE'];
         pals[licence] = selectedValue;
         if (selectedValue == 0) delete pals[licence];
         console.log(pals);
