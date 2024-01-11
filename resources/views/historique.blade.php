@@ -51,9 +51,19 @@
                     $divesArray = json_decode(json_encode($dives), true);
                     foreach ($divesArray as $dive) {
                     ?>
-                        <div class="box has-background-light">
+                        <div class="box has-background-light"> 
+                          
                             <?php
-                                echo "<p>{$dive['DIV_DATE']}<br><strong>Site: </strong>{$dive['sit_name']}  <strong>Encadré par: </strong>{$dive['DVR_FIRST_NAME']} {$dive['dvr_name']}  <strong>Embarcation: </strong>{$dive['shp_name']}<br><strong>Niveau requis: </strong>{$dive['DLV_LABEL']}</p>";
+                            if($dive['STA_ID'] == 2){ 
+                                echo "<strong style='color: green;'> <i> La plongée a déjà été effectuée </i> </strong>";
+                            }
+                            else if($dive['STA_ID'] == 3){
+                                echo "<strong style='color: red;'> <i> La plongée a été annulée </i> <strong>";
+                            }
+                                echo "<p>{$dive['DIV_DATE']}<br><strong>Site: </strong>{$dive['sit_name']}  
+                                <strong>Encadré par: </strong>{$dive['DVR_FIRST_NAME']} {$dive['dvr_name']}  
+                                <strong>Embarcation: </strong>{$dive['shp_name']}<br>
+                                <strong>Niveau requis: </strong>{$dive['DLV_DESC']}</p>";
                             ?>
                         </div>
                     <?php
