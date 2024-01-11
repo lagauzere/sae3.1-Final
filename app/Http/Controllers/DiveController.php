@@ -37,6 +37,7 @@ class DiveController extends Controller
 
         $diverArray= json_decode(json_encode($list),true);
 
+        
         return view('diverList',['divers'=>$diverArray]);
         
 
