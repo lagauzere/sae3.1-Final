@@ -35,7 +35,7 @@
         $DiversDives = json_encode($everyDivesRegistered);
     ?>
 
-    <div id='calendar-container' wire:ignore data-dives-for-divers="{{ json_encode($DiversDives) }}">
+    <div style="padding: 20px;" id='calendar-container' wire:ignore data-dives-for-divers="{{ json_encode($DiversDives) }}">
         <div id='calendar'></div>
     </div>
 
