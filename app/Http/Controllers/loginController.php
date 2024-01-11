@@ -23,6 +23,7 @@ class loginController extends Controller
         session()->flash('erreurCode',0);
         session(['userName'=> $resName, 'userID'=> $res, 'userLevel'=> $resLvl]);
         }
+
         return view('welcome'); 
       
 }
