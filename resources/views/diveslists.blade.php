@@ -68,7 +68,7 @@
                 const divesData = <?php echo $AllDives; ?>;
                 const divesForDivers = <?php echo $DiversDives; ?>;
                 const DiversLevel = <?php echo $LevelOfDiver; ?>;
-                console.log(DiversLevel);
+         
                 const events = divesData.map((dive) => ({
                     title: dive.DIV_ID,
                     start: new Date(dive.DIV_DATE),
@@ -104,7 +104,7 @@
                                     <p>${info.event.extendedProps.boat}</p>
                                     <p>${info.event.extendedProps.site}</p>
                                     <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> Le niveau requis est supérieur au votre </p>
+                                    <strong> Le niveau requis est supérieur au votre </strong>
                                 </div>
                             `;
                         }
@@ -116,7 +116,7 @@
                                     <p>${info.event.extendedProps.boat}</p>
                                     <p>${info.event.extendedProps.site}</p>
                                     <p>${info.event.extendedProps.requireLevel}</p>
-                                    <p> Il n'y a plus de place dans cette plongée </p>
+                                    <strong> Il n'y a plus de place dans cette plongée </strong>
                                 </div>
                             `;
                         }
@@ -140,8 +140,7 @@
                         const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
                         const displayDiversIn = "{{ route('diverlist', ['div_id' => ':selectedDive']) }}".replace(':selectedDive', info.event.title);
 
-                        console.log(registerFormAction);
-                        console.log(retireFormAction);
+                   
                         var modalContent = `
                             <div class="modal-header">
                                 <h5 class="modal-title"> Plongée numéro: ${info.event.title} </h5>
@@ -176,7 +175,20 @@
                                 modalContent += `<p style= "color:red" > Vous avez déjà annulé la participation à cette plongée</p>`
                             }
                         })
-                        if(registered==false && cancelled == false ){
+                        
+                        if(cancelled==true || info.event.extendedProps.levelId > DiversLevel[0].DLV_ID || info.event.extendedProps.remainingCapacity == 0){
+                            console.log("disable");
+                            modalContent += `<form id="registerForm" action="" method="POST">
+                                    @csrf <button type="submit" class="btn btn-primary" disabled>S'inscrire</button> </form>`
+                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
+                        }
+                        else if(registered == true ){
+                            console.log("rien");
+                            modalContent += ``;
+                        }
+                        else if(registered==false && cancelled == false ){
+                            console.log("s'inscrire");
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf`
                                
@@ -185,15 +197,9 @@
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }
-                        else if(cancelled==true ){
-                            modalContent += `<form id="registerForm" action="" method="POST">
-                                    @csrf <button type="submit" class="btn btn-primary" disabled>S'inscrire</button> </form>`
-                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
-                                document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
-                        }
+                       
                         
-                            console.log(registerFormAction);
-                            console.log(retireFormAction);
+                           
                             
                         $('.modal').modal('show');
                     }
