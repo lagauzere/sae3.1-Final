@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css"/>
-    <link rel="stylesheet" href="/resources/css/app.css"></link>
+    <link rel="stylesheet" href="/resources/css/app.css"/>
     <style>
         html {
             scroll-behavior: smooth;
@@ -27,11 +27,15 @@
     <button type="button" onclick="displayText('choiceBoat')">Modifier</button>  
         <select style="display:none" id="choiceBoat" name="choiceBoat" default="{{ $divesparameters[0]['SHP_NAME'] }}">
             @foreach($boatName as $boat)
-                @if(($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"]) <= $boat['SHP_SEATS'])
+                @if(($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"]) + 2 <= $boat['SHP_SEATS'])
                 <option value="{{ $boat['SHP_ID'] }}" @if($boat['SHP_NAME'] == $divesparameters[0]['SHP_NAME']) selected @endif>{{ $boat['SHP_NAME'] }} ({{ $boat['SHP_SEATS']}} places)</option>
                 @endif
             @endforeach
         </select>
+    </h1>
+
+    <h1>
+        Nombre de personne présente sur le bateau : {{ ($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"] + 2) }}
     </h1>
 
     <h2> Site de la plongée : {{ $divesparameters[0]["SIT_NAME"] }} ({{ $divesparameters[0]["SIT_DEPTH"]}} mètres de profondeur)  
