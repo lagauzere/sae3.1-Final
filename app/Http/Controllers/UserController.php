@@ -18,4 +18,12 @@ class UserController extends Controller
         return $remainingCredits;
     }
 
+    public function searchPeople(Request $request)
+    {
+        $query = $request->input('query');
+        // Perform a database query to fetch people matching the search query
+        $people = User::getPeopleLike($query);
+
+        return response()->json($people);
+    }
 }

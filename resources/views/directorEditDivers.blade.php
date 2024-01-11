@@ -18,8 +18,11 @@
 <body>
     <x-header/>
         <h1>Plongée n°{{ $div_id }}</h1>
+        <h2>Ajouter participant :</h2>
+        <input type="text" id="searchInput" placeholder="Rechercher une personne...">
+        <ul id="searchResults"></ul>
+
         <h2>Modifier les adhérents de la plongée</h2>
-        {{var_dump($participants)}}
         <table>
         @foreach($participants as $p)
             <tr><!-- maybe in red when cancelled -->
@@ -46,8 +49,57 @@
                     <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
                 </form>
                 </th>
+                <th>
+                <form action="{{ route('handle-form-remove-participation') }}" method="POST">
+                    @csrf 
+                    <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
+                    <input name="div_id" type="hidden" value="{{$div_id}}"/>
+                    <button type="submit">SUPPRIMER</button>
+                </form>
+                </th>
             </tr>
         @endforeach
         </table>
     <x-footer/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        $('#searchInput').on('keyup', function() {
+            let query = $(this).val().trim();
+
+            if (query.length > 0) {
+                $.ajax({
+                    url: '/search-people',
+                    method: 'GET',
+                    data: { query: query },
+                    success: function(response) {
+                        displayResults(response);
+                    },
+                    error: function(error) {
+                        console.error('Error searching people like '+query+' :', error);
+                    }
+                });
+            } else {
+                $('#searchResults').empty();
+            }
+        });
+
+        function displayResults(people) {
+            let resultsHtml = '';
+
+            if (people.length > 0) {
+                resultsHtml += '<form action="{{ route('handle-form-add-participation') }}" method="POST">';
+                people.forEach(function(person) {
+                    resultsHtml += '<button type="submit">inscrire</button>';
+                    resultsHtml += '<li>' + person.DVR_FIRST_NAME +' ' + person.DVR_NAME + ' - ' + person.DVR_LICENCE + '</li>';
+                });
+                resultsHtml += '</form>';
+            } else {
+                resultsHtml = '<li>Aucun résultat.</li>';
+            }
+
+            $('#searchResults').html(resultsHtml);
+        }
+    });
+    </script>
 </body>

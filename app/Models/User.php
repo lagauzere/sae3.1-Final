@@ -89,4 +89,14 @@ class User extends Authenticatable
         //dd($uid,$div_id, $state);
         return DB::update("update PARTICIPATE set PAR_CANCELLED = ? where DIV_ID = ? AND DVR_LICENCE = ?",[$state,$div_id,$uid]);
     }
+
+    public static function getPeopleLike($name)
+    {
+        $result = DB::select('select DVR_FIRST_NAME, DVR_NAME, DVR_LICENCE from DIVERS where UPPER(CONCAT(DVR_FIRST_NAME," ",DVR_NAME)) LIKE UPPER(CONCAT("%",?,"%")) LIMIT 10',[$name]);
+        return json_decode(json_encode($result),true);
+    }
+    public static function removeParticipation($uid,$div_id)
+    {
+        return DB::delete("DELETE FROM  PARTICIPATE where DIV_ID = ? AND DVR_LICENCE = ?",[$div_id,$uid]);
+    }
 }

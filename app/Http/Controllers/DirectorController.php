@@ -49,6 +49,27 @@ class DirectorController extends BaseController
         return redirect()->back();
     }
 
+    public function handleFormAddParticipationSubmission(Request $request)
+    {
+        $uid = $request->input('uid');
+        $div_id = $request->input('div_id');
+        $wanted_state = $request->input('wanted_state');
+        
+        User::updateParticipationState($uid, $div_id, $wanted_state);
+        
+        return redirect()->back();
+    }
+
+    public function handleFormRemoveParticipationSubmission(Request $request)
+    {
+        $uid = $request->input('uid');
+        $div_id = $request->input('div_id');
+        
+        User::removeParticipation($uid, $div_id);
+        
+        return redirect()->back();
+    }
+    
     public function editDivers(){
         $div_id = 1;
         
