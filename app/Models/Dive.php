@@ -121,8 +121,10 @@ class Dive extends Model
     }
 
     public function everyDivesTheDiverIsRegisteredIn($dvr_id){
-        echo '<script> console.log(' .$dvr_id. '); </script>';
-        return DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?',[$dvr_id]);
+        
+        
+    $result = DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?', [$dvr_id]);
+    return $result;
     }
 
     public static function isDiveDirector($div_id){

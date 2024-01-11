@@ -12,6 +12,7 @@ class loginController extends Controller
         $licence = $request->input('licence');
         $password = $request->input('password');
         $log = new Login;
+
         $res = $log->selectUser($licence,$password);
         if($res==null){
             session()->flash('erreurCode',-1);

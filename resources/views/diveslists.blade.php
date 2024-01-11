@@ -15,8 +15,6 @@
 
     <title>Liste des plongées disponibles</title>
     @livewireStyles
-
-    <!-- Styles -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
@@ -25,7 +23,6 @@
         html {
             scroll-behavior: smooth;
         }
-
         body {
             padding-top: 60px;
         }
@@ -41,7 +38,7 @@
         $DiversDives = json_encode($everyDivesRegistered);
     ?>
 
-    <div id='calendar-container' wire:ignore data-dives-for-divers="{{ json_encode($DiversDives) }}">
+    <div id='calendar-container'>
         <div id='calendar'></div>
     </div>
 
@@ -54,7 +51,7 @@
             </div>
         </div>
     </div>
-
+        
     @push('scripts')
    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -67,7 +64,7 @@
                 const calendarEl = document.getElementById('calendar');  
                 const divesData = <?php echo $AllDives; ?>;
                 const divesForDivers = <?php echo $DiversDives; ?>;
-                
+                console.table(divesForDivers);
                 const events = divesData.map((dive) => ({
                     title: dive.DIV_ID,
                     start: new Date(dive.DIV_DATE),
@@ -105,9 +102,10 @@
                         };
                     },
                     eventClick: function(info) {
-                        const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
                         const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title; 
-                        
+                        const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
+                        console.log(registerFormAction);
+                        console.log(retireFormAction);
                         var modalContent = `
                             <div class="modal-header">
                                 <h5 class="modal-title"> Plongée numéro: ${info.event.title} </h5>
@@ -122,22 +120,35 @@
                                 <p>${info.event.extendedProps.requireLevel}</p>
                             </div>
                             <div class="modal-footer">`
-                            
-                                    modalContent += `<form id="retireForm" action="" method="POST">
-                                    @csrf 
-                                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
-                                    </form>`
-                                    document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
-                                    document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
-                              
-                            
-                                modalContent += `<form id="registerForm" action="" method="POST">
+                        var registered = false;
+                        divesForDivers.forEach(dive => {
+                            if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 0){
+                                modalContent += `<form id="retireForm" action="" method="POST">
+                                                @csrf 
+                                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
+                                                </form>`
+                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
+                                registered = true;
+                            }
+                            else if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 1){
+                                modalContent += `<p style= "color:red" > Vous avez déjà annulé la participation à cette plongée</p>`
+                            }
+                        })
+                        if(registered==false){
+                            modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-primary">S'inscrire</button>
                                 </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
-                                              
+                        }
+                        
+
+                        
+                            console.log(registerFormAction);
+                            console.log(retireFormAction);
+                            
                         $('.modal').modal('show');
                     }
                 });
