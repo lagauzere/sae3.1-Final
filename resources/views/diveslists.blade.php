@@ -149,14 +149,23 @@
                                 registered = true;
                             }
                             else if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 1){
+                                registered = true;
+
                                 modalContent += `<p style= "color:red" > Vous avez déjà annulé la participation à cette plongée</p>`
                             }
                         })
                         if(registered==false){
                             modalContent += `<form id="registerForm" action="" method="POST">
-                                    @csrf
-                                    <button type="submit" class="btn btn-primary">S'inscrire</button>
-                                </form>`
+                                    @csrf`
+                               
+                                    modalContent +=`<button type="submit" class="btn btn-primary">S'inscrire</button>`
+                                    modalContent +=`  </form>`
+                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
+                        }
+                        else if(registered==true ){
+                            modalContent += `<form id="registerForm" action="" method="POST">
+                                    @csrf <button type="submit" class="btn btn-primary" disabled>S'inscrire</button> </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }

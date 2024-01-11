@@ -14,11 +14,16 @@ class loginController extends Controller
         $log = new Login;
 
         $res = $log->selectUser($licence,$password);
-        $resName  = $log->selectName($licence);
-        $userLevel = $log->getUserLevel($licence);
-       
-        session(['userName'=> $resName, 'userID'=> $res,'userLevel'=>$userLevel]);
-        return view('welcome');     
+        if($res==null){
+            session()->flash('erreurCode',-1);
+        }
+        else{
+        $resName  = $log->selectName($licence);;
+        session()->flash('erreurCode',0);
+        session(['userName'=> $resName, 'userID'=> $res]);
+        }
+        return view('welcome'); 
+      
 }
 
 public function Disconnection(){
