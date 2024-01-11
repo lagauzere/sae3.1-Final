@@ -26,6 +26,10 @@ class Login extends Model
     } else {
         return null;
     }
-}
+    }
+
+    public function getUserLevel($licence){
+        return DB::select('select DLV_ID from DIVERS where DVR_LICENCE = ?',[$licence]);
+    }
 
 }
