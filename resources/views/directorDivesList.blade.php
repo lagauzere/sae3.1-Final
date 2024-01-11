@@ -47,6 +47,7 @@ use App\Models\User;
             const divesData = <?php echo $test; ?>;
 
             const events = divesData.map((dive) => ({
+                div_id: dive.DIV_ID,
                 title: "Plongée numéro: " + dive.DIV_ID,
                 start: new Date(dive.DIV_DATE),
                 end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),
@@ -83,7 +84,26 @@ use App\Models\User;
                     };
                 },
                 eventClick: function(info) {
-                    alert('Event: ' + info.event.title);
+                    const form = document.createElement('form');
+        
+                    form.action = "{{ route('edit-dive') }}";
+                    form.method = 'POST';
+
+                    const csrfTokenInput = document.createElement('input');
+                    csrfTokenInput.type = 'hidden';
+                    csrfTokenInput.name = '_token';
+                    csrfTokenInput.value = '{{ csrf_token() }}';
+
+                    const inputValueInput = document.createElement('input');
+                    inputValueInput.type = 'hidden';
+                    inputValueInput.name = 'div_id';
+                    inputValueInput.value = info.event.extendedProps.div_id;
+
+                    form.appendChild(csrfTokenInput);
+                    form.appendChild(inputValueInput);
+
+                    document.body.appendChild(form);
+                    form.submit();
                 }
             });
             calendar.render();

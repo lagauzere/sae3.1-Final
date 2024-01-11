@@ -46,7 +46,7 @@ Route::get('/profile',[DiveController::class,'profile']);
 
 Route::post('/changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
 
-Route::get('/directorDive', [DirectorController::class,'editDivers']);
+Route::post('/directorDive', [DirectorController::class,'editDivers'])->name('edit-dive');
 
 Route::post('/handle-form-change-participation-state', [DirectorController::class,'handleFormChangeParticipationStateSubmission'])->name('handle-form-change-participation-state');
 

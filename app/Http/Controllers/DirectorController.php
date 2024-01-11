@@ -46,7 +46,7 @@ class DirectorController extends BaseController
         
         User::updateParticipationState($uid, $div_id, $wanted_state);
         
-        return redirect()->back();
+        return $this->editDivers($request);
     }
 
     public function handleFormAddParticipationSubmission(Request $request)
@@ -56,7 +56,7 @@ class DirectorController extends BaseController
         
         User::addParticipation($uid, $div_id);
         
-        return redirect()->back();
+        return $this->editDivers($request);
     }
 
     public function handleFormRemoveParticipationSubmission(Request $request)
@@ -66,12 +66,12 @@ class DirectorController extends BaseController
         
         User::removeParticipation($uid, $div_id);
         
-        return redirect()->back();
+        return $this->editDivers($request);
     }
     
     public function editDivers(Request $request){
         $div_id = $request->input('div_id');
-        
+
         $participants = Dive::getParticipants($div_id);
 
         if(Dive::isDiveDirector($div_id)){
