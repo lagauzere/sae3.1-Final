@@ -113,9 +113,9 @@ class User extends Authenticatable
     }
 
 
-    public function updateUserStatus($pilot,$manager,$director,$dvr_licence){
+    public function updateUserStatus($pilot,$manager,$director, $isAdmin, $dvr_licence){
 
-        DB::update('UPDATE DIVERS SET DVR_CANDRIVE=?,DVR_CANMONITOR=?,DVR_CANDIRECT=? WHERE DVR_LICENCE=?',[$pilot,$manager,$director,$dvr_licence]);
+        DB::update('UPDATE DIVERS SET DVR_CANDRIVE=?,DVR_CANMONITOR=?,DVR_CANDIRECT=? , DVR_ISADMIN=? WHERE DVR_LICENCE=?',[$pilot,$manager,$director,$isAdmin,$dvr_licence]);
 
     }
 

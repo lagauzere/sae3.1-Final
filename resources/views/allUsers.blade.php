@@ -1,17 +1,3 @@
-<?php
-     use App\Models\User;
-
-    if(session('userID')==null  ){
-        abort(404);
-    }
-    elseif(User::isAdmin()==0){
-        abort(404);
-    }
-?>
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,8 +25,9 @@
                     <th><abbr title="Licence">Licence</abbr></th>
                     <th><abbr title="Pilote">Pilote</abbr></th>
                     <th><abbr title="Directeur">Directeur</abbr></th>
-                    <th><abbr title="Responsable">Responsable</abbr></th>
-                    <th><abbr title="Valider">Valider</abbr></th>
+                    <th><abbr title="Responsable">Sécurité surface</abbr></th>
+                    <th>Admin</th>
+            <th><abbr title="Valider">Valider</abbr></th>
                 </tr>
             </thead>
             <tfoot>
@@ -66,7 +53,8 @@
                             <td><input name="isPilote" type="checkbox" <?php echo ($userArray['DVR_CANDRIVE'] == 1) ? 'checked' : ''; ?>></td>
                             <td><input name="isDirector" type="checkbox" <?php echo ($userArray['DVR_CANDIRECT'] == 1) ? 'checked' : ''; ?>></td>
                             <td><input name="isManager" type="checkbox" <?php echo ($userArray['DVR_CANMONITOR'] == 1) ? 'checked' : ''; ?>></td>
-                            <td><button type="submit" action="" class="button is-white">
+                            <td><input name="isAdmin" type="checkbox" <?php echo ($userArray['DVR_ISADMIN'] == 1) ? 'checked' : ''; ?>></td>
+                    <td><button type="submit" action="" class="button is-white">
                                     <p class="text has-text-success"><strong>ok</strong></p>
                                 </button></td>
                         </form>
