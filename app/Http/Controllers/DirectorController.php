@@ -6,6 +6,7 @@ use App\Models\Dive;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\DeleteDive;
 
 class DirectorController extends BaseController
 {
@@ -78,5 +79,9 @@ class DirectorController extends BaseController
             return view('directorEditDivers',['div_id'=>$div_id, 'participants'=>$participants]);
         }
         return redirect()->route('welcome'); 
+    }
+
+    public function deleteDiver(){
+        return ;
     }
 }
