@@ -4,7 +4,7 @@
 
 <nav class="navbar has-background-link-light is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-        <a class="navbar-item" href="https://bulma.io">
+        <a class="navbar-item" href="/">
             <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
         </a>
 
@@ -41,7 +41,7 @@
                 @if(session()->has('userID'))
                 <div style="display: flex;">
                     <p>Nombre de sessions restantes: </p>
-                    <p style="padding-left: 5px;"><x-user-credits/></p>
+                    <p style="padding-left: 5px;"><x-user-credits :amount="1" /></p>
                 </div>
                 @else
                 <p>Connectez-vous : </p>
