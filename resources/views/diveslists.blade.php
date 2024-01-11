@@ -1,3 +1,11 @@
+<?php
+     use App\Models\User;
+
+    if(session('userID')==null  ){
+        abort(404);
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -29,48 +37,48 @@
     <h1>Liste des plongées disponibles</h1>
 
     <?php
-    $test = json_encode($dives);
+        $AllDives = json_encode($dives);
+        $DiversDives = json_encode($everyDivesRegistered);
     ?>
 
-    <div>
-        <div id='calendar-container' wire:ignore>
-            <div id='calendar'></div>
-        </div>
+    <div id='calendar-container' wire:ignore data-dives-for-divers="{{ json_encode($DiversDives) }}">
+        <div id='calendar'></div>
     </div>
 
     <div wire:ignore.self>
         <div class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" id="dynamic-modal-content">
-                    <!-- Le contenu de la modal sera injecté ici dynamiquement depuis JavaScript -->
+                    
                 </div>
             </div>
         </div>
     </div>
 
     @push('scripts')
-   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'>
+   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </script>
         <script>
           
             document.addEventListener('livewire:load', function() {
                 const Calendar = FullCalendar.Calendar;
-
-                const calendarEl = document.getElementById('calendar');
-
-                const divesData = <?php echo $test; ?>;
-
+                const calendarEl = document.getElementById('calendar');  
+                const divesData = <?php echo $AllDives; ?>;
+                const divesForDivers = <?php echo $DiversDives; ?>;
+                
                 const events = divesData.map((dive) => ({
                     title: dive.DIV_ID,
                     start: new Date(dive.DIV_DATE),
                     end: new Date(new Date(dive.DIV_DATE).getTime() + 3 * 60 * 60 * 1000),
                     boat: `Bateau: ${dive.SHP_NAME}\n`,
                     site: `Site: ${dive.SIT_NAME}\n`,
-                    requireLevel: `Niveau requis: ${dive.DLV_DESC}`,
+                    requireLevel: `Niveau requis: ${dive.DLV_LABEL}`,
                 }));
                 
-
-
+                
+                
                 const calendar = new Calendar(calendarEl, {
                     slotMinTime: '8:00:00',
                     slotMaxTime: '22:00:00',
@@ -78,7 +86,7 @@
                     headerToolbar: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                     },
                     locale: 'fr',
                     events: events,
@@ -98,43 +106,38 @@
                     },
                     eventClick: function(info) {
                         const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
-                        const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
-
-                        const modalContent = `
+                        const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title; 
+                        
+                        var modalContent = `
                             <div class="modal-header">
                                 <h5 class="modal-title"> Plongée numéro: ${info.event.title} </h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
+                            
                             <div class="modal-body">
                                 <p>${info.event.extendedProps.boat}</p>
                                 <p>${info.event.extendedProps.site}</p>
                                 <p>${info.event.extendedProps.requireLevel}</p>
                             </div>
-                            <div class="modal-footer">
-                            <form id="registerForm" action="" method="POST">
-                                @csrf
-                                <button type="submit" class="btn btn-primary">S'inscrire</button>
-                            </form>
-                            <form id="retireForm" action="" method="POST">
-                                @csrf 
-                                <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
-                            </form>
+                            <div class="modal-footer">`
                             
-
-                            </div>
-
-                        `;
-                        document.getElementById('dynamic-modal-content').innerHTML = modalContent;
-
-
-
-                        document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
-                        document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
-
-
-
+                                    modalContent += `<form id="retireForm" action="" method="POST">
+                                    @csrf 
+                                    <button type="submit" class="btn btn-primary" data-dismiss="modal">Se désinscrire</button>
+                                    </form>`
+                                    document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                    document.getElementById('retireForm').action = retireFormAction.replace(':selectedDive', info.event.title);
+                              
+                            
+                                modalContent += `<form id="registerForm" action="" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                                </form>`
+                                document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
+                                document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
+                                              
                         $('.modal').modal('show');
                     }
                 });

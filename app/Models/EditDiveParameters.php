@@ -98,4 +98,6 @@ class EditDiveParameters extends Model
     public function updateDiveDivingLevel($diveId, $choiceDivingLevelValue){
         return DB::update("update DIVES set DLV_ID = $choiceDivingLevelValue where DIV_ID = $diveId");
     }
+
+    
 }
