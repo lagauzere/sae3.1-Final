@@ -36,6 +36,8 @@
     <?php
         $AllDives = json_encode($dives);
         $DiversDives = json_encode($everyDivesRegistered);
+        $LevelOfDiver = json_encode($userLevel);
+       
     ?>
 
     <div id='calendar-container'>
@@ -46,7 +48,6 @@
         <div class="modal fade" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" id="dynamic-modal-content">
-                    
                 </div>
             </div>
         </div>
@@ -64,7 +65,8 @@
                 const calendarEl = document.getElementById('calendar');  
                 const divesData = <?php echo $AllDives; ?>;
                 const divesForDivers = <?php echo $DiversDives; ?>;
-                console.table(divesForDivers);
+                const DiversLevel = <?php echo $LevelOfDiver; ?>;
+                console.log(DiversLevel);
                 const events = divesData.map((dive) => ({
                     title: dive.DIV_ID,
                     start: new Date(dive.DIV_DATE),
@@ -72,6 +74,7 @@
                     boat: `Bateau: ${dive.SHP_NAME}\n`,
                     site: `Site: ${dive.SIT_NAME}\n`,
                     requireLevel: `Niveau requis: ${dive.DLV_LABEL}`,
+                    levelId : dive.DLV_ID
                 }));
                 
                 
@@ -89,18 +92,33 @@
                     events: events,
                     eventContent: function(info) {
                         const content = document.createElement('div');
-                        content.innerHTML = `
-                            <div style="cursor: pointer;">
-                                <strong>Plongée numéro:  ${info.event.title}</strong><br>
-                                <p>${info.event.extendedProps.boat}</p>
-                                <p>${info.event.extendedProps.site}</p>
-                                <p>${info.event.extendedProps.requireLevel}</p>
-                            </div>
-                        `;
+                        if(info.event.extendedProps.levelId <= DiversLevel){
+                            content.innerHTML = `
+                                <div style="cursor: pointer;">
+                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
+                                    <p>${info.event.extendedProps.boat}</p>
+                                    <p>${info.event.extendedProps.site}</p>
+                                    <p>${info.event.extendedProps.requireLevel}</p>
+                                    <p> ${DiversLevel} </p>;
+                                </div>
+                            `;
+                        }
+                        else{
+                            content.innerHTML = `
+                                <div style="cursor: pointer;">
+                                    <strong>Plongée numéro:  ${info.event.title}</strong><br>
+                                    <p>${info.event.extendedProps.boat}</p>
+                                    <p>${info.event.extendedProps.site}</p>
+                                    <p>${info.event.extendedProps.requireLevel}</p>
+                                    <p> ${DiversLevel} </p>;
+                                </div>
+                            `;
+                        }
                         return {
                             domNodes: [content]
                         };
                     },
+                    
                     eventClick: function(info) {
                         const retireFormAction = "{{ route('leaveTimeSlot', ['selectedDive' => '']) }}" + info.event.title; 
                         const registerFormAction = "{{ route('enterTimeSlot', ['selectedDive' => '']) }}" + info.event.title;
