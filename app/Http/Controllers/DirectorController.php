@@ -71,6 +71,7 @@ class DirectorController extends BaseController
     }
     
     public function editDivers(Request $request){
+        
         $div_id = $request->input('div_id');
 
         $participants = Dive::getParticipants($div_id);

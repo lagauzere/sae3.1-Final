@@ -24,7 +24,7 @@ use App\Models\Dive;
     <x-header/>
         <h1>Plongée n°{{ $div_id }}</h1>
         <button><a id="editDivesButton" href="/diveParameters/{{ $div_id }}">Modifier la plongée</a></button>
-        <button id="DeleteDivesButton">Supprimer la plongée</button>
+        <button id="deleteDivesButton">Supprimer la plongée</button>
         <h2>Ajouter participant :</h2>
         <input type="text" id="searchInput" placeholder="Rechercher une personne...">
         <table style="position:fixed;background:#FFFFFF;border:solid black 2px" id="searchResults"></table>
@@ -85,8 +85,7 @@ use App\Models\Dive;
     let numPeople;
     const userLicence2Diver = {};
 
-    document.getElementById('modifyButton').addEventListener('click', function() {
-        
+    document.getElementById('deleteDivesButton').addEventListener('click', function() {
         alert('Le plongée a été supprimé');
     });
 
