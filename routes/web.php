@@ -43,6 +43,9 @@ Route::post('/disconnect', [loginController::class, 'Disconnection']);
 Route::get('/diverlist/{div_id}',[DiveController::class,'diverList'])->name('diverlist');
 
 
+Route::get('creationDive', [DiveController::class,'creationDive']);
+Route::post('createDataDives', [DiveController::class, 'creationDataDives']);
+
 Route::get('/profile',[DiveController::class,'profile']);
 
 Route::post('/changeDataDives',[EditDiveParametersController::class,'changeDataDives']);
@@ -50,6 +53,8 @@ Route::post('/changeDataDives',[EditDiveParametersController::class,'changeDataD
 Route::post('/directorDive', [DirectorController::class,'editDivers'])->name('edit-dive');
 
 Route::post('/handle-form-change-participation-state', [DirectorController::class,'handleFormChangeParticipationStateSubmission'])->name('handle-form-change-participation-state');
+
+Route::post('/directedplanneddiveslist', [DirectorController::class,'deleteDiver'])->name('handle-form-delete');
 
 Route::get('/search-people', [UserController::class,'searchPeople']);
 
