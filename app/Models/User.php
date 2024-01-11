@@ -86,8 +86,12 @@ class User extends Authenticatable
 
     public static function updateParticipationState($uid,$div_id, $state)
     {
-        //dd($uid,$div_id, $state);
         return DB::update("update PARTICIPATE set PAR_CANCELLED = ? where DIV_ID = ? AND DVR_LICENCE = ?",[$state,$div_id,$uid]);
+    }
+
+    public static function addParticipation($uid,$div_id)
+    {
+        return DB::insert("INSERT IGNORE INTO PARTICIPATE (DVR_LICENCE, DIV_ID, PAR_CANCELLED) VALUES (?,?,0)",[$uid,$div_id]);
     }
 
     public static function getPeopleLike($name)

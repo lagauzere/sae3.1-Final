@@ -20,7 +20,7 @@
         <h1>Plongée n°{{ $div_id }}</h1>
         <h2>Ajouter participant :</h2>
         <input type="text" id="searchInput" placeholder="Rechercher une personne...">
-        <ul id="searchResults"></ul>
+        <table style="position:fixed;background:#FFFFFF;border:solid black 2px" id="searchResults"></table>
 
         <h2>Modifier les adhérents de la plongée</h2>
         <table>
@@ -37,8 +37,6 @@
                 </th>
                 <th>
                 {{$p['DLV_LABEL']}}&nbsp
-                </th>
-                <th>
                 </th>
                 <th>
                 <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
@@ -88,12 +86,22 @@
             let resultsHtml = '';
 
             if (people.length > 0) {
-                resultsHtml += '<form action="{{ route('handle-form-add-participation') }}" method="POST">';
+                
+                
+                
                 people.forEach(function(person) {
+                    resultsHtml += "<tr>";
+                    resultsHtml += '<th>' + person.DVR_FIRST_NAME +' ' + person.DVR_NAME + '</th><th>' + person.DVR_LICENCE + '</th>';
+                    resultsHtml += "<th>";
+                    resultsHtml += '<form action="{{ route('handle-form-add-participation') }}" method="POST">@csrf';
+                    resultsHtml += `<input name="uid" type="hidden" value="`+person.DVR_LICENCE+`"/>
+                    <input name="div_id" type="hidden" value="{{$div_id}}"/>`;
                     resultsHtml += '<button type="submit">inscrire</button>';
-                    resultsHtml += '<li>' + person.DVR_FIRST_NAME +' ' + person.DVR_NAME + ' - ' + person.DVR_LICENCE + '</li>';
+                    resultsHtml += "</th>";
+                    resultsHtml += '</form>';
+                    resultsHtml += "</tr>";
                 });
-                resultsHtml += '</form>';
+                
             } else {
                 resultsHtml = '<li>Aucun résultat.</li>';
             }
