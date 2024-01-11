@@ -123,10 +123,8 @@ class Dive extends Model
         where pa.dvr_licence = ?', [$userID]);
     }
 
-    public function everyDivesTheDiverIsRegisteredIn($dvr_id){
-        
-        
-    $result = DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?', [$dvr_id]);
+    public function everyDivesTheDiverIsRegisteredIn($dvr_id){        
+        $result = DB::select('SELECT * FROM PARTICIPATE WHERE DVR_LICENCE = ?', [$dvr_id]);
     return $result;
     }
 

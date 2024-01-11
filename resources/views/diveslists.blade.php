@@ -139,6 +139,7 @@
                             </div>
                             <div class="modal-footer">`
                         var registered = false;
+                        var cancelled = false;
                         divesForDivers.forEach(dive => {
                             if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 0){
                                 modalContent += `<form id="retireForm" action="" method="POST">
@@ -150,12 +151,12 @@
                                 registered = true;
                             }
                             else if(dive.DIV_ID == info.event.title && dive.PAR_CANCELLED == 1){
+                                cancelled = true;
                                 registered = true;
-
                                 modalContent += `<p style= "color:red" > Vous avez déjà annulé la participation à cette plongée</p>`
                             }
                         })
-                        if(registered==false){
+                        if(registered==false && cancelled == false ){
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf`
                                
@@ -164,7 +165,7 @@
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
                                 document.getElementById('registerForm').action = registerFormAction.replace(':selectedDive', info.event.title);
                         }
-                        else if(registered==true ){
+                        else if(cancelled==true ){
                             modalContent += `<form id="registerForm" action="" method="POST">
                                     @csrf <button type="submit" class="btn btn-primary" disabled>S'inscrire</button> </form>`
                                 document.getElementById('dynamic-modal-content').innerHTML = modalContent; 
