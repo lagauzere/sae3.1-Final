@@ -6,9 +6,20 @@ use App\Models\Dive;
 use Illuminate\Http\Request;
 
 
+
+/**
+ * Controller handling actions related to dives.
+ */
+
+
 class DiveController extends Controller
 {
-    //
+    /**
+     * Display the list of available dives and the ones the diver is registered in.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+
     function index()
     {
         $DiverModel = new Dive;
@@ -28,7 +39,12 @@ class DiveController extends Controller
     }
 
    
-
+    /**
+     * Display the list of divers registered for a specific dive.
+     *
+     * @param int $div_id Dive ID
+     * @return \Illuminate\Contracts\View\View
+     */
     
     function diverList($div_id)
     {
@@ -43,6 +59,12 @@ class DiveController extends Controller
         
 
     }
+
+    /**
+     * Display the list of directed planned dives by the logged-in user.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
 
     function directedPlannedDiveList()
     {
@@ -63,7 +85,11 @@ class DiveController extends Controller
 
     }
 
-    //function profile(){
+    /**
+     * Display the dive history of the logged-in user.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
