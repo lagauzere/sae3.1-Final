@@ -89,7 +89,7 @@ class Dive extends Model
     }
 
     public static function getParticipants($div_id){
-        $result = DB::select('SELECT DVR_LICENCE, DVR_FIRST_NAME, DVR_NAME, DLV_LABEL, TRL_LABEL, PAR_CANCELLED FROM DIVERS
+        $result = DB::select('SELECT DVR_LICENCE, DVR_FIRST_NAME, DVR_NAME, DLV_ID, DLV_LABEL, TRL_ID, TRL_LABEL, PAR_CANCELLED FROM DIVERS
         JOIN PARTICIPATE using(DVR_LICENCE) 
         JOIN TRAINING_LEVELS using (TRL_ID)
         JOIN DIVING_LEVELS using (DLV_ID)

@@ -41,17 +41,17 @@ use App\Models\Dive;
                 {{$p['DLV_LABEL']}}&nbsp
                 </th>
                 <th>
-                {{$p['DLV_LABEL']}}&nbsp
+                {{$p['TRL_LABEL']}}&nbsp
                 </th>
                 <th>
-                <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
-                    @csrf 
-                    <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
-                    <input name="div_id" type="hidden" value="{{$div_id}}"/>
-                    <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
-                    <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
-                </form>
-                </th>
+                    <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
+                        @csrf 
+                        <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
+                        <input name="div_id" type="hidden" value="{{$div_id}}"/>
+                        <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
+                        <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
+                    </form>
+                    
                 <th>
                 <form action="{{ route('handle-form-remove-participation') }}" method="POST">
                     @csrf 
@@ -60,13 +60,41 @@ use App\Models\Dive;
                     <button type="submit">SUPPRIMER</button>
                 </form>
                 </th>
+                <th>
+                    <p>Palanquée : </p>
+                </th>
+                <th>
+                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{$p['DVR_LICENCE']}}', this.value)"></select>
+                </th>
             </tr>
         @endforeach
         </table>
+        <div id="palanquee-error">
+        </div>
     <x-footer/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+    const pals = {}
+    function fillSelects() {
+        const numPeople = {{count($participants)}};
+        var txtHtml = '<option value=0>---</option>';
+        for (let i = 1; i <= numPeople/2; i++) {
+            txtHtml += '<option value='+i+'>n°'+i+'</option>';
+            
+        }
+        $('.palanquee-select').html(txtHtml);
+    }
+    function handlePalanqueeChange(licence, selectedValue) {
+        // Log the selected value
+        console.log('Selected Value:', selectedValue);
+        console.log('Licence :', licence);
+        pals[licence] = selectedValue;
+        if (selectedValue == 0) delete pals[licence];
+        console.log(pals);
+    }
     $(document).ready(function() {
+        fillSelects();
+
         $('#searchInput').on('keyup', function() {
             let query = $(this).val().trim();
 
@@ -91,9 +119,6 @@ use App\Models\Dive;
             let resultsHtml = '';
 
             if (people.length > 0) {
-                
-                
-                
                 people.forEach(function(person) {
                     resultsHtml += "<tr>";
                     resultsHtml += '<th>' + person.DVR_FIRST_NAME +' ' + person.DVR_NAME + '</th><th>' + person.DVR_LICENCE + '</th>';
@@ -113,6 +138,7 @@ use App\Models\Dive;
 
             $('#searchResults').html(resultsHtml);
         }
+
     });
     </script>
 </body>
