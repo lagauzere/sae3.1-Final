@@ -40,7 +40,7 @@
     <button class="button is-warning" type="button" onclick="displayText('choiceBoat')">Modifier</button>  
         <select class="select" style="display:none" id="choiceBoat" name="choiceBoat" default="{{ $divesparameters[0]['SHP_NAME'] }}">
             @foreach($boatName as $boat)
-                @if(($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"]) + 2 <= $boat['SHP_SEATS'])
+                @if(((Dive::numParticipantsNotCancelled($divesparameters[0]["DIV_ID"]))) + 2 <= $boat['SHP_SEATS'])
                 <option value="{{ $boat['SHP_ID'] }}" @if($boat['SHP_NAME'] == $divesparameters[0]['SHP_NAME']) selected @endif>{{ $boat['SHP_NAME'] }} ({{ $boat['SHP_SEATS']}} places)</option>
                 @endif
             @endforeach
