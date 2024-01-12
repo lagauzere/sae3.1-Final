@@ -135,7 +135,7 @@ class DirectorController extends BaseController
         $div_date = Dive::getDate($div_id);
 
 
-        if (Dive::isDiveDirector($div_id)) {
+        if (Dive::isDiveDirector($div_id) || User::isAdmin()) {
 
             return view('directorEditDivers', ['div_id' => $div_id, 'participants' => $participants, 'div_date'=>$div_date]);
         }
