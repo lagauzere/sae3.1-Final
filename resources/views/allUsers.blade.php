@@ -33,8 +33,8 @@
                     <th><abbr title="Licence">Licence</abbr></th>
                     <th><abbr title="Pilote">Pilote</abbr></th>
                     <th><abbr title="Directeur">Directeur</abbr></th>
-                    <th><abbr title="Responsable">Sécurité surface</abbr></th>
-                    <th>Admin</th>
+                    <th><abbr title="Sécurité surface">Sécurité surface</abbr></th>
+                    <th><abbr title="Admin">Admin</abbr></th>
             <th><abbr title="Valider">Valider</abbr></th>
                 </tr>
             </thead>
@@ -45,7 +45,8 @@
                     <th><abbr title="Licence">Licence</abbr></th>
                     <th><abbr title="Pilote">Pilote</abbr></th>
                     <th><abbr title="Directeur">Directeur</abbr></th>
-                    <th><abbr title="Responsable">Responsable</abbr></th>
+                    <th><abbr title="Sécurité surface">Sécurité surface</abbr></th>
+                    <th><abbr title="Admin">Admin</abbr></th>
                     <th><abbr title="Valider">Valider</abbr></th>
                 </tr>
             </tfoot>
