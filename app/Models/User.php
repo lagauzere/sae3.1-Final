@@ -134,4 +134,12 @@ class User extends Authenticatable
         $res= json_decode(json_encode(DB::select('select count(*) from PARTICIPATE where DVR_LICENCE=? and DIV_ID=? and PAR_CANCELLED=1 ' ,[session('userID'),$div_id])),true)[0]['DVR_CANDIRECT'];
     }
 
+
+
+
+    public function updatePass($password){
+        echo DB::update('update DiVERS set DVR_PASSWORD=? where DVR_LICENCE=?',[$password,session('userID')]);
+        
+    }
+
 }

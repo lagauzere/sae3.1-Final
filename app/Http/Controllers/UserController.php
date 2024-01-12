@@ -112,4 +112,19 @@ class UserController extends Controller
             return redirect()->route('users'); 
         }
 
+
+
+       public function updatePassword(Request $request){
+            $user=new User();
+             if($request->input('password')==="" || $request->input('password')!=$request->input('passwordCheck') ){
+                session()->flash('erreurCode',-1);
+                return redirect()->route('changePwd');
+             }
+             else{
+                $password=$request->input('password');
+                $user->updatePass( $password);
+                return redirect()->route('welcome');
+             }
+       }
+
 }
