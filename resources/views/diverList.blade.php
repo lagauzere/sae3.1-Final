@@ -19,18 +19,33 @@
 </head>
 <body>
     <x-header/>
+    </br>
+    </br>
+    <div class="field is-grouped is-grouped-centered">
+    <h1 class="title is-1" style= "position: absolute; left: 50%; transform: translate(-50%, -50%)">Liste des plongeurs</h1>
 
-
-    <h1>Liste des plongeurs</h1>
-    <?php 
-
-
-    foreach ($divers as $diver) {
-        echo "<h2>" . $diver['DVR_NAME'] . " " .  $diver['DVR_FIRST_NAME'] . "</h2> ";
-    }
-    ?>
-
-
+    
+        <table class="box table is-hoverable" style="margin-top: 70px;">
+            <thead>
+                <tr>
+                    <th><abbr title="Nom">Nom</abbr></th>
+                    <th><abbr title="Prénom">Prénom</abbr></th>
+                </tr>
+            </thead>
+            <tbody>
+        
+            <?php 
+            foreach ($divers as $diver) :?>
+            <tr>
+                <th><?php echo $diver['DVR_NAME']; ?></th>
+                <td><?php echo $diver['DVR_FIRST_NAME']; ?></td>
+            </tr>
+            <?php
+            endforeach
+            ?> 
+            </tbody>
+        </table>
+            </div>
 
     <x-footer/>
 </body>
