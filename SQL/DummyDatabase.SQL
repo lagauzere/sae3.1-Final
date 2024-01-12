@@ -98,7 +98,12 @@ INSERT INTO DIVERS (DVR_LICENCE, DLV_ID, PAS_ID, TRL_ID, DVR_NAME, DVR_FIRST_NAM
 ("A-04-100002", 8, 1, 0, 'Delhoumi', 'Sylvian', '2019-03-15', 'password234', TRUE, FALSE, TRUE, FALSE, TRUE),
 ("A-04-100003", 7, 1, 0, 'Jort', 'Fabienne', '2020-07-11', 'password345', TRUE, TRUE, TRUE, TRUE, FALSE),
 ("A-04-100004", 9, 1, 2, 'Porcq', 'Eric', '2017-10-05', 'password456', TRUE, FALSE, FALSE, FALSE, FALSE),
-("A-04-100005", 6, 2, 0, 'Secouard', 'Stéphane', '2016-12-22', 'password567', TRUE, FALSE, TRUE, FALSE, TRUE);
+("A-04-100005", 6, 2, 0, 'Secouard', 'Stéphane', '2016-12-22', 'password567', TRUE, FALSE, TRUE, FALSE, TRUE),
+("A-04-100006", 5, 1, 1, '1', 'A', '2018-05-21', '6', TRUE, FALSE, FALSE, TRUE, FALSE),
+("A-04-100007", 8, 1, 3, '2', 'B', '2019-03-15', '7', TRUE, FALSE, TRUE, FALSE, TRUE),
+("A-04-100008", 7, 1, 4, '3', 'C', '2020-07-11', '8', TRUE, TRUE, TRUE, TRUE, FALSE),
+("A-04-100009", 9, 1, 2, '4', 'D', '2017-10-05', '9', TRUE, FALSE, FALSE, FALSE, FALSE),
+("A-04-100010", 6, 2, 0, '5', 'E', '2016-12-22', '10', TRUE, FALSE, TRUE, FALSE, TRUE);
 
 # -----------------------------------------------------------------------------
 #       TABLE : DIVES

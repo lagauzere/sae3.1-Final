@@ -45,7 +45,15 @@ class UserController extends Controller
 
         return response()->json($people);
     }
+    public function searchPeopleNotInDive(Request $request)
+    {
+        $query = $request->input('query');
+        $dive = $request->input('dive');
+        // Perform a database query to fetch people matching the search query
+        $people = User::getPeopleLikeNotInDive($query,$dive);
 
+        return response()->json($people);
+    }
 
      /**
      * Get the registration status of the logged-in user for a specific dive.

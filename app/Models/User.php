@@ -104,6 +104,14 @@ class User extends Authenticatable
         $result = DB::select('select DVR_FIRST_NAME, DVR_NAME, DVR_LICENCE from DIVERS where UPPER(CONCAT(DVR_FIRST_NAME," ",DVR_NAME)) LIKE UPPER(CONCAT("%",?,"%")) LIMIT 10',[$name]);
         return json_decode(json_encode($result),true);
     }
+
+    public static function getPeopleLikeNotInDive($name,$div_id)
+    {
+        $result = DB::select('select DVR_FIRST_NAME, DVR_NAME, DVR_LICENCE from DIVERS where UPPER(CONCAT(DVR_FIRST_NAME," ",DVR_NAME)) LIKE UPPER(CONCAT("%",?,"%")) AND DVR_LICENCE not IN (SELECT DVR_LICENCE FROM PARTICIPATE WHERE DIV_ID = ?) LIMIT 10',[$name,$div_id]);
+        return json_decode(json_encode($result),true);
+    }
+
+    
     public static function removeParticipation($uid,$div_id)
     {
         return DB::delete("DELETE FROM  PARTICIPATE where DIV_ID = ? AND DVR_LICENCE = ?",[$div_id,$uid]);

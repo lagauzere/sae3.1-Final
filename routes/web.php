@@ -57,6 +57,7 @@ Route::post('/handle-form-change-participation-state', [DirectorController::clas
 Route::post('/directedplanneddiveslist', [DirectorController::class,'deleteDiver'])->name('handle-form-delete');
 
 Route::get('/search-people', [UserController::class,'searchPeople']);
+Route::get('/search-people-for-dive', [UserController::class,'searchPeopleNotInDive']);
 
 Route::post('/handle-form-add-participation', [DirectorController::class,'handleFormAddParticipationSubmission'])->name('handle-form-add-participation');
 
