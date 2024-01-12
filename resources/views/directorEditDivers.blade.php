@@ -23,6 +23,11 @@ use App\Models\Dive;
 <body>
     <x-header/>
         <h1>Plongée n°{{ $div_id }}</h1>
+        @php
+            $date = "2024-01-12";
+            // dd($div_date);
+        @endphp
+        @if($div_date[0]['DIV_DATE'] > $date)
         <button><a id="editDivesButton" href="/diveParameters/{{ $div_id }}">Modifier la plongée</a></button>
         <form action="{{ route('handle-form-delete') }}" method="POST">
             @csrf
@@ -33,8 +38,9 @@ use App\Models\Dive;
         <h2>Ajouter participant :</h2>
         <input type="text" id="searchInput" placeholder="Rechercher une personne...">
         <table style="position:fixed;background:#FFFFFF;border:solid black 2px" id="searchResults"></table>
-
+        
         <h2>Modifier les adhérents de la plongée</h2>
+        @endif
         <table>
         @foreach($participants as $p)
             <tr><!-- maybe in red when cancelled -->
@@ -51,6 +57,7 @@ use App\Models\Dive;
                 {{$p['TRL_LABEL']}}&nbsp
                 </th>
                 <th>
+                    @if($div_date[0]['DIV_DATE'] > $date)
                     <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
                         @csrf 
                         <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
@@ -58,26 +65,30 @@ use App\Models\Dive;
                         <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
                         <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
                     </form>
-                    
+                    @endif
                 <th>
+                    @if($div_date[0]['DIV_DATE'] > $date)
                 <form action="{{ route('handle-form-remove-participation') }}" method="POST">
                     @csrf 
                     <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
                     <input name="div_id" type="hidden" value="{{$div_id}}"/>
                     <button type="submit">SUPPRIMER</button>
                 </form>
-                </th>
+                    @endif
+                </th> 
+                @if($div_date[0]['DIV_DATE'] > $date) 
                 <th>
                     @if($p['PAR_CANCELLED']) @else
                     <p>Palanquée : </p>
                     @endif
                 </th>
                 <th>
+                    
                     @if($p['PAR_CANCELLED']) @else
-                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
+                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)" ></select>
                     @endif
                 </th>
-                
+                @endif 
             </tr>
         @endforeach
         </table>
@@ -91,7 +102,7 @@ use App\Models\Dive;
     const userLicence2Diver = {};
 
     document.getElementById('deleteDivesButton').addEventListener('click', function() {
-        alert('Le plongée va etre supprimé!!');
+        alert('Le plongée va être supprimé !!');
     });
 
     function updatePalanqueeError() {

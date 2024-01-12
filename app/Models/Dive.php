@@ -100,6 +100,11 @@ class Dive extends Model
         return json_decode(json_encode($result),true);
     }
 
+    public static function getDate($div_id){
+        $result = DB::select('SELECT DIV_DATE FROM DIVES
+        WHERE DIV_ID =?', [$div_id]);
+        return json_decode(json_encode($result),true);
+    }
 
     public function showDive($div_id){
         return DB::select('SELECT DIV_ID,DIV_COMMENT,DIV_DATE, SIT_ID, SHP_ID FROM DIVES WHERE DIV_ID =?', [$div_id]);

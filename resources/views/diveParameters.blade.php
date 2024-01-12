@@ -81,8 +81,9 @@
                 <option value="{{ $level['DLV_ID'] }}" @if($level['DLV_LABEL'] == $divesparameters[0]['DLV_LABEL']) selected @endif>{{ $level['DLV_LABEL'] }}</option>
             @endforeach
         </select>
-        <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}"></h2>
-    <h2><button type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button></h2>
+        <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}">
+    </h2>
+        <h2><button type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button></h2>
 
 
     </form>
