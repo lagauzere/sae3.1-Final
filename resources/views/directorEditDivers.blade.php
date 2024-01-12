@@ -116,7 +116,11 @@ use App\Models\User;
         @endforeach
         </table>
         <table id="palanquee-error" class="table" style="width: 100%"> </table>
-        </div>
+        <form method="get" id="pdfButton" action="{{route('info', ['div_id' => $div_id])}}">
+            <button type="submit" class="button is-button-success">
+                Visualiser au format PDF
+            </button>
+        </form>
     </div>
     <x-footer/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
