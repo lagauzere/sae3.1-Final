@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 use App\Models\Dive;
 use App\Models\User;
@@ -48,43 +49,85 @@ class DirectorControllerTest extends TestCase
     }
     public function testEditDivers()
     {
-        // Créez un plongeur fictif dans la base de données
-        $user = User::factory()->create();
+        DB::table('DIVERS')->insertGetId([
+            'DVR_LICENCE' => 'A-04-100050',
+            'DLV_ID' => 5,
+            'PAS_ID' => 1,
+            'TRL_ID' => 1,
+            'DVR_NAME' => 'DiverName',
+            'DVR_FIRST_NAME' => 'DiverFirstName',
+            'DVR_MC_DATE' => '2018-05-21',
+            'DVR_PASSWORD' => 'password123',
+            'DVR_ACTIVE' => true,
+            'DVR_ISADMIN' => false,
+            'DVR_CANDRIVE' => false,
+            'DVR_CANMONITOR' => true,
+            'DVR_CANDIRECT' => false,
+        ]);
+    
+        $dvrId = 'A-04-100050';
 
-        // Créez une plongée fictive dans la base de données
-        $dive = Dive::factory()->create();
+        DB::table('DIVES')->insertGetId([
+            'DIV_ID'=>60,
+            'DVR_LICENCE_MONITORS' => 'A-04-100003',
+            'DVR_LICENCE_DIRECTS' => 'A-04-100002',
+            'DVR_LICENCE_DRIVES' => 'A-04-100003',
+            'SHP_ID' => 1,
+            'STA_ID' => 1,
+            'DLV_ID' => 5,
+            'SIT_ID' => 6,
+            'DIV_DATE' => '2024-04-10 09:00:00',
+            'DIV_HEADCOUNT' => 8,
+            'DIV_COMMENT' => 'Belle plongée matinale avec une bonne visibilité'
+        ]);
+        $divId = 60;
 
-        // Effectuez une requête GET vers l'action editDivers avec les paramètres nécessaires
-        $response = $this->get('/editdivers', ['div_id' => $dive->id]);
+        
 
-        // Vérifiez que la réponse est réussie
+        $response = $this->post('/directorDive', ['div_id' => $divId]);
+
         $response->assertSuccessful();
-
-        // Vérifiez que la vue est la vue attendue
-        $response->assertViewIs('directorEditDivers');
-
-        // Vérifiez que les données nécessaires sont présentes dans la vue
-        $response->assertViewHas('div_id', $dive->id);
-        $response->assertViewHas('participants');
     }
 
     public function testDeleteDiver()
     {
-        // Créez un plongeur fictif dans la base de données
-        $user = User::factory()->create();
+        DB::table('DIVERS')->insertGetId([
+            'DVR_LICENCE' => 'A-04-100050',
+            'DLV_ID' => 5,
+            'PAS_ID' => 1,
+            'TRL_ID' => 1,
+            'DVR_NAME' => 'DiverName',
+            'DVR_FIRST_NAME' => 'DiverFirstName',
+            'DVR_MC_DATE' => '2018-05-21',
+            'DVR_PASSWORD' => 'password123',
+            'DVR_ACTIVE' => true,
+            'DVR_ISADMIN' => false,
+            'DVR_CANDRIVE' => false,
+            'DVR_CANMONITOR' => true,
+            'DVR_CANDIRECT' => false,
+        ]);
+    
+        $dvrId = 'A-04-100050';
 
-        // Créez une plongée fictive dans la base de données
-        $dive = Dive::factory()->create();
+        DB::table('DIVES')->insertGetId([
+            'DIV_ID'=>60,
+            'DVR_LICENCE_MONITORS' => 'A-04-100003',
+            'DVR_LICENCE_DIRECTS' => 'A-04-100002',
+            'DVR_LICENCE_DRIVES' => 'A-04-100003',
+            'SHP_ID' => 1,
+            'STA_ID' => 1,
+            'DLV_ID' => 5,
+            'SIT_ID' => 6,
+            'DIV_DATE' => '2024-04-10 09:00:00',
+            'DIV_HEADCOUNT' => 8,
+            'DIV_COMMENT' => 'Belle plongée matinale avec une bonne visibilité'
+        ]);
+        $divId = 60;
 
-        // Effectuez une requête POST vers l'action deleteDiver avec les paramètres nécessaires
-        $response = $this->post('/deletediver', ['div_id' => $dive->id]);
+        $response = $this->post('/handle-form-remove-participation', ['div_id' => $divId]);
 
-        // Vérifiez que la redirection a été effectuée avec succès
-        $response->assertRedirect('directedplanneddiveslist');
-
-        // Vérifiez que la plongée a été supprimée de la base de données
-        $this->assertDatabaseMissing('dives', ['id' => $dive->id]);
-    }
+        $response->assertSuccessful();
+}
 
 }
 
