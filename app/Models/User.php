@@ -126,7 +126,7 @@ class User extends Authenticatable
 
     public static function isDirector()
     {   
-        return  json_decode(json_encode(DB::select('select DVR_ISADMIN from DIVERS where DVR_LICENCE=?' ,[session('userID')])),true)[0]['DVR_CANDIRECT'];
+        return  json_decode(json_encode(DB::select('select DVR_CANDIRECT from DIVERS where DVR_LICENCE=?' ,[session('userID')])),true)[0]['DVR_CANDIRECT'];
     }
 
     public static function isUnregister($div_id){

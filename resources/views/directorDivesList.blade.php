@@ -5,6 +5,10 @@ use App\Models\User;
 if(session('userID')==null  ){
     abort(404);
 }
+else if (User::isDirector()==0){
+    abort(404);
+}
+
 ?>
 ?>
 
