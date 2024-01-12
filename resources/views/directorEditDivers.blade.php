@@ -104,6 +104,7 @@ use App\Models\Dive;
     document.getElementById('deleteDivesButton').addEventListener('click', function() {
         alert('Le plongée va être supprimé !!');
     });
+    let palNum2Users = {};
 
     function updatePalanqueeError() {
         let numDivers = Object.keys(userLicence2PalNum).length;
@@ -118,7 +119,6 @@ use App\Models\Dive;
             if (!(palNum in palNum2Users)) palNum2Users[palNum] = [];
             palNum2Users[palNum].push(userLicence2Diver[userLicence]);
         }
-        console.log(palNum2Users);
 
         //check for each palanquee
         for (var palNum in palNum2Users)
@@ -142,7 +142,12 @@ use App\Models\Dive;
         if (selectedValue == 0) delete userLicence2PalNum[licence];
 
         updatePalanqueeError();
+
+        sessionStorage.setItem("palanquees", JSON.stringify(palNum2Users));
     }
+
+
+
     $(document).ready(function() {
         numPeople = 0;
         const participants = @json($participants);

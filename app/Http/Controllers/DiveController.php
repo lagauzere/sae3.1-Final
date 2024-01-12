@@ -83,11 +83,6 @@ class DiveController extends Controller
 
     }
 
-    /**
-     * Display the dive history of the logged-in user.
-     *
-     * @return \Illuminate\Contracts\View\View
-     */
     function historique(){
         $dvr_id = session('userID');
         $dive = new Dive;
@@ -96,8 +91,14 @@ class DiveController extends Controller
         return view('historique',['dives'=>$Usersdives]);
     }
 
-    function creationDive(){
+    function getInfos(){
+        $dive = new Dive;
+        $div_id = request('div_id');
+        $res = $dive->getPDFInfo($div_id);
+        return view('info',['pdfInfo' => $res]);
+    }
 
+    function creationDive(){
         $minimumLevel = new EditDiveParameters();
         $boatName = new EditDiveParameters();
         $siteName = new EditDiveParameters();
