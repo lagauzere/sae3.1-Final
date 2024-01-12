@@ -11,8 +11,11 @@ class DiveTest extends TestCase
 
     public function testRegisterAndRetireFromTimeSlot()
 {
-    $divId = DB::table('DIVES')->insertGetId([
+    DB::table('DIVES')->insertGetId([
+        'DIV_ID'=>60,
         'DVR_LICENCE_MONITORS' => 'A-04-100003',
+        'DVR_LICENCE_DIRECTS' => 'A-04-100002',
+        'DVR_LICENCE_DRIVES' => 'A-04-100003',
         'SHP_ID' => 1,
         'STA_ID' => 1,
         'DLV_ID' => 5,
@@ -21,8 +24,8 @@ class DiveTest extends TestCase
         'DIV_HEADCOUNT' => 8,
         'DIV_COMMENT' => 'Belle plongée matinale avec une bonne visibilité'
     ]);
-
-    $dvrId = DB::table('DIVERS')->insertGetId([
+    $divId = 60;
+    DB::table('DIVERS')->insertGetId([
         'DVR_LICENCE' => 'A-04-100050',
         'DLV_ID' => 5,
         'PAS_ID' => 1,
@@ -38,6 +41,7 @@ class DiveTest extends TestCase
         'DVR_CANDIRECT' => false,
     ]);
 
+    $dvrId = 'A-04-100050';
     $dive = new Dive();
     $result = $dive->registerDiverInTimeSlot($dvrId, $divId);
 
@@ -58,53 +62,15 @@ class DiveTest extends TestCase
 
     }
 
-    
-    public function testDiveAvailable()
-    {
-        
-    }
-
-    public function testDiveFinished()
-    {
-        
-    }
 
     public function testDiveCancelled()
 {
     
-    $divId = DB::table('DIVES')->insertGetId([
+    DB::table('DIVES')->insertGetId([
+        'DIV_ID'=>60,
         'DVR_LICENCE_MONITORS' => 'A-04-100003',
-        'SHP_ID' => 1,
-        'STA_ID' => 3, 
-        'DLV_ID' => 5,
-        'SIT_ID' => 6,
-        'DIV_DATE' => '2024-04-10 09:00:00',
-        'DIV_HEADCOUNT' => 8,
-        'DIV_COMMENT' => 'Belle plongée annulée'
-    ]);
-
-    $dive = new Dive();
-    $result = $dive->diveCancelled();
-
-    $this->assertNotEmpty($result);
-    $this->assertContains($divId,array_column($result, 'DIV_ID'));
-}
-
-
-    public function testDirectedPlannedDiveList()
-    {
-        
-    }
-
-    public function testCountParticipants()
-    {
-        
-    }
-
-    public function testGetDiversList()
-{
-    $divId = DB::table('DIVES')->insertGetId([
-        'DVR_LICENCE_MONITORS' => 'A-04-100003',
+        'DVR_LICENCE_DIRECTS' => 'A-04-100002',
+        'DVR_LICENCE_DRIVES' => 'A-04-100003',
         'SHP_ID' => 1,
         'STA_ID' => 1,
         'DLV_ID' => 5,
@@ -113,6 +79,32 @@ class DiveTest extends TestCase
         'DIV_HEADCOUNT' => 8,
         'DIV_COMMENT' => 'Belle plongée matinale avec une bonne visibilité'
     ]);
+    $divId = 60;
+    $dive = new Dive();
+    $result = $dive->diveCancelled();
+
+    
+    $this->assertContains($divId,array_column($result, 'DIV_ID'));
+}
+
+
+
+    public function testGetDiversList()
+{
+    DB::table('DIVES')->insertGetId([
+        'DIV_ID'=>60,
+        'DVR_LICENCE_MONITORS' => 'A-04-100003',
+        'DVR_LICENCE_DIRECTS' => 'A-04-100002',
+        'DVR_LICENCE_DRIVES' => 'A-04-100003',
+        'SHP_ID' => 1,
+        'STA_ID' => 1,
+        'DLV_ID' => 5,
+        'SIT_ID' => 6,
+        'DIV_DATE' => '2024-04-10 09:00:00',
+        'DIV_HEADCOUNT' => 8,
+        'DIV_COMMENT' => 'Belle plongée matinale avec une bonne visibilité'
+    ]);
+    $divId = 60;
 
     $dvrIds = [
         'A-04-100001',
@@ -150,68 +142,16 @@ class DiveTest extends TestCase
    
 }
 
-
-    public function testSelectUsersDives()
-    {
-        
-    }
-
-    public function testGetParticipants()
-    {
-       
-    }
-
-    public function testShowDive()
-    {
-        
-    }
-
-    public function testShowSiteName()
-    {
-        
-    }
-
-    public function testShowShipName()
-    {
-        
-    }
-
-    public function testDiveCurrentUser()
-    {
-        
-    }
-
-    public function testEveryDivesTheDiverIsRegisteredIn()
-    {
-        
-    }
-
-    public function testIsDiveDirector()
-    {
-        
-    }
-
-    public function testGetHeadcount()
-    {
-        
-    }
-
-    public function testGetMaxDiveID()
-    {
-        
-    }
-
     public function testCreateDive()
 {
+
     $dive = new Dive();
-    $result = $dive->createDive(
-        1, 1, 1, 'A-04-100001', 'A-04-100002', 'A-04-100003', 5, '2024-01-01 12:00:00', 10, 'Commentaire de test'
-    );
+    $result = $dive->createDive(60, 1, 1, 'A-04-100001', 'A-04-100002', 'A-04-100003', 5, '2024-01-01 12:00:00', 10, 'Dive testing' );
 
     $this->assertTrue($result);
 
     $this->assertDatabaseHas('DIVES', [
-        'DIV_ID' => 1,
+        'DIV_ID' => 60,
         'DVR_LICENCE_MONITORS' => 'A-04-100003',
         'SHP_ID' => 1,
         'DVR_LICENCE_DIRECTS' => 'A-04-100001',
@@ -221,13 +161,8 @@ class DiveTest extends TestCase
         'SIT_ID' => 1,
         'DIV_DATE' => '2024-01-01 12:00:00',
         'DIV_HEADCOUNT' => 10,
-        'DIV_COMMENT' => 'Commentaire de test',
+        'DIV_COMMENT' => 'Dive testing',
     ]);
 }
 
-
-    public function testGetNbInDives()
-    {
-        
-    }
 }
