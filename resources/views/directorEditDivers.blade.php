@@ -22,66 +22,66 @@ use App\Models\Dive;
 
 <body>
     <x-header/>
-        <h1>Plongée n°{{ $div_id }}</h1>
-        <button><a id="editDivesButton" href="/diveParameters/{{ $div_id }}">Modifier la plongée</a></button>
-        <form action="{{ route('handle-form-delete') }}" method="POST">
-            @csrf
-            <input name="div_id" type="hidden" value="{{$div_id}}"/>
-            <button type="submit" id="deleteDivesButton">Supprimer la plongée</button>
-        </form>
-        
-        <h2>Ajouter participant :</h2>
-        <input type="text" id="searchInput" placeholder="Rechercher une personne...">
-        <table style="position:fixed;background:#FFFFFF;border:solid black 2px" id="searchResults"></table>
+        <div class="field is-field is-grouped-centered box">
+                <h1>Plongée n°{{ $div_id }}</h1>
+                <h2>Ajouter participant :</h2>
+                <input type="text" id="searchInput" placeholder="Rechercher une personne...">
+                <table style="position:fixed;background:#FFFFFF;border:solid black 2px" id="searchResults"></table>
 
-        <h2>Modifier les adhérents de la plongée</h2>
-        <table>
-        @foreach($participants as $p)
-            <tr><!-- maybe in red when cancelled -->
-                <th>
-                {{$p['DVR_LICENCE']}}&nbsp
-                </th>
-                <th>
-                {{$p['DVR_FIRST_NAME']}}  {{$p['DVR_NAME']}} &nbsp
-                </th>
-                <th>
-                {{$p['DLV_LABEL']}}&nbsp
-                </th>
-                <th>
-                {{$p['TRL_LABEL']}}&nbsp
-                </th>
-                <th>
-                    <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
-                        @csrf 
-                        <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
-                        <input name="div_id" type="hidden" value="{{$div_id}}"/>
-                        <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
-                        <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
-                    </form>
-                    
-                <th>
-                <form action="{{ route('handle-form-remove-participation') }}" method="POST">
-                    @csrf 
-                    <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
-                    <input name="div_id" type="hidden" value="{{$div_id}}"/>
-                    <button type="submit">SUPPRIMER</button>
+                <h2>Modifier les adhérents de la plongée</h2>
+                <table>
+                @foreach($participants as $p)
+                    <tr><!-- maybe in red when cancelled -->
+                        <th>
+                        {{$p['DVR_LICENCE']}}&nbsp
+                        </th>
+                        <th>
+                        {{$p['DVR_FIRST_NAME']}}  {{$p['DVR_NAME']}} &nbsp
+                        </th>
+                        <th>
+                        {{$p['DLV_LABEL']}}&nbsp
+                        </th>
+                        <th>
+                        {{$p['TRL_LABEL']}}&nbsp
+                        </th>
+                        <th>
+                            <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
+                                @csrf 
+                                <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
+                                <input name="div_id" type="hidden" value="{{$div_id}}"/>
+                                <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
+                                <button type="submit">@if($p['PAR_CANCELLED']) réinscrire @else désinscrire @endif</button>
+                            </form>
+                            
+                        <th>
+                        <form action="{{ route('handle-form-remove-participation') }}" method="POST">
+                            @csrf 
+                            <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
+                            <input name="div_id" type="hidden" value="{{$div_id}}"/>
+                            <button type="submit">SUPPRIMER</button>
+                        </form>
+                        </th>
+                        <th>
+                            @if($p['PAR_CANCELLED']) @else
+                            <p>Palanquée : </p>
+                            @endif
+                        </th>
+                        <th>
+                            @if($p['PAR_CANCELLED']) @else
+                            <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
+                            @endif
+                        </th>
+                        
+                    </tr>
+                @endforeach
+                </table>
+                <div id="palanquee-error">
+                </div>
+                <form method="get" id="pdfButton" action="{{route('info', ['div_id' => $div_id])}}">
+                    <button type="submit" class="button is-button-success">
+                        Visualiser au format PDF
+                    </button>
                 </form>
-                </th>
-                <th>
-                    @if($p['PAR_CANCELLED']) @else
-                    <p>Palanquée : </p>
-                    @endif
-                </th>
-                <th>
-                    @if($p['PAR_CANCELLED']) @else
-                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
-                    @endif
-                </th>
-                
-            </tr>
-        @endforeach
-        </table>
-        <div id="palanquee-error">
         </div>
     <x-footer/>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -93,6 +93,7 @@ use App\Models\Dive;
     document.getElementById('deleteDivesButton').addEventListener('click', function() {
         alert('Le plongée va etre supprimé!!');
     });
+    let palNum2Users = {};
 
     function updatePalanqueeError() {
         let numDivers = Object.keys(userLicence2PalNum).length;
@@ -107,7 +108,6 @@ use App\Models\Dive;
             if (!(palNum in palNum2Users)) palNum2Users[palNum] = [];
             palNum2Users[palNum].push(userLicence2Diver[userLicence]);
         }
-        console.log(palNum2Users);
 
         //check for each palanquee
         for (var palNum in palNum2Users)
@@ -131,7 +131,12 @@ use App\Models\Dive;
         if (selectedValue == 0) delete userLicence2PalNum[licence];
 
         updatePalanqueeError();
+
+        sessionStorage.setItem("palanquees", JSON.stringify(palNum2Users));
     }
+
+
+
     $(document).ready(function() {
         numPeople = 0;
         const participants = @json($participants);

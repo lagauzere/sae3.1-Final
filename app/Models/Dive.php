@@ -226,7 +226,12 @@ class Dive extends Model
         join SHIPS using (shp_id)
         join DIVERS on (DIVERS.DVR_LICENCE = DVR_LICENCE_DIRECTS)
         join DIVING_LEVELS on (DIVING_LEVELS.dlv_id = DIVES.dlv_id)
-        where pa.dvr_licence = ?', [$userID]);
+        where pa.dvr_licence = ?
+        order by DIV_DATE asc', [$userID]);
+    }
+
+    public function currentDive($div_id){
+        return DB::select(' = ?', [$div_id]);
     }
 
     /**
@@ -282,4 +287,13 @@ class Dive extends Model
     public function getNbInDives($div_id){
         return DB::select('SELECT count(*) as count from PARTICIPATE where DIV_ID =?;',[$div_id]);
     }
+
+    public function getPDFInfo($div_id) {
+        return DB::select('SELECT DIV_DATE, concat(dir.DVR_FIRST_NAME, " ", dir.DVR_NAME) AS DIRECTS, SIT_NAME, (24 - DIV_HEADCOUNT) AS HEADCOUNT, concat(mon.DVR_FIRST_NAME, " ", mon.DVR_NAME) AS MONITORS, DIV_COMMENT FROM DIVES 
+        JOIN DIVERS  dir ON dir.DVR_LICENCE = DIVES.DVR_LICENCE_DIRECTS
+        JOIN DIVERS  mon ON mon.DVR_LICENCE = DIVES.DVR_LICENCE_MONITORS
+        JOIN SITES USING (SIT_ID)
+        WHERE DIV_ID = ?', [$div_id]);
+    }
+
 }
