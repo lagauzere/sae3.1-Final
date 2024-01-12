@@ -137,9 +137,14 @@ class User extends Authenticatable
 
 
 
-    public function updatePass($password){
-        echo DB::update('update DiVERS set DVR_PASSWORD=? where DVR_LICENCE=?',[$password,session('userID')]);
-        
-    }
+/**
+ * @param string $password
+ *     The new password to be set for the user.  
+ */
+public function updatePass($password){
+    // Update the user password in the 'DiVERS' table
+    $affectedRows = DB::update('update DiVERS set DVR_PASSWORD=? where DVR_LICENCE=?', [$password, session('userID')]);
 
+ 
+}
 }
