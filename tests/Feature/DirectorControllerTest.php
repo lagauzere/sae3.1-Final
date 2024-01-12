@@ -2,125 +2,90 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithFaker;
+use Tests\TestCase;
 use App\Models\Dive;
 use App\Models\User;
-use App\Models\DeleteDive;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
-
 class DirectorControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
     public function testDirectedPlannedDiveList()
     {
-        // Créer un utilisateur fictif
-        $user = User::create([
-            // Champs de l'utilisateur
-        ]);
-
-        // Simuler une session avec l'utilisateur
-        $this->actingAs($user);
-
-        // Appeler la route correspondante
         $response = $this->get('/directedplanneddiveslist');
-        
-        // Assurer que la réponse est réussie
         $response->assertSuccessful();
     }
 
     public function testHandleFormChangeParticipationStateSubmission()
     {
-        // Créer un utilisateur fictif
-        $user = User::create([
-            // Champs de l'utilisateur
-        ]);
-
-        // Simuler une session avec l'utilisateur
-        $this->actingAs($user);
-
-        // Appeler la route correspondante
         $response = $this->post('/handle-form-change-participation-state', [
-            'uid' => $user->id,
+            'uid' => 1,
             'div_id' => 123,
             'wanted_state' => 1,
         ]);
-
-        // Assurer que la vue retournée est 'directorEditDivers'
         $response->assertViewIs('directorEditDivers');
     }
 
     public function testHandleFormAddParticipationSubmission()
     {
-        // Créer un utilisateur fictif
-        $user = User::create([
-            // Champs de l'utilisateur
-        ]);
-
-        // Simuler une session avec l'utilisateur
-        $this->actingAs($user);
-
-        // Appeler la route correspondante
         $response = $this->post('/handle-form-add-participation', [
-            'uid' => $user->id,
+            'uid' => 1,
             'div_id' => 123,
         ]);
-
-        // Assurer que la réponse est réussie
         $response->assertSuccessful();
     }
+
 
     public function testHandleFormRemoveParticipationSubmission()
     {
-        // Créer un utilisateur fictif
-        $user = User::create([
-            // Champs de l'utilisateur
-        ]);
-
-        // Simuler une session avec l'utilisateur
-        $this->actingAs($user);
-
-        // Appeler la route correspondante
         $response = $this->post('/handle-form-remove-participation', [
-            'uid' => $user->id,
+            'uid' => 1,
             'div_id' => 123,
         ]);
-
-        // Assurer que la réponse est réussie
         $response->assertSuccessful();
     }
-
     public function testEditDivers()
     {
-        // Créer un utilisateur fictif
-        $user = User::create([
-            // Champs de l'utilisateur
-        ]);
+        // Créez un plongeur fictif dans la base de données
+        $user = User::factory()->create();
 
-        // Simuler une session avec l'utilisateur
-        $this->actingAs($user);
+        // Créez une plongée fictive dans la base de données
+        $dive = Dive::factory()->create();
 
-        // Appeler la route correspondante
-        $response = $this->get('/edit-divers', ['div_id' => 123]);
+        // Effectuez une requête GET vers l'action editDivers avec les paramètres nécessaires
+        $response = $this->get('/editdivers', ['div_id' => $dive->id]);
 
-        // Assurer que la vue retournée est 'directorEditDivers'
+        // Vérifiez que la réponse est réussie
+        $response->assertSuccessful();
+
+        // Vérifiez que la vue est la vue attendue
         $response->assertViewIs('directorEditDivers');
+
+        // Vérifiez que les données nécessaires sont présentes dans la vue
+        $response->assertViewHas('div_id', $dive->id);
+        $response->assertViewHas('participants');
     }
 
     public function testDeleteDiver()
     {
-        // Créer un utilisateur fictif
-        $user = User::create([
-            // Champs de l'utilisateur
-        ]);
+        // Créez un plongeur fictif dans la base de données
+        $user = User::factory()->create();
 
-        // Simuler une session avec l'utilisateur
-        $this->actingAs($user);
+        // Créez une plongée fictive dans la base de données
+        $dive = Dive::factory()->create();
 
-        // Appeler la route correspondante
-        $response = $this->post('/delete-diver', ['div_id' => 123]);
+        // Effectuez une requête POST vers l'action deleteDiver avec les paramètres nécessaires
+        $response = $this->post('/deletediver', ['div_id' => $dive->id]);
 
-        // Assurer que la redirection est correcte
+        // Vérifiez que la redirection a été effectuée avec succès
         $response->assertRedirect('directedplanneddiveslist');
+
+        // Vérifiez que la plongée a été supprimée de la base de données
+        $this->assertDatabaseMissing('dives', ['id' => $dive->id]);
     }
+
 }
+
+?>
