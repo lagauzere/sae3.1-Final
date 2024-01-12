@@ -15,7 +15,7 @@ DELETE FROM DIVING_LEVELS;
 
 
 INSERT INTO DIVING_LEVELS (DLV_ID, DLV_LABEL, DLV_DESC, DLV_LEVEL) VALUES
-(0, 'sans niveau', 'sans niveau', 0),
+(0, '---', '---', 0),
 (1, 'PB', 'plongeur Bronze', 0),
 (2, 'PA', 'plongeur Argent', 0),
 (3, 'PO-12m', 'plongeur Or autorisé jusque 12 m', 0),

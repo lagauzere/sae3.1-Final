@@ -1,3 +1,6 @@
+<?php
+    use App\Models\Dive;
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -27,71 +30,90 @@
         alert("{{ session('error') }}");
     </script>
     @endif
+
+    
     <form id="updateForm" action="/changeDataDives" method="POST">
-        @csrf
-    <h1> Nom du bateau : {{ $divesparameters[0]["SHP_NAME"] }} ({{ $divesparameters[0]["SHP_SEATS"]}} places)
-    <button type="button" onclick="displayText('choiceBoat')">Modifier</button>  
-        <select style="display:none" id="choiceBoat" name="choiceBoat" default="{{ $divesparameters[0]['SHP_NAME'] }}">
+    @csrf
+    <table class="table is-bordered"> 
+    <tr>
+    <th> Bateau </th> <th> {{ $divesparameters[0]["SHP_NAME"] }} ({{ $divesparameters[0]["SHP_SEATS"]}} places) </th> <th>
+    <button class="button is-warning" type="button" onclick="displayText('choiceBoat')">Modifier</button>  
+        <select class="select" style="display:none" id="choiceBoat" name="choiceBoat" default="{{ $divesparameters[0]['SHP_NAME'] }}">
             @foreach($boatName as $boat)
                 @if(($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"]) + 2 <= $boat['SHP_SEATS'])
                 <option value="{{ $boat['SHP_ID'] }}" @if($boat['SHP_NAME'] == $divesparameters[0]['SHP_NAME']) selected @endif>{{ $boat['SHP_NAME'] }} ({{ $boat['SHP_SEATS']}} places)</option>
                 @endif
             @endforeach
         </select>
-    </h1>
-
-    <h1>
-        Nombre de personne présente sur le bateau : {{ ($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"] + 2) }}
-    </h1>
-
-    <h2> Site de la plongée : {{ $divesparameters[0]["SIT_NAME"] }} ({{ $divesparameters[0]["SIT_DEPTH"]}} mètres de profondeur)  
-    <button type="button" onclick="displayText('choiceSite')">Modifier</button>  
-        <select style="display:none" id="choiceSite" name="choiceSite">
+    </th>
+    </tr>
+    <tr>
+    <th>
+        Nombre de personne présente sur le bateau </th> <th> {{ (Dive::numParticipantsNotCancelled($divesparameters[0]["DIV_ID"]) +2 ) }} </th>
+    </th>
+    </tr>
+    <tr>
+    <th> Site de la plongée </th> <th> {{ $divesparameters[0]["SIT_NAME"] }} ({{ $divesparameters[0]["SIT_DEPTH"]}} mètres de profondeur)  </th>
+    <th>
+    <button class="button is-warning"type="button" onclick="displayText('choiceSite')">Modifier</button>  
+        <select class="select" style="display:none" id="choiceSite" name="choiceSite">
             @foreach($siteName as $site)
                 <option value="{{ $site['SIT_ID'] }}" @if($site['SIT_NAME'] == $divesparameters[0]['SIT_NAME']) selected @endif>{{ $site['SIT_NAME'] }} ({{ $site['SIT_DEPTH']}} mètres de profondeur)</option>
             @endforeach
-        </select>
-
-    <h2> Directeur de la plongée : {{ $divesparameters[0]["DIVER"] }}  
-    <button type="button" onclick="displayText('choiceDirector')">Modifier</button>  
-        <select style="display:none" id="choiceDirector" name="choiceDirector">
+        </select></th>
+    </tr>
+    <tr> 
+        <th> Directeur de la plongée </th><th> {{ $divesparameters[0]["DIVER"] }}  </th>
+    <th>
+    <button class="button is-warning" type="button" onclick="displayText('choiceDirector')">Modifier</button>  
+        <select class="select" style="display:none" id="choiceDirector" name="choiceDirector">
             @foreach($directorName as $director)
                 <option value="{{ $director['DVR_LICENCE'] }}" @if($director['DIVER'] == $divesparameters[0]['DIVER']) selected @endif>{{ $director['DIVER'] }}</option>
             @endforeach
-        </select>
-    </h2>
-
-    <h2> Pilote de la plongée : {{ $divesDriver[0]["DIVER"] }}  
-    <button type="button" onclick="displayText('choiceDriver')">Modifier</button>  
-        <select style="display:none" id="choiceDriver" name="choiceDriver">
+        </select> </th>
+    </tr>
+    <tr> 
+    <th> Pilote de la plongée </th><th> {{ $divesDriver[0]["DIVER"] }}  </th>
+    <th>
+    <button class="button is-warning" type="button" onclick="displayText('choiceDriver')">Modifier</button>  
+        <select class="select" style="display:none" id="choiceDriver" name="choiceDriver">
             @foreach($driverName as $driver)
                 <option value="{{ $driver['DVR_LICENCE'] }}" @if($driver['DIVER'] == $divesDriver[0]['DIVER']) selected @endif>{{ $driver['DIVER'] }}</option>
             @endforeach
-        </select>
-
-    <h2> Sécurité surface de la plongée : {{ $divesMonitor[0]["DIVER"] }}  
-    <button type="button" onclick="displayText('choiceMonitor')">Modifier</button>  
-        <select style="display:none" id="choiceMonitor" name="choiceMonitor">
+        </select> </th>
+    </tr>
+    <tr> 
+        
+    <th> Sécurité surface de la plongée </th><th> {{ $divesMonitor[0]["DIVER"] }}  </th>
+    <th>
+    <button class="button is-warning" type="button" onclick="displayText('choiceMonitor')">Modifier</button>  
+        <select class="select" style="display:none" id="choiceMonitor" name="choiceMonitor">
             @foreach($monitorName as $monitor)
                 <option value="{{ $monitor['DVR_LICENCE'] }}" @if($monitor['DIVER'] == $divesMonitor[0]['DIVER']) selected @endif>{{ $monitor['DIVER'] }}</option>
             @endforeach
         </select>
-    </h2>
-    
-    <h2> Nombre maximum d'inscrit pour la plongée : {{ $divesparameters[0]["SHP_SEATS"]}} plongeurs
-
-        <h2> Niveau minimum requis de la plongée : {{ $divesparameters[0]["DLV_LABEL"] }}  
-            <button type="button" onclick="displayText('choiceDivingLevel')">Modifier</button>  
-                <select style="display:none" id="choiceDivingLevel" name="choiceDivingLevel">
+    </th>
+    </tr>
+    <tr> 
+    <th> Nombre maximum d'inscrit pour la plongée </th><th> {{ $divesparameters[0]["SHP_SEATS"]}} plongeurs </th>
+    </tr>
+    <tr>
+        <th> Niveau minimum requis de la plongée </th> <th> {{ $divesparameters[0]["DLV_LABEL"] }}  </th>
+        <th>
+            <button class="button is-warning" type="button" onclick="displayText('choiceDivingLevel')">Modifier</button>  
+                <select class="select" style="display:none" id="choiceDivingLevel" name="choiceDivingLevel">
                     @foreach($minimumLevel as $level)
                         <option value="{{ $level['DLV_ID'] }}" @if($level['DLV_LABEL'] == $divesparameters[0]['DLV_LABEL']) selected @endif>{{ $level['DLV_LABEL'] }}</option>
                     @endforeach
-                </select>
+                </select> </th>
             <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}"></h2>
-        <h2><button type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button></h2>
+    </tr>
+        </table>
+        <button class="button is-primary" type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button>
 
 
     </form>
+    
     <script>
         function displayText(elementId) {
             var textZone = document.getElementById(elementId);

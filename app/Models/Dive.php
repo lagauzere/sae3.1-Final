@@ -155,6 +155,13 @@ class Dive extends Model
         return DB::select('SELECT count(*) count FROM PARTICIPATE JOIN DIVERS using(DVR_LICENCE) WHERE DIV_ID =?', [$div_id]);
     }
 
+    public static function numParticipantsNotCancelled($div_id)
+    {
+        $res = DB::select('SELECT count(*) count FROM PARTICIPATE JOIN DIVERS using(DVR_LICENCE) WHERE DIV_ID =? AND PAR_CANCELLED = 0', [$div_id]);
+        return json_decode(json_encode($res[0]),true)['count'];
+    }
+
+
     /**
      * Retrieve the list of divers participating in a specific dive.
      *
@@ -176,6 +183,8 @@ class Dive extends Model
     {
         return DB::select('SELECT DIV_ID FROM PARTICIPATE WHERE DVR_LICENCE =?', [$dvr_id]);
     }
+
+
 
     /**
      * Retrieve the participants for a specific dive.
