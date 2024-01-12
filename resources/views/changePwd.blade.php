@@ -31,9 +31,9 @@
         <form class="box" style="width: 400px;" method="POST">
             @csrf
 
-            <p>Nouveau mot de passe</p>
+            <p>Entrer nouveau mot de passe</p>
             <input class="input" type="password" name="password" placeholder="********">
-            <p>Vérification du nouveau mot de passe</p>
+            <p>Confirmer nouveau mot de passe</p>
             <input class="input" type="password" name="passwordCheck" placeholder="********">
             <div class="field is-grouped is-grouped-centered">
              @if(session('erreurCode')==-1)
