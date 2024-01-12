@@ -21,6 +21,12 @@
 
 <body>
 <x-header/>
+
+    @if(session('error'))
+    <script>
+        alert("{{ session('error') }}");
+    </script>
+    @endif
     <form id="updateForm" action="/changeDataDives" method="POST">
         @csrf
     <h1> Nom du bateau : {{ $divesparameters[0]["SHP_NAME"] }} ({{ $divesparameters[0]["SHP_SEATS"]}} places)
@@ -74,15 +80,14 @@
     
     <h2> Nombre maximum d'inscrit pour la plongée : {{ $divesparameters[0]["SHP_SEATS"]}} plongeurs
 
-    <h2> Niveau minimum requis de la plongée : {{ $divesparameters[0]["DLV_LABEL"] }}  
-        <button type="button" onclick="displayText('choiceDivingLevel')">Modifier</button>  
-        <select style="display:none" id="choiceDivingLevel" name="choiceDivingLevel">
-            @foreach($minimumLevel as $level)
-                <option value="{{ $level['DLV_ID'] }}" @if($level['DLV_LABEL'] == $divesparameters[0]['DLV_LABEL']) selected @endif>{{ $level['DLV_LABEL'] }}</option>
-            @endforeach
-        </select>
-        <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}">
-    </h2>
+        <h2> Niveau minimum requis de la plongée : {{ $divesparameters[0]["DLV_LABEL"] }}  
+            <button type="button" onclick="displayText('choiceDivingLevel')">Modifier</button>  
+                <select style="display:none" id="choiceDivingLevel" name="choiceDivingLevel">
+                    @foreach($minimumLevel as $level)
+                        <option value="{{ $level['DLV_ID'] }}" @if($level['DLV_LABEL'] == $divesparameters[0]['DLV_LABEL']) selected @endif>{{ $level['DLV_LABEL'] }}</option>
+                    @endforeach
+                </select>
+            <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}"></h2>
         <h2><button type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button></h2>
 
 

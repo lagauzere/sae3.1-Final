@@ -103,5 +103,14 @@ class EditDiveParameters extends Model
         return DB::select('SELECT SHP_SEATS FROM ships WHERE SHP_ID = ?', [$shp_ID]);
     }
 
+    public function getParticipantsDivingLevels($diveId) {
+        return DB::select("SELECT DIVERS.DLV_ID
+                          FROM DIVERS
+                          JOIN PARTICIPATE ON DIVERS.DVR_LICENCE = PARTICIPATE.DVR_LICENCE
+                          WHERE PARTICIPATE.DIV_ID = ?", [$diveId]);
+    } 
     
+    public function divingLevelsTest(){
+        return collect(DB::select("select DLV_LABEL, DLV_ID from DIVING_LEVELS"));
+    }
 }

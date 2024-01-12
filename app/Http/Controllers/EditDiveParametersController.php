@@ -21,6 +21,20 @@ class EditDiveParametersController extends Controller
         $driverName = new EditDiveParameters();
         $monitorName = new EditDiveParameters();
 
+        $participantsDivingLevels = $dives->getParticipantsDivingLevels($id);
+
+        $availableLevels = $minimumLevel->divingLevelsTest()->filter(function ($level)
+        use ($participantsDivingLevels) {
+            foreach ($participantsDivingLevels as $participantLevel) {
+                if ($participantLevel->DLV_ID < $level->DLV_ID) {
+                    return false; 
+                }
+            }
+            return true;
+        });
+
+        $minimumLevelArray = json_decode(json_encode($availableLevels), true);
+
         $dive = $dives->dive($id);
         if(empty($dive)){
             return redirect('/');
@@ -33,8 +47,8 @@ class EditDiveParametersController extends Controller
         $diveMonitor = $divesMonitor->diveMonitor($id);
         $diveMonitorArray = json_decode(json_encode($diveMonitor),true);
 
-        $minimumLevel = $minimumLevel->divingLevels();
-        $minimumLevelArray = json_decode(json_encode($minimumLevel),true);
+        // $minimumLevel = $minimumLevel->divingLevels();
+        // $minimumLevelArray = json_decode(json_encode($minimumLevel),true);
 
         $boatName = $boatName->ships();
         $boatNameArray = json_decode(json_encode($boatName),true);
@@ -50,6 +64,8 @@ class EditDiveParametersController extends Controller
 
         $monitorName = $monitorName->monitors();
         $monitorNameArray = json_decode(json_encode($monitorName),true);
+
+        
 
         return view('diveParameters', [
             'divesparameters' => $diveArray,
@@ -75,6 +91,18 @@ class EditDiveParametersController extends Controller
         $choiceMonitorValue = $request->input('choiceMonitor');
         $choiceDivingLevelValue = $request->input('choiceDivingLevel');
         $diveId = $request->input('diveNumber');
+
+        // Récupère les niveaux de plongée des participants
+        $participantsDivingLevels = $changeData->getParticipantsDivingLevels($diveId);
+        // Vérifie si tous les participants ont un niveau supérieur à celui choisi
+        foreach ($participantsDivingLevels as $participantLevel) {
+            if ($participantLevel->DLV_ID <= $choiceDivingLevelValue) {
+                // Redirection avec un message d'erreur si au moins un participant a un niveau inférieur ou égal
+
+                session()->flash('error','Impossible d\'augmenter le niveau, tous les participants doivent avoir un niveau supérieur.');
+                return redirect()->back();
+            }
+        }
         
         $changeData->updateDiveMonitor($diveId, $choiceMonitorValue);
         $changeData->updateDiveShip($diveId, $choiceBoatValue);
