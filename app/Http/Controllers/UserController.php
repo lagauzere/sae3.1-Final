@@ -6,8 +6,20 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Views\Components;
 
+
+/**
+ * Controller handling user-related actions.
+ */
+
 class UserController extends Controller
 {
+
+    /**
+     * Get the remaining credits for the logged-in user.
+     *
+     * @return mixed
+     */
+
     public function getRemainingCredits()
     {
         $user = new User;
@@ -18,6 +30,13 @@ class UserController extends Controller
         return $remainingCredits;
     }
 
+     /**
+     * Search for people based on a given query.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function searchPeople(Request $request)
     {
         $query = $request->input('query');
@@ -27,6 +46,13 @@ class UserController extends Controller
         return response()->json($people);
     }
 
+
+     /**
+     * Get the registration status of the logged-in user for a specific dive.
+     *
+     * @param int $div_id Dive ID
+     * @return \Illuminate\Contracts\View\View
+     */
     
     public function getInscription($div_id){
 
@@ -36,7 +62,11 @@ class UserController extends Controller
          return view('divelists',['result'=>$result]);
         
         }
-
+    /**
+     * Get a list of all users.
+     *
+     * @return \Illuminate\Contracts\View\View
+     */    
 
         public function getAllUsers(){
             $user = new user;
@@ -44,7 +74,13 @@ class UserController extends Controller
             return view('allUsers',['result'=>$result]);
         }
 
-
+    /**
+     * Update the role/status of a user.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $dvr_licence User's license
+     * @return \Illuminate\Http\RedirectResponse
+     */
 
         public function updateRole(Request $request,$dvr_licence){
             if($request->input('isPilote')=='on'){
