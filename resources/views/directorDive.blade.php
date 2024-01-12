@@ -1,3 +1,9 @@
+<?php if (session('userID') == null) {
+    abort(404);
+}
+else if (User::isAdmin()==0){
+    abort(404);
+} ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
