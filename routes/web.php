@@ -70,13 +70,10 @@ Route::get('/users',[UserController::class,'getAllUsers'])->name('users');
 
 Route::post('/update-role/{dvr_licence}', [UserController::class, 'updateRole'])->name('update-role');
 
-<<<<<<< HEAD
 Route::view('/changePwd','changePwd')->name('changePwd');
 
 Route::post('/changePwd',[UserController::class,'updatePassword']);
-=======
 Route::get('/info/{div_id}',[DiveController::class,'getInfos'])->name('info');
->>>>>>> pdf_generation
 
 //Route::view('/profile', 'profile');
 
