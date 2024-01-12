@@ -39,7 +39,7 @@ use App\Models\User;
         <table class="table is-rounded" style="position:fixed;background:#FFFFFF;border-collapse: separate; border:solid white 1px; border-radius: 1px 1px 20px 20px; box-shadow: 3px 3px 20px -10px" id="searchResults"></table>
         <div style="height: 30px;"></div>
         <h2 class="subtitle is-5">Modifier les adhérents de la plongée</h2>
-        <table class="table">
+        <table class="table" style="width: 100%">
         <tr class="thead">
                 <th>
                 Licence
@@ -56,7 +56,7 @@ use App\Models\User;
         </tr>
         @foreach($participants as $p)
             @if ($p['PAR_CANCELLED'])
-            <tr style="background-color: #fcc"><!-- in red when cancelled -->
+            <tr style="background-color: #ffa"><!-- in red when cancelled -->
             @else
             <tr>
             @endif
@@ -96,14 +96,14 @@ use App\Models\User;
                 </th>
                 <th>
                     @if($p['PAR_CANCELLED']) @else
-                    <select class="palanquee-select" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
+                    <select class="palanquee-select select is-rounded is-info" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
                     @endif
                 </th>
                 
             </tr>
         @endforeach
         </table>
-        <div id="palanquee-error">
+        <table id="palanquee-error" class="table" style="width: 100%"> </table>
         </div>
     </div>
     <x-footer/>
@@ -119,7 +119,14 @@ use App\Models\User;
 
 
     function errorLinePal(numPal, txt){
-        return '<div class="error-line"> Palanquée n°'+numPal+': '+txt+'</div>';
+        return '<tr class="error-line" style="background-color: #fcc"><th> Palanquée n°'+numPal+' : '+txt+'</th></tr>';
+    }
+    function errorLine(txt){
+        return '<tr class="error-line" style="background-color: #fcc"><th>'+txt+'</th></tr>';
+    }
+
+    function successLine(txt){
+        return '<tr class="error-line" style="background-color: #cfe"><th>'+txt+'</th></tr>';
     }
     function updatePalanqueeError() {
         let numDivers = Object.keys(userLicence2PalNum).length;
@@ -127,7 +134,7 @@ use App\Models\User;
         let isFine = 1;
         //not everyone in a palanquee
         if (numDivers != numPeople) {
-            txtHtml += '<div class="error-line">Tous les plongeurs ne sont pas dans une palanquée</div>';
+            txtHtml += errorLine('Tous les plongeurs ne sont pas dans une palanquée');
             isFine = 0;
         }
         //fill a palNum2Users to easely check each palanquee
@@ -171,8 +178,8 @@ use App\Models\User;
                 trl = user['TRL_ID'];
                 if (dlv==1 && count==3) txtHtml += errorLinePal(palNum, 'Si un plongeur est de niveau PB, la palanquée est au maximum de 2 (ici '+count+')');
                 console.log(dlv)
-                if ([1,2,3,4].includes(dlv) && maxTrl<1){
-                    txtHtml += errorLinePal(palNum, 'PO, PB, PA nécessitent au minimum un E1(si moins de 6m), E2, E3, E4');
+                if ([1,2,3,4].includes(dlv) && maxTrl<2){
+                    txtHtml += errorLinePal(palNum, 'PO, PB, PA nécessitent au minimum un E2, E3, E4');
                     isFine = 0;
                 }
                 if ([5,7,10].includes(dlv) && maxTrl<2) {
@@ -190,8 +197,8 @@ use App\Models\User;
                 }
             }
         }
-        if (isFine==0) txtHtml += '<div class="error-line">Palanquées incorrectes</div>';
-        else txtHtml += '<div class="error-line">Palanquées correctes</div>';
+        if (isFine==0) txtHtml += errorLine('Palanquées incorrectes');
+        else txtHtml += successLine('Palanquées correctes');
         $('#palanquee-error').html(txtHtml);
     }
     function fillSelects() {
@@ -257,14 +264,14 @@ use App\Models\User;
                     resultsHtml += '<form action="{{ route('handle-form-add-participation') }}" method="POST">@csrf';
                     resultsHtml += `<input name="uid" type="hidden" value="`+person.DVR_LICENCE+`"/>
                     <input name="div_id" type="hidden" value="{{$div_id}}"/>`;
-                    resultsHtml += '<button type="submit">inscrire</button>';
+                    resultsHtml += '<button class="button is-primary" type="submit">inscrire</button>';
                     resultsHtml += "</th>";
                     resultsHtml += '</form>';
                     resultsHtml += "</tr>";
                 });
                 
             } else {
-                resultsHtml = '<li>Aucun résultat.</li>';
+                resultsHtml = '<tr><th>Aucun résultat.</th></tr>';
             }
 
             $('#searchResults').html(resultsHtml);
