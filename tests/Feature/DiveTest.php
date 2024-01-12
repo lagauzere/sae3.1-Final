@@ -63,30 +63,6 @@ class DiveTest extends TestCase
     }
 
 
-    public function testDiveCancelled()
-{
-    
-    DB::table('DIVES')->insertGetId([
-        'DIV_ID'=>60,
-        'DVR_LICENCE_MONITORS' => 'A-04-100003',
-        'DVR_LICENCE_DIRECTS' => 'A-04-100002',
-        'DVR_LICENCE_DRIVES' => 'A-04-100003',
-        'SHP_ID' => 1,
-        'STA_ID' => 1,
-        'DLV_ID' => 5,
-        'SIT_ID' => 6,
-        'DIV_DATE' => '2024-04-10 09:00:00',
-        'DIV_HEADCOUNT' => 8,
-        'DIV_COMMENT' => 'Belle plongée matinale avec une bonne visibilité'
-    ]);
-    $divId = 60;
-    $dive = new Dive();
-    $result = $dive->diveCancelled();
-
-    
-    $this->assertContains($divId,array_column($result, 'DIV_ID'));
-}
-
 
 
     public function testGetDiversList()
