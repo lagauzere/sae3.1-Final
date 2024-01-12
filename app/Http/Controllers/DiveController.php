@@ -149,8 +149,8 @@ class DiveController extends Controller
         $isSunday = $request->input('isSunday');
         $date = $choiceDate.' '.$choiceHours;
         $existingDiveCount = $creationData->getAllTheDivesInTheDay($choiceDate);
+        $existingDiveHoursCount = $creationData->getDivesAtTheSameHours($date);
         if($isSunday == "true"){
-            
             if($existingDiveCount[0]->count > 0){
                 session()->flash('error','Il ne peut y avoir plusieurs plongée un dimanche');
                 return  redirect('creationDive');
@@ -159,6 +159,11 @@ class DiveController extends Controller
         if(($existingDiveCount[0]->count >= 3) == true){
             session()->flash('error','Il ne peut y avoir plus de 3 plongée le même jour');
             return redirect('creationDive');
+        }
+        
+        if($existingDiveHoursCount[0]->count > 0){
+            session()->flash('error','Il ne peut y avoir plusieurs plongées sur le même créneau');
+                return  redirect('creationDive');
         }
 
         $shipHeadcountResult = $creationData->getHeadcount($choiceBoatValue);

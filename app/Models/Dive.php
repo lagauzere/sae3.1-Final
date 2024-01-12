@@ -169,5 +169,9 @@ class Dive extends Model
         return DB::select('SELECT COUNT(*) as count FROM DIVES WHERE DIV_DATE like ?',[$date . '%']);
     }
 
+    public function getDivesAtTheSameHours($date){
+        return DB::select('SELECT COUNT(*) as count FROM DIVES WHERE DIV_DATE like ?',[$date]);
+    }
+
 }
 
