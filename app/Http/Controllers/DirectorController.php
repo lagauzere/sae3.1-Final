@@ -8,11 +8,22 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\DeleteDive;
 
+/**
+ * Class DirectorController
+ * @package App\Http\Controllers
+ */
 class DirectorController extends BaseController
 {
+    /**
+     * Display a list of planned dives directed by the currently logged-in user.
+     *
+     * @return \Illuminate\View\View
+     */
     public function directedPlannedDiveList()
     {
         $dvr_id = session('userID');
+
+
         $dive = new Dive;
         if (User::isAdmin()){
             $listNum = $dive->allPlannedDiveList();
@@ -20,17 +31,19 @@ class DirectorController extends BaseController
         else{
             $listNum = $dive->directedPlannedDiveList($dvr_id);
         }
-        
-        $diveArray = json_decode(json_encode($listNum),true);
 
-        $completeDiveArray=array();
-        
-        
-        foreach($diveArray as $diveNumber) {
+        $diveArray = json_decode(json_encode($listNum), true);
+
+
+        $completeDiveArray = array();
+
+
+        foreach ($diveArray as $diveNumber) {
             array_push($completeDiveArray, $diveNumber);
         }
-        return view('directorDivesList',['dives'=>$completeDiveArray]);
 
+
+        return view('directorDivesList', ['dives' => $completeDiveArray]);
     }
     
     /*
@@ -40,50 +53,56 @@ class DirectorController extends BaseController
         $res = $DiverModel->getDivesDirector($div_id);
         var_dump($res);
         return ($user==$res);
-        
     }
     */
+
+
+    
+    /**
+     * Handle the form submission to change the participation state of a user in a dive.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View
+     */
     public function handleFormChangeParticipationStateSubmission(Request $request)
     {
+
         $uid = $request->input('uid');
         $div_id = $request->input('div_id');
         $wanted_state = $request->input('wanted_state');
-        
+
+
         User::updateParticipationState($uid, $div_id, $wanted_state);
-        
+
+
         return $this->editDivers($request);
     }
 
-    public function handleFormAddParticipationSubmission(Request $request)
-    {
-        $uid = $request->input('uid');
-        $div_id = $request->input('div_id');
-        
-        User::addParticipation($uid, $div_id);
-        
-        return $this->editDivers($request);
-    }
 
-    public function handleFormRemoveParticipationSubmission(Request $request)
-    {
-        $uid = $request->input('uid');
-        $div_id = $request->input('div_id');
-        
-        User::removeParticipation($uid, $div_id);
-        
-        return $this->editDivers($request);
-    }
     
-    public function editDivers(Request $request){
-        
+    /**
+     * Display a view to edit divers participating in a dive.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function editDivers(Request $request)
+    {
+
         $div_id = $request->input('div_id');
+
 
         $participants = Dive::getParticipants($div_id);
 
-        if(Dive::isDiveDirector($div_id) || User::isAdmin()){
-            return view('directorEditDivers',['div_id'=>$div_id, 'participants'=>$participants]);
+        $div_date = Dive::getDate($div_id);
+
+
+        if (Dive::isDiveDirector($div_id)) {
+
+            return view('directorEditDivers', ['div_id' => $div_id, 'participants' => $participants, 'div_date'=>$div_date]);
         }
-        return redirect()->route('welcome'); 
+
+        return redirect()->route('welcome');
     }
 
     public function deleteDiver(Request $request){

@@ -25,7 +25,12 @@ use App\Models\User;
     <x-header/>
     <div style="padding: 0px 200px">
         <h1 class="title is-1">Plongée n°{{ $div_id }}</h1>
+        @php
+            $date = "2024-01-12";
+            // dd($div_date);
+        @endphp
         <div style="width: 100%; display: flex;">
+            @if($div_date[0]['DIV_DATE'] > $date)
             <button class="button is-primary"><a id="editDivesButton" href="/diveParameters/{{ $div_id }}" style="color: white;">Modifier la plongée</a></button>
             <div style="width: 10px;"></div>
             <form action="{{ route('handle-form-delete') }}" method="POST">
@@ -39,6 +44,7 @@ use App\Models\User;
         <table class="table is-rounded" style="position:fixed;background:#FFFFFF;border-collapse: separate; border:solid white 1px; border-radius: 1px 1px 20px 20px; box-shadow: 3px 3px 20px -10px" id="searchResults"></table>
         <div style="height: 30px;"></div>
         <h2 class="subtitle is-5">Modifier les adhérents de la plongée</h2>
+        @endif
         <table class="table" style="width: 100%">
         <tr class="thead">
                 <th>
@@ -54,6 +60,7 @@ use App\Models\User;
                 Niveau d'encadrant
                 </th>
         </tr>
+
         @foreach($participants as $p)
             @if ($p['PAR_CANCELLED'])
             <tr style="background-color: #ffa"><!-- in red when cancelled -->
@@ -73,6 +80,7 @@ use App\Models\User;
                 {{$p['TRL_LABEL']}}&nbsp
                 </th>
                 <th>
+                    @if($div_date[0]['DIV_DATE'] > $date)
                     <form action="{{ route('handle-form-change-participation-state') }}" method="POST">
                         @csrf 
                         <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
@@ -80,26 +88,30 @@ use App\Models\User;
                         <input name="wanted_state" type="hidden" value=@if($p['PAR_CANCELLED']) 0 @else 1 @endif/>
                         <button type="submit" @if($p['PAR_CANCELLED']) class="button is-primary"> RÉINSCRIRE @else class="button is-warning"> DÉSINSCRIRE @endif</button>
                     </form>
-                    
+                    @endif
                 <th>
+                    @if($div_date[0]['DIV_DATE'] > $date)
                 <form action="{{ route('handle-form-remove-participation') }}" method="POST">
                     @csrf 
                     <input name="uid" type="hidden" value="{{$p['DVR_LICENCE']}}"/>
                     <input name="div_id" type="hidden" value="{{$div_id}}"/>
                     <button type="submit" class="button is-danger">SUPPRIMER</button>
                 </form>
-                </th>
+                    @endif
+                </th> 
+                @if($div_date[0]['DIV_DATE'] > $date) 
                 <th>
                     @if($p['PAR_CANCELLED']) @else
                     <p>Palanquée : </p>
                     @endif
                 </th>
                 <th>
+                    
                     @if($p['PAR_CANCELLED']) @else
                     <select class="palanquee-select select is-rounded is-info" onchange="handlePalanqueeChange('{{ json_encode($p) }}', this.value)"></select>
                     @endif
                 </th>
-                
+                @endif 
             </tr>
         @endforeach
         </table>
@@ -114,8 +126,9 @@ use App\Models\User;
     const userLicence2Diver = {};
 
     document.getElementById('deleteDivesButton').addEventListener('click', function() {
-        alert('Le plongée va etre supprimé!!');
+        alert('Le plongée va être supprimé !!');
     });
+    let palNum2Users = {};
 
 
     function errorLinePal(numPal, txt){
@@ -145,7 +158,6 @@ use App\Models\User;
             if (!(palNum in palNum2Users)) palNum2Users[palNum] = [];
             palNum2Users[palNum].push(userLicence2Diver[userLicence]);
         }
-        //console.log(palNum2Users);
 
         //check for each palanquee
         for (var palNum in palNum2Users)
@@ -216,7 +228,12 @@ use App\Models\User;
         if (selectedValue == 0) delete userLicence2PalNum[licence];
 
         updatePalanqueeError();
+
+        sessionStorage.setItem("palanquees", JSON.stringify(palNum2Users));
     }
+
+
+
     $(document).ready(function() {
         numPeople = 0;
         const participants = @json($participants);

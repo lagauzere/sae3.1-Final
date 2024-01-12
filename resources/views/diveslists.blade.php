@@ -1,9 +1,10 @@
 <?php
-     use App\Models\User;
 
-    if(session('userID')==null  ){
-        abort(404);
-    }
+use App\Models\User;
+
+if (session('userID') == null) {
+    abort(404);
+}
 ?>
 
 <!DOCTYPE html>
@@ -17,15 +18,17 @@
     @livewireStyles
 
     <!-- Styles -->
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link rel="stylesheet" href="/resources/css/app.css"></link>
+    <link rel="stylesheet" href="/resources/css/app.css">
+    </link>
     <style>
         html {
             scroll-behavior: smooth;
         }
+
         body {
             padding-top: 60px;
         }
@@ -37,9 +40,9 @@
     <h1>Liste des plongées disponibles</h1>
 
     <?php
-        $AllDives = json_encode($dives);
-        $DiversDives = json_encode($everyDivesRegistered);
-        $LevelOfDiver = json_encode($userLevel);       
+    $AllDives = json_encode($dives);
+    $DiversDives = json_encode($everyDivesRegistered);
+    $LevelOfDiver = json_encode($userLevel);
     ?>
 
     <div id='calendar-container' style="padding: 20px;">
@@ -54,9 +57,9 @@
             </div>
         </div>
     </div>
-        
+
     @push('scripts')
-   <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         </script>
@@ -203,19 +206,20 @@
                             
                         $('.modal').modal('show');
                     }
-                });
-                calendar.render();
+                    
             });
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js"></script>
-        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css' rel='stylesheet' />
-        @endpush
+            calendar.render();
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/locales-all.min.js"></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.6.0/main.min.css' rel='stylesheet' />
+    @endpush
 
-        <livewire:calendar></livewire:calendar>
-        @livewireScripts
-        @stack('scripts')
+    <livewire:calendar></livewire:calendar>
+    @livewireScripts
+    @stack('scripts')
 
-        <x-footer />
+    <x-footer />
 </body>
 
 </html>

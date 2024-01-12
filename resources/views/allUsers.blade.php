@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css" />
     <link rel="stylesheet" href="/resources/css/app.css">
     </link>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            padding-top: 60px;
+        }
+    </style>
 </head>
 
 <body>
@@ -54,7 +62,7 @@
                             <td><input name="isDirector" type="checkbox" <?php echo ($userArray['DVR_CANDIRECT'] == 1) ? 'checked' : ''; ?>></td>
                             <td><input name="isManager" type="checkbox" <?php echo ($userArray['DVR_CANMONITOR'] == 1) ? 'checked' : ''; ?>></td>
                             <td><input name="isAdmin" type="checkbox" <?php echo ($userArray['DVR_ISADMIN'] == 1) ? 'checked' : ''; ?>></td>
-                    <td><button type="submit" action="" class="button is-white">
+                        <td><button type="submit" action="" class="button is-white">
                                     <p class="text has-text-success"><strong>ok</strong></p>
                                 </button></td>
                         </form>

@@ -62,10 +62,13 @@
             <div class="navbar-item">
                 <div class="buttons">
                     @if(session()->has('userID'))
+                    <a class="button is-info" href="/changePwd">
+                        <strong>modifier mot de passe</strong>
+                    </a>
                     <form action="/disconnect" method="post">
                         @csrf
                         <button type="submit" class="button is-info is-light"><strong>Déconnexion</strong></button>
-                    </form>
+                    </form> 
                     @else
                     <a class="button is-info" href="#connexion">
                         <strong>Connexion</strong>

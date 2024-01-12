@@ -120,4 +120,46 @@ class UserController extends Controller
             return redirect()->route('users'); 
         }
 
+
+
+
+/**
+ 
+ *
+ * @param \Illuminate\Http\Request $request
+ *     The request object containing user input, particularly the new password and password confirmation.
+ *
+ * @return \Illuminate\Http\RedirectResponse
+ *     If the provided password is empty or does not match the password confirmation,
+ *     the function redirects to the 'changePwd' route with an error code.
+ *     If the password is valid, it updates the user's password using the `updatePass` method
+ *     and redirects to the 'welcome' route.
+ * @example
+ *     $userController = new UserController();
+ *     $response = $userController->updatePassword($request);
+ */
+public function updatePassword(Request $request){
+    $user = new User();
+
+    // Check if password is empty or doesn't match confirmation
+    if ($request->input('password') === "" || $request->input('password') != $request->input('passwordCheck')) {
+        // Flash an error code to the session
+        session()->flash('erreurCode', -1);
+
+        // Redirect to the 'changePwd' route
+        return redirect()->route('changePwd');
+    } else {
+        // Get the password from the request
+        $password = $request->input('password');
+
+        // Update user password using the updatePass method
+        $user->updatePass($password);
+
+        // Redirect to the 'welcome' route
+        return redirect()->route('welcome');
+    }
 }
+
+}
+
+

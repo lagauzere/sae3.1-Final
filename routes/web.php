@@ -44,7 +44,7 @@ Route::get('/diverlist/{div_id}',[DiveController::class,'diverList'])->name('div
 
 
 Route::get('creationDive', [DiveController::class,'creationDive']);
-Route::post('createDataDives', [DiveController::class, 'creationDataDives']);
+Route::post('createDataDives', [DiveController::class, 'creationDataDives'])->name('createDataDive');
 
 Route::get('/profile',[DiveController::class,'profile']);
 
@@ -71,6 +71,10 @@ Route::get('/users',[UserController::class,'getAllUsers'])->name('users');
 
 Route::post('/update-role/{dvr_licence}', [UserController::class, 'updateRole'])->name('update-role');
 
+Route::view('/changePwd','changePwd')->name('changePwd');
 
+Route::post('/changePwd',[UserController::class,'updatePassword']);
+Route::get('/info/{div_id}',[DiveController::class,'getInfos'])->name('info');
 
 //Route::view('/profile', 'profile');
+

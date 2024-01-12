@@ -20,6 +20,11 @@
 
 <body>
 <x-header/>
+    @if(session('error'))
+        <script>
+            alert("{{ session('error') }}");
+        </script>
+    @endif
     <form id="creationForm" action="/createDataDives" method="POST">
         @csrf
     <h1> Nom du bateau : 
@@ -85,6 +90,7 @@
     <h2>
         <textarea id="comment" name="comment" rows="5" cols="33" placeholder="Description de la plongée..."></textarea>
     </h2>
+    <input type="hidden" name="isSunday" id="isSundayInput" value="false">
 
     <button type="submit" id="validate" onclick="submitForm()">Valider</button>
 
@@ -94,10 +100,16 @@
         console.log(test.value);
 
         function submitForm() {
+            var isSunday = false;
+            var selectedDate = new Date(document.getElementById("date").value);
+            isSunday = selectedDate.getDay() == 0 ? true : false;
+
+            document.getElementById("isSundayInput").value = isSunday;
 
             document.getElementById("creationForm").submit();
         }
-
+        
+        
     </script>
 <x-footer/>
 </body>
