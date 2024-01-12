@@ -35,68 +35,85 @@
             }
             ?>
         </table>
-
-        <div id="placeholder">
-
-        </div>
-        <script>
-            const palanqueesObj = JSON.parse(sessionStorage.getItem("palanquees"));
-
-            for (let i = 1; i < 3; i++) { // for each palanquee
-                let title = document.createElement("H1");
-                title.innerText = "PALANQUÉE N°" + i + ":";
-                let table = document.createElement("table");
-                table.style = "border: 1px solid black; border-collapse: collapse;";
-
-                let headerRow = table.createTHead().insertRow(0);
-                let headers = ["Nom", "Prenom", "Aptitudes"];
-                for (let j = 0; j < headers.length; j++) {
-                    let headerCell = headerRow.insertCell(j);
-                    headerCell.style = "border: 1px solid black; border-collapse: collapse; font-weight: bold;";
-                    headerCell.innerHTML = headers[j];
-                }
-                let tbody = table.createTBody();
-                if (palanqueesObj && palanqueesObj[i]) {
-                    let rowData = palanqueesObj[i];
-
-                    for (let j = 0; j < rowData.length; j++) {
-                        let row = tbody.insertRow(j);
-                        let cell1 = row.insertCell(0);
-                        cell1.style = "border: 1px solid black; border-collapse: collapse;";
-                        cell1.innerHTML = rowData[j]['DVR_NAME'];
-                        let cell2 = row.insertCell(1);
-                        cell2.style = "border: 1px solid black; border-collapse: collapse;";
-                        cell2.innerHTML = rowData[j]['DVR_FIRST_NAME'];
-                        let cell3 = row.insertCell(2);
-                        cell3.style = "border: 1px solid black; border-collapse: collapse;";
-                        cell3.innerHTML = rowData[j]['DLV_LABEL'];
-                    }
-                }
-
-                document.getElementById('placeholder').appendChild(title);
-                document.getElementById('placeholder').appendChild(table);
-            }
-        </script>
+        <div id="placeholder"></div>
     </div>
+    <script>
+        const palanqueesObj = JSON.parse(sessionStorage.getItem("palanquees"));
+
+        for (let i = 1; i < Object.keys(palanqueesObj).length + 1; i++) { // for each palanquee
+            let title = document.createElement("H1");
+            title.innerText = "PALANQUÉE N°" + i + ":";
+
+            let palanqueeStatTable = document.createElement("table");
+            palanqueeStatTable.style = "border: 1px solid black; border-collapse: collapse;";
+            palanqueeStatTable.innerHTML = `
+                <tr>
+                    <th style="border: 1px solid black; border-collapse: collapse;">Profondeur</th>
+                    <th style="border: 1px solid black; border-collapse: collapse;">Durée réalisée</th>
+                </tr>
+                <tr>
+                    <td id="inputDepth${i}" style="border: 1px solid black; border-collapse: collapse;"><input type="text" placeholder="${sessionStorage.getItem("depth" + i)}"></td>
+                    <td id="inputDuration${i}" style="border: 1px solid black; border-collapse: collapse;"><input type="text" placeholder="${sessionStorage.getItem("duration" + i)}"></td>
+                </tr>
+                `;
+
+            let table = document.createElement("table");
+            console.log(sessionStorage.getItem("depth" + i));
+            table.style = "border: 1px solid black; border-collapse: collapse;";
+            let headerRow = table.createTHead().insertRow(0);
+            let headers = ["Nom", "Prenom", "Aptitudes"];
+            for (let j = 0; j < headers.length; j++) {
+                let headerCell = headerRow.insertCell(j);
+                headerCell.style = "border: 1px solid black; border-collapse: collapse; font-weight: bold;";
+                headerCell.innerHTML = headers[j];
+            }
+            let tbody = table.createTBody();
+            if (palanqueesObj && palanqueesObj[i]) {
+                let rowData = palanqueesObj[i];
+                for (let j = 0; j < rowData.length; j++) {
+                    let row = tbody.insertRow(j);
+                    let cell1 = row.insertCell(0);
+                    cell1.style = "border: 1px solid black; border-collapse: collapse;";
+                    cell1.innerHTML = rowData[j]['DVR_NAME'];
+                    let cell2 = row.insertCell(1);
+                    cell2.style = "border: 1px solid black; border-collapse: collapse;";
+                    cell2.innerHTML = rowData[j]['DVR_FIRST_NAME'];
+                    let cell3 = row.insertCell(2);
+                    cell3.style = "border: 1px solid black; border-collapse: collapse;";
+                    cell3.innerHTML = rowData[j]['DLV_LABEL'];
+                }
+            }
+            document.getElementById('placeholder').appendChild(title);
+            document.getElementById('placeholder').appendChild(palanqueeStatTable);
+
+            let inputDepth = document.getElementById('inputDepth' + i);
+            inputDepth.addEventListener("input", (e) => {
+                sessionStorage.setItem("depth" + i, e.target.value);
+                inputDepth.placeholder = sessionStorage.getItem("depth" + i);
+            });
+
+            let inputDuration = document.getElementById('inputDuration' + i);
+            inputDuration.addEventListener("input", (e) => {
+                sessionStorage.setItem("duration" + i, e.target.value);
+                inputDuration.placeholder = sessionStorage.getItem("duration" + i);
+            });
+
+            document.getElementById('placeholder').appendChild(table);
+        }
+    </script>
     <button id="download">
         Télécharger le PDF
     </button>
     <script>
         let button = document.getElementById("download");
         let makepdf = document.getElementById("pdf");
-
         button.addEventListener("click", function() {
-            let mywindow = window.open("", "PRINT",
-                "height=400,width=600");
-
+            let mywindow = window.open("", "PRINT", "height=400,width=600");
             mywindow.document.write(makepdf.innerHTML);
-
             mywindow.document.close();
             mywindow.focus();
-
             mywindow.print();
             mywindow.close();
-
             return true;
         });
     </script>
