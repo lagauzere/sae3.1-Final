@@ -146,12 +146,30 @@ class DiveController extends Controller
         $choiceHours = $request->input('choiceHours');
         $choiceDate = $request->input('date');
         $comment = $request->input('comment');
+        $isSunday = $request->input('isSunday');
+        $date = $choiceDate.' '.$choiceHours;
+        $existingDiveCount = $creationData->getAllTheDivesInTheDay($choiceDate);
+        $existingDiveHoursCount = $creationData->getDivesAtTheSameHours($date);
+        if($isSunday == "true"){
+            if($existingDiveCount[0]->count > 0){
+                session()->flash('error','Il ne peut y avoir plusieurs plongée un dimanche');
+                return  redirect('creationDive');
+            }
+        }
+        if(($existingDiveCount[0]->count >= 3) == true){
+            session()->flash('error','Il ne peut y avoir plus de 3 plongée le même jour');
+            return redirect('creationDive');
+        }
+        
+        if($existingDiveHoursCount[0]->count > 0){
+            session()->flash('error','Il ne peut y avoir plusieurs plongées sur le même créneau');
+                return  redirect('creationDive');
+        }
 
         $shipHeadcountResult = $creationData->getHeadcount($choiceBoatValue);
         $shipHeadcountResultArray = json_decode(json_encode($shipHeadcountResult),true);
         $shipHeadcount = implode($shipHeadcountResultArray[0]);
-        $date = $choiceDate.' '.$choiceHours;
-
+    
         $idResult = $creationData->getMaxDiveID();
         $idResultDD = json_decode(json_encode($idResult),true);
         $id = implode($idResultDD[0]);

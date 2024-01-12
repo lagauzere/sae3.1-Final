@@ -83,10 +83,12 @@ class DirectorController extends BaseController
 
         $participants = Dive::getParticipants($div_id);
 
+        $div_date = Dive::getDate($div_id);
+
 
         if (Dive::isDiveDirector($div_id)) {
 
-            return view('directorEditDivers', ['div_id' => $div_id, 'participants' => $participants]);
+            return view('directorEditDivers', ['div_id' => $div_id, 'participants' => $participants, 'div_date'=>$div_date]);
         }
 
         return redirect()->route('welcome');

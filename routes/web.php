@@ -44,7 +44,7 @@ Route::get('/diverlist/{div_id}',[DiveController::class,'diverList'])->name('div
 
 
 Route::get('creationDive', [DiveController::class,'creationDive']);
-Route::post('createDataDives', [DiveController::class, 'creationDataDives']);
+Route::post('createDataDives', [DiveController::class, 'creationDataDives'])->name('createDataDive');
 
 Route::get('/profile',[DiveController::class,'profile']);
 

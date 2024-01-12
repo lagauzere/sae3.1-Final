@@ -267,6 +267,10 @@ class Dive extends Model
         return DB::select('SELECT (MAX(DIV_ID)+1) as DIV_ID from DIVES');
     }
 
+    public function getDiveSameDay($date){
+        return DB::select('SELECT count(*) as count FROM DIVES WHERE DIV_DATE = ?', [$date]);
+    }
+
     public function createDive($id, $choiceBoatValue, $choiceSiteValue, $choiceDirectorValue, $choiceDriverValue, $choiceMonitorValue, $choiceDivingLevelValue, $date, $shipHeadcount, $comment) {
         return DB::insert("INSERT INTO DIVES(DIV_ID, DVR_LICENCE_MONITORS, SHP_ID, DVR_LICENCE_DIRECTS, DVR_LICENCE_DRIVES, STA_ID, DLV_ID, SIT_ID, DIV_DATE, DIV_HEADCOUNT, DIV_COMMENT) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
@@ -282,4 +286,13 @@ class Dive extends Model
     public function getNbInDives($div_id){
         return DB::select('SELECT count(*) as count from PARTICIPATE where DIV_ID =?;',[$div_id]);
     }
+
+    public function getAllTheDivesInTheDay($date){
+        return DB::select('SELECT COUNT(*) as count FROM DIVES WHERE DIV_DATE like ?',[$date . '%']);
+    }
+
+    public function getDivesAtTheSameHours($date){
+        return DB::select('SELECT COUNT(*) as count FROM DIVES WHERE DIV_DATE like ?',[$date]);
+    }
+
 }

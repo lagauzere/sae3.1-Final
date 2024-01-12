@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.4/css/bulma.min.css"/>
-    <link rel="stylesheet" href="/resources/css/app.css"></link>
+    <link rel="stylesheet" href="/resources/css/app.css"/>
     <style>
         html {
             scroll-behavior: smooth;
@@ -21,17 +21,27 @@
 
 <body>
 <x-header/>
+
+    @if(session('error'))
+    <script>
+        alert("{{ session('error') }}");
+    </script>
+    @endif
     <form id="updateForm" action="/changeDataDives" method="POST">
         @csrf
     <h1> Nom du bateau : {{ $divesparameters[0]["SHP_NAME"] }} ({{ $divesparameters[0]["SHP_SEATS"]}} places)
     <button type="button" onclick="displayText('choiceBoat')">Modifier</button>  
         <select style="display:none" id="choiceBoat" name="choiceBoat" default="{{ $divesparameters[0]['SHP_NAME'] }}">
             @foreach($boatName as $boat)
-                @if(($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"]) <= $boat['SHP_SEATS'])
+                @if(($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"]) + 2 <= $boat['SHP_SEATS'])
                 <option value="{{ $boat['SHP_ID'] }}" @if($boat['SHP_NAME'] == $divesparameters[0]['SHP_NAME']) selected @endif>{{ $boat['SHP_NAME'] }} ({{ $boat['SHP_SEATS']}} places)</option>
                 @endif
             @endforeach
         </select>
+    </h1>
+
+    <h1>
+        Nombre de personne présente sur le bateau : {{ ($divesparameters[0]["SHP_SEATS"] - $divesparameters[0]["DIV_HEADCOUNT"] + 2) }}
     </h1>
 
     <h2> Site de la plongée : {{ $divesparameters[0]["SIT_NAME"] }} ({{ $divesparameters[0]["SIT_DEPTH"]}} mètres de profondeur)  
@@ -70,15 +80,15 @@
     
     <h2> Nombre maximum d'inscrit pour la plongée : {{ $divesparameters[0]["SHP_SEATS"]}} plongeurs
 
-    <h2> Niveau minimum requis de la plongée : {{ $divesparameters[0]["DLV_LABEL"] }}  
-        <button type="button" onclick="displayText('choiceDivingLevel')">Modifier</button>  
-        <select style="display:none" id="choiceDivingLevel" name="choiceDivingLevel">
-            @foreach($minimumLevel as $level)
-                <option value="{{ $level['DLV_ID'] }}" @if($level['DLV_LABEL'] == $divesparameters[0]['DLV_LABEL']) selected @endif>{{ $level['DLV_LABEL'] }}</option>
-            @endforeach
-        </select>
-        <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}"></h2>
-    <h2><button type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button></h2>
+        <h2> Niveau minimum requis de la plongée : {{ $divesparameters[0]["DLV_LABEL"] }}  
+            <button type="button" onclick="displayText('choiceDivingLevel')">Modifier</button>  
+                <select style="display:none" id="choiceDivingLevel" name="choiceDivingLevel">
+                    @foreach($minimumLevel as $level)
+                        <option value="{{ $level['DLV_ID'] }}" @if($level['DLV_LABEL'] == $divesparameters[0]['DLV_LABEL']) selected @endif>{{ $level['DLV_LABEL'] }}</option>
+                    @endforeach
+                </select>
+            <input style="display:none;" type="text" id="diveNumber" name="diveNumber" value="{{ $divesparameters[0]['DIV_ID'] }}"></h2>
+        <h2><button type="submit" style="display:none;" id="validate" onclick="submitForm()">Valider</button></h2>
 
 
     </form>
