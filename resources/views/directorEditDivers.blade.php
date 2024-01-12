@@ -1,6 +1,14 @@
 <?php
 use App\Models\Dive;
+
+use App\Models\User;
+
+if(session('userID')==null  ){
+    abort(404);
+}
 ?>
+
+
 
 @if(Dive::isDiveDirector($div_id)>0)
 <!DOCTYPE html>

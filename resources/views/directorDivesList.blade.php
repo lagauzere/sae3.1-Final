@@ -1,5 +1,11 @@
 <?php
 use App\Models\User;
+
+
+if(session('userID')==null  ){
+    abort(404);
+}
+?>
 ?>
 
 @if(User::canDirect()>0)
