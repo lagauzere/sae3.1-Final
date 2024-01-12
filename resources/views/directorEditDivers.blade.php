@@ -128,12 +128,11 @@ use App\Models\User;
     const userLicence2PalNum = {};
     let numPeople;
     const userLicence2Diver = {};
+    let palNum2Users = {};
 
     document.getElementById('deleteDivesButton').addEventListener('click', function() {
         alert('Le plongée va être supprimé !!');
     });
-    let palNum2Users = {};
-
 
     function errorLinePal(numPal, txt){
         return '<tr class="error-line" style="background-color: #fcc"><th> Palanquée n°'+numPal+' : '+txt+'</th></tr>';
@@ -155,7 +154,7 @@ use App\Models\User;
             isFine = 0;
         }
         //fill a palNum2Users to easely check each palanquee
-        let palNum2Users = {};
+        palNum2Users = {};
         for (var userLicence in userLicence2PalNum)
         {
             let palNum = userLicence2PalNum[userLicence];
@@ -232,7 +231,7 @@ use App\Models\User;
         if (selectedValue == 0) delete userLicence2PalNum[licence];
 
         updatePalanqueeError();
-
+        console.log(palNum2Users)
         sessionStorage.setItem("palanquees", JSON.stringify(palNum2Users));
     }
 
