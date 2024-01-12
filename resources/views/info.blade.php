@@ -52,8 +52,8 @@
                     <th style="border: 1px solid black; border-collapse: collapse;">Durée réalisée</th>
                 </tr>
                 <tr>
-                    <td id="inputDepth${i}" style="border: 1px solid black; border-collapse: collapse;"><input type="text" placeholder="${sessionStorage.getItem("depth" + i)}"></td>
-                    <td id="inputDuration${i}" style="border: 1px solid black; border-collapse: collapse;"><input type="text" placeholder="${sessionStorage.getItem("duration" + i)}"></td>
+                    <td id="inputDepth${i}" style="border: 1px solid black; border-collapse: collapse;"><input type="text" placeholder="${sessionStorage.getItem("depth" + i)}m"></td>
+                    <td id="inputDuration${i}" style="border: 1px solid black; border-collapse: collapse;"><input type="text" placeholder="${sessionStorage.getItem("duration" + i)} minutes"></td>
                 </tr>
                 `;
 
@@ -89,24 +89,29 @@
             let inputDepth = document.getElementById('inputDepth' + i);
             inputDepth.addEventListener("input", (e) => {
                 sessionStorage.setItem("depth" + i, e.target.value);
-                inputDepth.placeholder = sessionStorage.getItem("depth" + i);
             });
 
             let inputDuration = document.getElementById('inputDuration' + i);
             inputDuration.addEventListener("input", (e) => {
                 sessionStorage.setItem("duration" + i, e.target.value);
-                inputDuration.placeholder = sessionStorage.getItem("duration" + i);
             });
 
             document.getElementById('placeholder').appendChild(table);
         }
     </script>
+    <button id="reload">
+        Appliquer les changements
+    </button>
     <button id="download">
         Télécharger le PDF
     </button>
     <script>
         let button = document.getElementById("download");
+        let reload = document.getElementById("reload");
         let makepdf = document.getElementById("pdf");
+        reload.addEventListener("click", function() {
+            location.reload();
+        });
         button.addEventListener("click", function() {
             let mywindow = window.open("", "PRINT", "height=400,width=600");
             mywindow.document.write(makepdf.innerHTML);
