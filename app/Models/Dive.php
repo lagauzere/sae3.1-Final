@@ -112,6 +112,12 @@ class Dive extends Model
         LIMIT 30;');
     }
 
+    public static function getDate($div_id){
+        $result = DB::select('SELECT DIV_DATE FROM DIVES
+        WHERE DIV_ID =?', [$div_id]);
+        return json_decode(json_encode($result),true);
+    }
+
     /**
      * Retrieve the list of planned dives directed by a specific diver.
      *

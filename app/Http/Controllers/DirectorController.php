@@ -79,6 +79,44 @@ class DirectorController extends BaseController
     }
 
 
+
+    public function handleFormAddParticipationSubmission(Request $request)
+
+    {
+
+        $uid = $request->input('uid');
+
+        $div_id = $request->input('div_id');
+
+        
+
+        User::addParticipation($uid, $div_id);
+
+        
+
+        return $this->editDivers($request);
+
+    }
+
+    public function handleFormRemoveParticipationSubmission(Request $request)
+
+    {
+
+        $uid = $request->input('uid');
+
+        $div_id = $request->input('div_id');
+
+        
+
+        User::removeParticipation($uid, $div_id);
+
+        
+
+        return $this->editDivers($request);
+
+    }
+
+
     
     /**
      * Display a view to edit divers participating in a dive.
